@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <!-- <link rel="stylesheet" href="../static/css/map.css"> -->
+        <meta charset="utf-8">
+        <title>카테고리별 장소 검색하기</title>
         <style>
             .map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
             .map_wrap {position:relative;width:100%;height:350px;}
@@ -75,7 +73,7 @@
             var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
                 mapOption = {
                     center: new kakao.maps.LatLng(37.53368846953789, 126.96331420297767), // 지도의 중심좌표
-                    level: 4 // 지도의 확대 레벨
+                    level: 3 // 지도의 확대 레벨
                 };  
 
             // 지도를 생성합니다    
@@ -176,7 +174,7 @@
                         (function(marker, place) {
                             kakao.maps.event.addListener(marker, 'click', function() {
                                 displayPlaceInfo(place);
-                                // console.log("place: ", place.place_name)
+                                console.log("place: ", place.place_name)
 
 
                                 // for (let i = 0; i < reviewData.length; i++) {
