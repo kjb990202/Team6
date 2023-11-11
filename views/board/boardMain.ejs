@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko" class="h-100" data-bs-theme="auto">
+  <head>
+    <!-- CDN들 불러오기 -->
+    <%- include('../components/cdn.ejs') %>
+    <!-- CSS 연결 -->
+    <link href="../static/css/board.css" rel="stylesheet" />
+    <title>게시판</title>
+  </head>
+  <body class="d-flex h-100 text-center text-bg-white">
+    <!-- 헤더 : 상단 메뉴바  -->
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="container">
+        <div><%- include('../components/header.ejs') %></div>
+      </header>
+      <main class="px-3">
+        <div class="main-container">
+          <div class="button-container">
+            <button class="board-button" type="button" onclick="boardButton()">
+              작성하기
+            </button>
+          </div>
+          <div class="board-container">
+            <ul class="board-list"></ul>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+  <script>
+
+    function boardButton() {
+      // 서버에서 넘어온 유저 정보 확인
+      var user = "<%= user %>";//세션값 
+
+      if (user === "") {
+        // 로그인되어 있지 않은 경우
+        alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+
+        window.location.href = "/signin";
+      } else {
+        // 로그인된 경우 게시물 작성페이지로 이동
+        window.location.href = "/boardEdit";
+      }
+    }
+
+    //요소 생성
+    const boardList = document.querySelector(".board-list"); //보드를 담을 리스트
+    const boards = document.querySelectorAll(".nowBox-list"); //현재 출력되고있는 보드를 담을 리스트
+    let cursor = null;//cursor 처음값을 null로 선언
+
+    //-------------------------------------------------------------------------------------------------------
+
+    //게시판의 글을 가져옴 
+    function getBoard() {
+      axios({
+        method: "get",//get요청
+        url: "/getBoard",
+        params: {
+          cursor: cursor, //위에서 선언한 커서값(전역변수)을 params에 담아 서버로 보냄 커서에는 마지막 요소의 
+        },
+      })
+        .then(function (res) {
+        
+          
+          const boardList = document.querySelector(".board-list");
+          res.data.forEach((boardData) => {
+            const newBoard = document.createElement("li");//newBoard라는 변수명으로 <list>생성 
+            newBoard.className = "nowBox-list";//list 의 class 값 정해주는 코드
+
+            let profileImageHTML = "";// profileImageHTML 이라는 변수를정해 기본이미지를 쓰는 유저와 이미지를 따로지정한 유저 나눠서 내용 바꿈(나중에 ? 사용히면 코드 짧아질듯)
+            if (boardData.User.image) {
+              profileImageHTML = `<img src="/${boardData.User.image}" alt="프로필 이미지" class="headerProfile" />`;
+            } else {
+              profileImageHTML = `<img src="/static/img/bagicimg.jpeg" alt="사용자 메뉴" class="headerProfile" id="randomImage" />`;//없을 경우 기본값
+            }
+
+            // getCategoryColorClass라는 변수를 사용해서 카테고리에따라 css가 달라지게 설정
+            //서버에서 가져온 값들을 사용해 div요소 추가 
+            //내용 클릭시 moveBoardDetail(boardID) 함수 실행 
+            newBoard.innerHTML = `
+
+
+                <div class="board-color-${getCategoryColorClass( 
+                  boardData.category
+                )} scrollP">
+                <div onclick="moveBoardDetail(${
+                  boardData.boardID
+                })" style="cursor:pointer" class="DetailC-container">
+                      <div class="category"> ${boardData.category}</div>
+                    <div class="content-container">
+                      <div class="title"> ${boardData.title}</div>   
+                      <div class="content">${boardData.content}</div>
+                    </div>
+                    <div class="profile-container">
+                      <div class="profile-image">
+                        ${profileImageHTML}
+                      </div>
+
+                      <div class="UserID-container">
+                        <div class="userId"> ${boardData.User.nickname}</div>  
+                        <div class="createBoard"> ${boardData.createBoard}</div>
+                        
+                      </div>
+                      <div class="view"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                       </svg> ${boardData.viewCount}</div>
+                    </div>  
+
+
+                  </div>
+                </div>
+                `;
+                
+            boardList.appendChild(newBoard);//보드를 담을 리스트안에 보드를 담음
+
+          });
+
+          // 마지막 데이터의 boardID를 기준으로 cursor 설정
+          if (res.data.length > 0) {
+            cursor = res.data[res.data.length - 1].boardID;
+           
+            // 새로 생성된 nowBox-list를 감시
+            observeLastBoard(io, document.querySelectorAll(".scrollP"));
+          }
+        })
+        .catch(function (error) {
+          console.error("보드 데이터를 불러오는데 실패했습니다", error);
+        });
+    }
+    //-------------------------------------------------------------------------------------------------------
+
+    getBoard();//초기에 한번 실행시켜주는 역할(이후 옵저버가 마지막 요소를 관찰할때마다 반복)
+
+    //옵저버에 걸려있는 콜백함수
+    function callback(entries, observer) {
+      entries.forEach(function (entry) {
+         console.log("cursor:", cursor);
+        if (cursor == 1) {
+          return;//커서의 값이1이되면 함수를 멈춤
+        }
+        if (entry.isIntersecting) {
+          observer.unobserve(entry.target);
+          
+          getBoard();//데이터를 요청하고 등록하는 함수실행
+          
+          observeLastBoard(observer, document.querySelectorAll(".scrollP"));
+        }
+      });
+    }
+
+    function observeLastBoard(observer, boards) {
+      if (boards.length > 0) {
+
+        const lastBoard = boards[boards.length - 1];//가져온데이터에서 마지막요소를lastBoard라는 변수라 선언
+        io.disconnect();//이미 관찰한 객체는 두번 관찰하지않도록 방지 하도록 (관찰을 멈추라고 지시하는 메서드)
+        io.observe(lastBoard);//lastBoard를 넣어 관찰차객체에게 관찰해야하는 요소라고 알려줌
+
+      }
+    }
+
+    //보드색상 변경
+    function getCategoryColorClass(category) {
+      switch (category) {
+        case "자유":
+          return "red"; // 잡담인 경우
+        case "Q&A":
+          return "yellow"; // Q&A인 경우
+        default:
+          return "blue"; // 기타 카테고리인 경우
+      }
+    }
+
+   
+    //관찰자 객체 생성
+    const io = new IntersectionObserver(callback, { threshold: 0.9 });//옵저버 객체 생성, (요소가 관찰되면 실행시킬 콜백함수, 요소의 90%이상이 관찰되어야 작동)
+
+    //보드 상세페이지로이동
+    function moveBoardDetail(boardID) {
+      
+      window.location.href = `/boardDetail/${boardID}`; // boardDetail:boardID 주소로 이동
+    }
+
+   
+  </script>
+</html>

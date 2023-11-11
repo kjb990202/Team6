@@ -1,0 +1,28 @@
+{
+    "development" : {
+        "host": "localhost",
+        "database" :"projectTeamSix",
+        "username" :"teamsix",
+        "password" :"1234qwer*",
+        "dialect" : "mysql",
+        "timezone": "+09:00",
+        "dialectOptions": {
+            "dateStrings": true,
+            "typeCast": true,
+            "timezone": "+09:00"
+        }
+    },
+    "production" : {
+        "host" : "localhost",
+        "database" :"projectTeamSix",
+        "username" :"productionteamsix",
+        "password" :"teamsixqlalfqjsgh!",
+        "dialect" : "mysql",
+        "timezone": "+09:00",
+        "dialectOptions": {
+            "dateStrings": true,
+            "typeCast": true,
+            "timezone": "+09:00"
+        }
+    }
+}

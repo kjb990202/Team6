@@ -1,2 +1,6 @@
 node_modules/
 package-lock.json
+.DS_Store
+static/userImg/*
+!static/userImg/.gitkeep
+config/config.json

@@ -1,18 +1,145 @@
 const express = require("express");
 const controller = require("../controller/index");
 const router = express.Router();
+const Cmap_Database = require("../controller/Cmap_Database");
+const Cmap_Information = require("../controller/Cmap_Information");
+const user = require("../controller/Cuser");
+const Ccomment = require("../controller/Ccomment");
+const board = require("../controller/Cboard");
+const { upload } = require("../multer/multerConfig"); // Multer 설정 파일 import
 
+// 메인 페이지
 router.get("/", controller.index);
 
-// 지도 페이지
-router.get("/map", controller.map);
+// 메인 페이지 (디자인테스트 후 해당 코드 삭제)
+// 컨트롤러/index.js에서도 삭제 필요
+router.get("/test", controller.index2);
 
-// 게시판 페이지 -> 지원님 페이지 merge되면 board_del 부분 지원님껄로 변경해야함.
-// controller에서도 "board_del" 부분 지원님껄로 변경해야 함.
-router.get("/board", controller.board);
+// 맛집 지도 메인 페이지
+router.get("/mapMain", controller.mapMain);
 
-// 로그인 페이지 -> 지원님 페이지 merge되면 login_del 부분 지원님껄로 변경해야함.
-// controller에서도 "login_del" 부분 지원님껄로 변경해야 함.
+// DB(Map_Information)에 사업장 정보 업로드하는 기능
+router.post("/uploadStore", Cmap_Information.uploadStore);
+
+// DB(Map_Database)에 리뷰 조회하는 기능
+router.get("/getReview", Cmap_Database.getReview);
+
+// DB(Map_Database)에 리뷰 업로드하는 기능
+router.post("/uplodeReview", Cmap_Database.uplodeReview);
+
+router.get("/comment", Ccomment.comment);
+// 댓글 등록
+router.post("/comment", Ccomment.postComment);
+//  댓글 수정
+router.patch("/comment", Ccomment.patchComment);
+// /댓글 하나 조회
+router.get("/comment/:commentID", Ccomment.getCommentById);
+//  댓글 삭제
+router.delete("/comment/:commentID", Ccomment.deleteComment);
+
+// GET /comments/:boardID => 해당 게시판 댓글 전체 조회
+// router.get('/comments/:boardID', Ccomment.getCommentsByBoardID);
+
+// 맛집 지도 메인 페이지
+router.get("/mapMain", controller.mapMain);
+
+// DB(Map_Database)에 리뷰 수정하는 기능
+router.patch("/updateReview", Cmap_Database.updateReview);
+
+// DB(Map_Database)에 리뷰 삭제하는 기능
+router.delete("/reviewDelete/:reviewNumber", Cmap_Database.reviewDelete);
+
+// 게시판 메인 페이지
+router.get("/boardMain", controller.boardMain);
+
+// 게시판 작성 페이지
+router.get("/boardEdit", controller.boardEdit);
+
+// 게시글 작성 화면 -> 게시글 등록
+router.post("/boardSubmit", board.boardSubmit);
+
+// 게시판 상세페이지 (댓글창도 합칠예정)
+router.get("/boardDetail/:boardID", board.boardDetail);
+
+// 게시글 삭제
+router.delete("/deleteBoard/:boardID", board.boardDelete);
+// 게시글 수정
+router.get("/boardModify/:boardID", board.boardModify);
+router.patch("/updateBoard/:boardID", board.updateBoard);
+// 게시글 조회수
+router.patch("/increaseViewCount/:boardID", board.increaseViewCount);
+
+//데이터 가져오기 테스트
+router.get("/getBoard", board.getBoard);
+
+// 로그인 페이지
 router.get("/signin", controller.signin);
+
+// 회원가입 페이지
+router.get("/signup", user.signup);
+router.post("/signup", user.postSignup);
+
+// 아이디 중복확인
+router.post("/checkid", user.checkId);
+
+// 닉네임 중복확인
+router.post("/checknickname", user.checkNickname);
+
+// 로그인 페이지
+router.get("/signin", user.signin);
+router.post("/signin", user.postSignin);
+
+// 아이디 찾기
+router.get("/findId", user.findId);
+router.post("/findId", user.postFindId);
+
+// 비밀번호 찾기
+router.get("/findPassword", user.findPassword);
+router.post("/findPassword", user.postFindPassword);
+
+// 비밀번호 변경페이지
+router.get("/changePassword", user.changePassword);
+router.post("/changePassword", user.updatePassword);
+
+// 로그아웃
+router.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    // 세션 삭제
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("세션 삭제, 현재 세션 상태:", req.session); // 세션 상태 출력
+      res.redirect("/"); // 로그인 페이지로 리다이렉트
+    }
+  });
+});
+
+// 마이페이지
+router.get("/mypage", user.mypage);
+
+// 마이페이지 닉네임수정
+router.post("/updateMypageNickname", user.updateMypageNickname);
+// 마이페이지 비밀번호 수정
+router.post("/updateMypagePassword", user.updateMypagePassword);
+
+// 마이페이지 회원 탈퇴
+router.post("/deleteAccount", user.deleteAccount);
+
+router.post(
+  "/upload",
+  upload.single("image"),
+  user.uploadImage,
+  (error, req, res, next) => {
+    if (error) {
+      console.error(error);
+      res.status(500).json({ message: error.message });
+    } else {
+      next();
+    }
+  }
+);
+
+// 마커 합친 후 삭제 23.11.22
+router.get("/mapMarker", controller.mapMarker);
 
 module.exports = router;

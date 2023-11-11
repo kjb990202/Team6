@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko" class="h-100" data-bs-theme="auto">
+  <head>
+    <!-- CDN들 불러오기 -->
+    <%- include('../views/components/cdn.ejs') %>
+    <!-- CSS 연결 -->
+    <link href="../static/css/404.css" rel="stylesheet" />
+    <title>SeSAC-it</title>
+  </head>
+  <!-- 각 ejs 파일별로 body, div 태그가 나란히 배치해야 헤더 간격이 일정함!-->
+  <body class="d-flex h-100 text-center text-bg-white">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <!-- 헤더 -->
+      <header class="container">
+        <div><%- include('../views/components/header.ejs') %></div>
+      </header>
+      <main>
+        <div class="container"></div>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <div class="wrapper-squares">
+          <div
+            class="square square1 square-brand square-pulse square-center"
+            id="activeball"
+          >
+            페이지를 찾을 수 없습니다!
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+  <style>
+    /* 
+스크롤바 설정 : 콘텐츠 안에 스크롤바가 들어가게 설정 , 메인만 스크롤바가 배경색과 동힐하게해 안보이게 설정
+*/
+    /* 스크롤바 스타일링 */
+    ::-webkit-scrollbar {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* 스크롤바 막대 스타일링 */
+    ::-webkit-scrollbar-thumb {
+      outline: none;
+      border-radius: 10px;
+      border: 4px solid transparent;
+      box-shadow: inset 6px 6px 0 rgba(254, 255, 247, 0.1);
+    }
+  </style>
+  <script>
+    const particleColor = ["#f2d74e", "#95c3de", "#ff9a91"]; // 세 가지 색상 지정
+
+    function randomColor() {
+      return particleColor[Math.floor(Math.random() * particleColor.length)];
+    }
+
+    // 모든 'particle' 클래스 요소에 랜덤 색상 적용
+    document.querySelectorAll(".particle").forEach((particle) => {
+      particle.style.color = randomColor();
+    });
+
+    // 노란 포스트잇에 클릭 이벤트 리스너 추가
+    document
+      .getElementById("activeball")
+      .addEventListener("click", function () {
+        window.location.href = "/";
+      });
+  </script>
+</html>

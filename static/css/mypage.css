@@ -1,0 +1,354 @@
+/* 
+부트스트랩 버튼 색상 변경
+ */
+
+/* 공통 적용 CSS */
+.btn-red {
+  background-color: #ff8c8c; /* 사용자 정의 색상 */
+  border-color: #ff8c8c; /* 사용자 정의 색상 */
+}
+
+.btn-blue {
+  background-color: #95c3de; /* 사용자 정의 색상 */
+  border-color: #95c3de; /* 사용자 정의 색상 */
+}
+
+.btn-gray-500 {
+  background-color: #7f7979; /* 사용자 정의 색상 */
+  border-color: #7f7979; /* 사용자 정의 색상 */
+}
+
+.btn-Warning {
+  background-color: #ffeb81; /* 사용자 정의 색상 */
+  border-color: #7f7979; /* 사용자 정의 색상 */
+}
+
+/* 버튼 호버시 색상 변경 -> 부트스트랩 차용 */
+.btn-danger:active,
+.btn-danger:hover,
+.btn-danger.focus,
+.btn-danger.active {
+  background-color: #e96b6b !important;
+}
+
+.btn-primary:active,
+.btn-primary:hover,
+.btn-primary.focus,
+.btn-primary.active {
+  background-color: #78c0ea !important;
+}
+
+.btn-primary {
+  background-color: #95c3de !important;
+  border-color: #95c3de !important;
+}
+
+.btn-danger {
+  background-color: #ff8c8c !important;
+  border-color: #ff8c8c !important;
+}
+
+/* 마이페이지 */
+body {
+  position: relative;
+  font-family: "Pretendard";
+}
+
+.mypageHeader {
+  background-color: #ffeb81;
+  height: 200px;
+}
+
+fieldset {
+  display: none;
+}
+
+fieldset.show {
+  display: block;
+}
+
+.tabs {
+  margin: 2px 5px 0px 5px;
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+
+form {
+  margin-top: 24px;
+  background-color: transparent;
+}
+
+/* 클릭시 선택 */
+.tabs:hover,
+.tabs.active {
+  border-bottom: 1px solid #2196f3;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #1565c0;
+}
+
+/* 프로필 사진 크기 */
+.imageBox {
+  width: 9.5rem;
+  height: 9.5rem;
+}
+
+/* 
+모달 디자인
+ */
+
+/* 모달 내부 외곽선 제거 */
+.modal-header {
+  border-bottom: 0 none;
+}
+.modal-footer {
+  border-top: 0 none;
+}
+
+.modal-content {
+  border-top: 0 none;
+  width: 400px;
+  height: 400px;
+  background-color: #ffeb81;
+}
+
+.box {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .tabs h6 {
+    font-size: 12px;
+  }
+}
+
+/* 로그인 페이지 css 가져옴! */
+a {
+  color: #7f7979;
+  text-decoration: unset;
+}
+
+a .signupLink {
+  color: #95c3de;
+}
+.login-root {
+  background: none;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+.loginbackground {
+  min-height: 692px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.flex-flex {
+  display: flex;
+}
+.align-center {
+  align-items: center;
+}
+.center-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.box-root {
+  box-sizing: border-box;
+}
+.flex-direction--column {
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.margin-top--80 {
+  margin-top: 80px;
+}
+
+.padding-top--64 {
+  padding-top: 64px;
+}
+.padding-top--24 {
+  padding-top: 24px;
+}
+.padding-top--48 {
+  padding-top: 48px;
+}
+
+.padding-left--52 {
+  padding-left: 32;
+}
+
+.padding-top--70 {
+  padding-top: 70px;
+}
+
+.padding-bottom--48 {
+  padding-bottom: 48px;
+}
+
+.padding-bottom--24 {
+  padding-bottom: 24px;
+}
+
+.padding-bottom--10 {
+  padding-bottom: 10px;
+}
+
+.padding-horizontal--48 {
+  padding: 48px;
+}
+
+.padding-horizontal--24 {
+  padding: 24px;
+}
+
+.padding-bottom--15 {
+  padding-bottom: 15px;
+}
+
+.padding-right--32 {
+  padding-right: 32px;
+}
+
+.padding-left--32 {
+  padding-left: 32px;
+}
+
+.padding-right--24 {
+  padding-right: 24px;
+}
+
+.padding-left--24 {
+  padding-left: 24px;
+}
+
+.padding-bottom--16 {
+  padding-bottom: 16px;
+}
+
+.padding-right--16 {
+  padding-right: 16px;
+}
+
+.padding-left--16 {
+  padding-left: 16px;
+}
+
+.flex-justifyContent--center {
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.formbg {
+  margin: 0px auto;
+  width: 100%;
+  max-width: 448px;
+  background: #ffeb81;
+  border-radius: 4px;
+  box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px,
+    rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+}
+span {
+  display: block;
+  font-size: 20px;
+  line-height: 28px;
+  color: #7f7979;
+}
+
+label {
+  margin-bottom: 10px;
+  color: #7f7979;
+}
+.reset-pass a,
+label {
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+}
+.reset-pass > a {
+  text-align: right;
+  margin-bottom: 10px;
+}
+.grid--50-50 {
+  display: grid;
+  grid-template-columns: 90% 10%;
+  align-items: center;
+}
+
+.field input {
+  font-size: 16px;
+  line-height: 28px;
+  padding: 8px 16px;
+  width: 100%;
+  min-height: 44px;
+  border: unset;
+  border-radius: 4px;
+  outline-color: rgb(149, 195, 222, 0.5);
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+}
+
+li {
+  list-style: none;
+  color: #7f7979;
+}
+ol .breadcrumb {
+  background-color: none;
+}
+
+input[type="button"] {
+  background-color: #9dd5f5;
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, #95c3de 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+input[name="delete"] {
+  background-color: #ff8c8c;
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, #e57070 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+input[name="image"] {
+  background-color: #9dd5f5;
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, #95c3de 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.footer-link span {
+  font-size: 14px;
+  text-align: center;
+}
+.listing a {
+  color: #697386;
+  font-weight: 600;
+  margin: 0 10px;
+}
