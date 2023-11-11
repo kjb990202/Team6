@@ -1,36 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta charset="utf-8">
-        <title>카테고리별 장소 검색하기</title>
-        <style>
-            .map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-            .map_wrap {position:relative;width:100%;height:350px;}
-            #category {position:absolute;top:10px;left:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
-            #category li {float:left;list-style: none;width:50px;px;border-right:1px solid #acacac;padding:6px 0;text-align: center; cursor: pointer;}
-            #category li.on {background: #eee;}
-            #category li:hover {background: #ffe6e6;border-left:1px solid #acacac;margin-left: -1px;}
-            #category li:last-child{margin-right:0;border-right:0;}
-            #category li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
-            #category li .category_bg {background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png) no-repeat;}
-            #category li .bank {background-position: -10px 0;}
-            #category li .mart {background-position: -10px -36px;}
-            #category li .pharmacy {background-position: -10px -72px;}
-            #category li .oil {background-position: -10px -108px;}
-            #category li .cafe {background-position: -10px -144px;}
-            #category li .store {background-position: -10px -180px;}
-            #category li.on .category_bg {background-position-x:-46px;}
-            .placeinfo_wrap {position:absolute;bottom:28px;left:-150px;width:300px;}
-            .placeinfo {position:relative;width:100%;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;padding-bottom: 10px;background: #fff;}
-            .placeinfo:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
-            .placeinfo_wrap .after {content:'';position:relative;margin-left:-12px;left:50%;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
-            .placeinfo a, .placeinfo a:hover, .placeinfo a:active{color:#fff;text-decoration: none;}
-            .placeinfo a, .placeinfo span {display: block;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-            .placeinfo span {margin:5px 5px 0 5px;cursor: default;font-size:13px;}
-            .placeinfo .title {font-weight: bold; font-size:14px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
-            .placeinfo .tel {color:#0f7833;}
-            .placeinfo .jibun {color:#999;font-size:11px;margin-top:0;}
-        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="../static/css/mapBackend.css">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     </head>
     <body>
         <div class="map_wrap">
@@ -59,8 +34,19 @@
                 </li>
             </ul>
         </div>
-        <div id="reviewDiv"></div>
+
+
+
+        <!-- SB: 리뷰작성 버튼과 작성된 리뷰를 보여주는 div입니다. -->
+        <div id="messageDiv"></div>
+        <!-- SB: 리뷰작성 버튼을 누르면 작성칸을 보여주는 div입니다.-->
+        <form name="reviewForm">
+            <div id="reviewDiv">
+            </div>
+        </form>
         
+
+
 
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a54c1412f5e82ee9e5256c32dc403b24&libraries=services"></script>
         <script>
@@ -73,8 +59,8 @@
             var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
                 mapOption = {
                     center: new kakao.maps.LatLng(37.53368846953789, 126.96331420297767), // 지도의 중심좌표
-                    level: 3 // 지도의 확대 레벨
-                };  
+                    level: 4 // 지도의 확대 레벨
+                };
 
             // 지도를 생성합니다    
             var map = new kakao.maps.Map(mapContainer, mapOption); 
@@ -137,32 +123,71 @@
                 }
             }
 
+
+
+            // SB: 임시로 만든 데이터입니다.
+            let reviewData = [{
+                    placeName: "천궁",
+                    writer: "김서본",
+                    starScore: 4,
+                    reviewComment: "맛있다."
+                },{
+                    placeName: "더보일러스",
+                    writer: "김서본",
+                    starScore: 3,
+                    reviewComment: "가게 이름이 왜이래요"
+                },{
+                    placeName: "160도",
+                    writer: "김서본",
+                    starScore: 5,
+                    reviewComment: "카레 짱맛"
+                }]
+
+            // SB: 리뷰 작성 버튼에 걸려있는 함수입니다. input 태그들을 보여줍니다.
+            function postReview(placeName) {
+                document.getElementById("reviewDiv").innerHTML =
+                    `음식점 <input type="text" name="placeName" value='${placeName}' disabled>
+                    <br />
+                    작성자 <input type="text" name="nickname">
+                    <br />
+                    리뷰를 작성해주세요! <input type="text" name="reviewComment">
+                    <br />
+                    <button type="button" onclick="uplodeReview()">제출하기!</button>`;
+            };
+
+            // SB: 제출하기! 버튼에 걸려있는 함수입니다.
+            function uplodeReview() {
+                const form = document.forms["reviewForm"];
+                const data = {
+                    placeName: form.placeName.value,
+                    nickname: form.nickname.value,
+                    reviewComment: form.reviewComment.value
+                };
+
+                axios({
+                    method: "POST",
+                    url: "/uplodeReview",
+                    data: data
+                }).then((res)=> {
+                    // if (res) {
+                    //     console.log(res);
+                    //     console.log("true");
+                    // }
+                    // else {
+                    //     console.log("fauls");
+                    // }
+                    console.log(res);
+                })
+            }
+
+
+
             // 지도에 마커를 표출하는 함수입니다
             function displayPlaces(places) {
 
                 // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
                 // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
                 var order = document.getElementById(currCategory).getAttribute('data-order');
-
-                
-
-                let reviewData = [{
-                    placeName: "천궁",
-                    writer: "김서본",
-                    reviewComment: "맛있다."
-                },{
-                    placeName: "더보일러스",
-                    writer: "김서본",
-                    reviewComment: "가게 이름이 왜이래요"
-                },{
-                    placeName: "160도",
-                    writer: "김서본",
-                    reviewComment: "카레 짱맛"
-                }]
-
-
-
-
 
                 for ( var i=0; i<places.length; i++ ) {
 
@@ -174,36 +199,58 @@
                         (function(marker, place) {
                             kakao.maps.event.addListener(marker, 'click', function() {
                                 displayPlaceInfo(place);
-                                console.log("place: ", place.place_name)
 
+                                document.getElementById("messageDiv").innerHTML =
+                                        `<button type="button" onclick="postReview('${place.place_name}')">내 리뷰가 첫 리뷰라니!</button>
+                                        <div>작성된 리뷰가 없습니다ㅠㅠ</div>`
+                                
+                                        console.log(place.place_name)
 
+                                // let data = { placeName : place.place_name }
+
+                                // axios({
+                                //             method: "GET",
+                                //             url: "/getReview",
+                                //             params: data
+                                //         }).then((res)=> {
+                                //             if (res) {
+                                //                 console.log(res);
+                                //                 console.log("true");
+                                //                 return
+                                //             }
+                                //             else {
+                                //                 console.log("fauls")
+                                //             }                                            
+                                //         })
+
+                                // SB: 마커를 클릭하면 나오는 문구에 대한 함수입니다.
                                 // for (let i = 0; i < reviewData.length; i++) {
-                                    // if (reviewData[i].place_name == place.place_name) {
-                                    //     console.log("yes: ", reviewData[i])
-                                    //     document.getElementById("reviewDiv").innerHTML =
-                                    //         `<button type="button" onclick="getReview()">나도 리뷰 작성 해볼까</button>
-                                    //         <div>
-                                    //             <div>식당이름 : ${place.place_name}</div>
-                                    //             <div>작성자 : ${reviewData[i].writer}</div>
-                                    //             <div>리뷰 : ${reviewData[i].reviewComment}</div>
-                                    //         </div>`;
-                                    //     return
-                                    // };
-                                    // else {
-                                    //     console.log("nope: ", reviewData[i])
-                                    //     console.log("nope: ", place.place_name)
-                                    //     document.getElementById("reviewDiv").innerHTML =
-                                    //     `<button type="button" onclick="getReview()">내 리뷰가 첫 리뷰라니!</button>
-                                    //     <div>작성된 리뷰가 없습니다ㅠㅠ</div>`;
-                                    // }
-                                }
-                                // SB: DB에서 정보 가져오기 시도
+                                //     if (reviewData[i].placeName == place.place_name) {
+
+
+
+                                //         document.getElementById("messageDiv").innerHTML =
+                                //             `<button type="button" onclick="postReview()">나도 리뷰 작성 해볼까</button>
+                                //             <div>
+                                //                 <div>식당이름 : ${place.place_name}</div>
+                                //                 <div>작성자 : ${reviewData[i].writer}</div>
+                                //                 <div>별점 : ${reviewData[i].starScore}</div>
+                                //                 <div>리뷰 : ${reviewData[i].reviewComment}</div>
+                                //             </div>`;
+                                //         return
+                                //     } else {
+                                //         document.getElementById("messageDiv").innerHTML =
+                                //         `<button type="button" onclick="postReview()">내 리뷰가 첫 리뷰라니!</button>
+                                //         <div>작성된 리뷰가 없습니다ㅠㅠ</div>`
+                                //     };
+                                // };
+
+                                
            
-                            // }
-                            );
+                            });
                         })(marker, places[i]);
-                }
-            }
+                };
+            };
 
             // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
             function addMarker(position, order) {

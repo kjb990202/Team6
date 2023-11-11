@@ -3,16 +3,21 @@ const app = express();
 const PORT = 8000;
 
 app.set("view engine", "ejs");
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use("/static", express.static("static"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 const router = require("./routes");
 app.use("/", router);
 
-app.get("*", function (req, res) {
-    res.send("페이지를 찾을 수 없습니다.");
+// app.get("/mapBackend", (req, res) => {
+//   res.render("./map/mapBackend");
+// });
+
+app.get("*", (req, res) => {
+  res.send("접근할 수 없는 주소입니다.");
 });
 
-app.listen(PORT, function () {
-    console.log(`Sever Open: ${PORT}`);
+app.listen(PORT, () => {
+  console.log("Server Port : ", PORT);
 });

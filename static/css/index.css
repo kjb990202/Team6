@@ -34,7 +34,7 @@ body {
 
 .nav-masthead .nav-link:hover,
 .nav-masthead .nav-link:focus {
-  color: rgb(129, 129, 129);
+  color: #818181;
 }
 
 .nav-masthead .nav-link + .nav-link {
@@ -45,6 +45,7 @@ body {
   color: #818181;
   border-bottom-color: #818181;
 }
+
 .bd-placeholder-img {
   font-size: 1.125rem;
   text-anchor: middle;

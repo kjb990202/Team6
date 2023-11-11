@@ -40,11 +40,11 @@ body {
 .nav-masthead .nav-link + .nav-link {
   margin-left: 1rem;
 }
-
 .nav-masthead .active {
   color: #818181;
   border-bottom-color: #818181;
 }
+
 .bd-placeholder-img {
   font-size: 1.125rem;
   text-anchor: middle;

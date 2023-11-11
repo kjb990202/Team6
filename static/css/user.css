@@ -1,0 +1,74 @@
+/* user관련 css 여러파일에 동시에 쓰이므로 건들지 마세요*/
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    color: black;
+    overflow-x: hidden;
+    width: 100%;
+  }
+input{
+    outline: none;
+    border: none;
+}
+button{
+    border: none;
+}
+form{
+    margin: 0px;
+    padding: 0px;
+}
+.flex{
+    position:  relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.login-box{
+   
+    background-color: gray;
+    width: 600px;
+    height: 400px;
+    flex-direction: column;
+}
+
+.login-input{
+    width: 400px;
+    height: 50px;
+    margin: 8px ;
+    background-color: rgb(238, 238, 238);
+}
+
+.login-button{
+    background-color: rgb(43, 43, 43);
+    width: 400px;
+    height: 50px;
+    margin: 8px;
+    cursor: pointer;
+}
+.activePage-button{
+    background-color: rgb(43, 43, 43);
+    width: 180px;
+    height: 50px;
+    margin: 8px;
+    cursor: pointer;
+}
+
+.login-button span{
+    color: white;
+}
+.activePage-button span{
+    color:white;
+}
+.find-box{
+    width: 300px;
+    height: 50px;
+    justify-content: space-around;
+    list-style: none;
+    cursor: pointer;
+}
