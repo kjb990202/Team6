@@ -3,19 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./user.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300&amp;display=swap'>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" href="../static/css/user.css">
+
     <title>회원가입</title>
+
+    <script>
+        function checkId() {
+           let userid = document.forms["form-register"].userid.value;
+           if (!userid) {
+                alert("아이디를 입력해주세요.");
+                return;
+            }
+
+        axios({
+            method: "post",
+            url: "/checkid",
+            data: { userid: userid }
+        }).then((res) => {
+            if (res.data.duplicate) {
+                alert("이미 사용 중인 아이디입니다.");
+            } else {
+                alert("사용 가능한 아이디입니다.");
+            }
+        });
+    }
+
+    function checkNickname() {
+           let nickname = document.forms["form-register"].nickname.value;
+           if (!nickname) {
+                alert("닉네임을 입력해주세요.");
+                return;
+            }
+
+        axios({
+            method: "post",
+            url: "/checknickname",
+            data: { nickname: nickname }
+        }).then((res) => {
+            if (res.data.duplicate) {
+                alert("이미 사용 중인 닉네임입니다.");
+            } else {
+                alert("사용 가능한 닉네임입니다.");
+            }
+        });
+    }
+      
+        function register() {
+          var form = document.forms["form-register"];
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return false;
+          }
+  
+          let user = {
+            userid: form.userid.value,
+            password: form.password.value,
+            email: form.email.value,
+            nickname: form.nickname.value
+          };
+  
+          axios({
+            method: 'post',
+            url: './signup',
+            data: user
+          }).then((res) => {
+            alert("회원가입 성공");
+            document.location.href = "./signin";
+          });
+        }
+      </script>
 </head>
 <body>
     <div class="flex">
         <div class="login-box flex">
-            <form action="">
+            <form name="form-register">
                 <input type="text" class="login-input" placeholder="아이디" name="userid" required>
+                <button type="button" onclick="checkId();">중복확인</button>
                 <input type="password" class="login-input" placeholder="패스워드" name="password" required>
-                <input type="text" class="login-input" placeholder="이름" name="username" required>
                 <input type="text" class="login-input" placeholder="이메일" name="email" required>
+                <input type="text" class="login-input" placeholder="넥네임" name="nickname" required>
+                <button type="button" onclick="checkNickname();">중복확인</button>
+
                 <br />
-                <button class="login-button" type="button" ><span>회원가입</span></button>
+                <button class="login-button" type="button" onclick="register();"><span>회원가입</span></button>
             </form>
            
         </div>

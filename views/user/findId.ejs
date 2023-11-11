@@ -3,21 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./user.css">
+    <link rel="stylesheet" href="../static/css/user.css">
     <title>아이디 찾기</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 </head>
 <body>
     <div class="flex">
-        <div class="login-box flex">
-            <form action="">
+        <div class="login-box flex" id="content-div">
+            <form action="" name="form-register">
                 <div><input type="text" class="login-input" placeholder="이메일" name="email" required></div>
-                
                 <br />
-                <button class="login-button" type="button" ><span>아이디 찾기</span></button>
+                <button class="login-button" type="button" id="find-button" onclick="findId();"><span>아이디 찾기</span></button>
             </form>
         </div>
-        
     </div>
     
+    <script>
+        function findId() {
+            let email = document.forms["form-register"].email.value;
+            if (!email) {
+                alert("이메일을 입력해주세요.");
+                return;
+            }
+    
+            axios({
+                method: 'post',
+                url: '/user/findId',
+                data: { email: email }
+            }).then((res) => {
+                if (res.data.userid) {
+                    // 버튼을 숨기고 아이디 정보를 표시합니다.
+                    document.getElementById('find-button').style.display = 'none';
+                    let message = document.createElement('p');
+                    message.innerText = "당신의 아이디는 " + res.data.userid + " 입니다.";
+                    document.getElementById('content-div').appendChild(message);
+
+                    // '로그인 페이지로 가기' 버튼을 생성합니다.
+                    let loginButton = document.createElement('button');
+                    loginButton.innerText = '로그인 페이지';
+                    loginButton.onclick = function() {
+                        location.href = '/user/signin';  
+                    };
+                    loginButton.style.backgroundColor = "rgb(43, 43, 43)";
+                    loginButton.style.color = "white";
+                    loginButton.style.width = "400px";
+                    loginButton.style.height = "50px";
+                    loginButton.style.margin = "8px";
+                    loginButton.style.cursor = "pointer";
+                    document.getElementById('content-div').appendChild(loginButton);
+
+                    // '비밀번호 찾기' 버튼을 생성합니다.
+                    let passwordButton = document.createElement('button');
+                    passwordButton.innerText = '비밀번호 찾기';
+                    passwordButton.onclick = function() {
+                        location.href = '/user/findPassword'; 
+                    };
+                    passwordButton.style.backgroundColor = "rgb(43, 43, 43)";
+                    passwordButton.style.color = "white";
+                    passwordButton.style.width = "400px";
+                    passwordButton.style.height = "50px";
+                    passwordButton.style.margin = "8px";
+                    passwordButton.style.cursor = "pointer";
+                    document.getElementById('content-div').appendChild(passwordButton);
+                } else {
+                    alert("해당 이메일로 등록된 아이디가 없습니다.");
+                }
+            });
+        }
+    </script>
 </body>
 </html>

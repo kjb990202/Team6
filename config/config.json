@@ -1,0 +1,16 @@
+{
+    "development" : {
+        "host": "localhost",
+        "database" :"team6",
+        "username" :"user",
+        "password" :"sba123$",
+        "dialect" : "mysql"
+    },
+    "production" : {
+        "host" : "",
+        "database" :"",
+        "username" :"",
+        "password" :"",
+        "dialect" : "mysql"
+    }
+}
