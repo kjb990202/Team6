@@ -10,8 +10,8 @@ app.use(express.json());
 const router = require("./routes");
 app.use("/", router);
 
-app.get("*", (req, res) => {
-  res.send("접근할 수 없는 주소입니다.");
+app.get("*", function(req, res){
+  res.render("404")
 });
 
 app.listen(PORT, () => {
