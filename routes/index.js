@@ -14,6 +14,25 @@ router.get("/boardMain", controller.boardMain);
 // 게시판 작성 페이지
 router.get("/boardEdit", controller.boardEdit);
 
+// 게시판 작성 화면 -> 게시글 등록
+router.post("/boardSubmit", async (req, res) => {
+  try {
+    const { category_id, title, content, nickname } = req.body;
+    // 게시글 저장 로직
+    const newSubmit = await dbSubmit.create({
+      boardID: boardID,
+      id: id,
+      title: title,
+      category: category,
+      content: content,
+    });
+
+    res.status(201).json(newSubmit);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "에러가 발생했습니다." });
+  }
+});
 // 로그인 페이지
 router.get("/signin", controller.signin);
 

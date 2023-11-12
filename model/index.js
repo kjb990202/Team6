@@ -17,5 +17,6 @@ db.Sequelize = Sequelize;
 // db.Visitor = require("./Visitor")(sequelize, Sequelize);
 
 db.User = require("./User")(sequelize, Sequelize);
+db.Submit = require("./Board")(sequelize, Sequelize);
 
 module.exports = db;

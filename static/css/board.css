@@ -101,7 +101,7 @@ body {
 /* 
 게시판 작성 페이지(boardEdit) 취소/등록 버튼 
 */
-#editButton {
+.editorButton {
   border: none;
   border-radius: 3px;
   min-height: 40px;
