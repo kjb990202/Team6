@@ -166,7 +166,7 @@
 
                 axios({
                     method: "POST",
-                    url: "/uplodeReview",
+                    url: "/uploadStore",
                     data: data
                 }).then((res)=> {
                     // if (res) {
@@ -200,28 +200,41 @@
                             kakao.maps.event.addListener(marker, 'click', function() {
                                 displayPlaceInfo(place);
 
+
+
+                                // SB: 마커를 클릭하면 가게 정보를 DB에 올리는 함수입니다.
+                                let storeData = { 
+                                    storeID: `${place.place_name}_${place.address_name}`,
+                                    placeName : place.place_name,
+                                    address: place.address_name
+                                };
+                                axios({
+                                    method: "POST",
+                                    url: "/uploadStore",
+                                    data: storeData
+                                }).then((res)=> {
+                                    console.log(res.data);                                          
+                                });
+
+
+                                // SB: 마커를 클릭하면 리뷰정보를 가져오는 함수입니다.
+                                let getReviewData = { 
+                                    storeID: `${place.place_name}_${place.address_name}`
+                                };
+                                console.log(getReviewData)
+
+                                axios({
+                                    method: "get",
+                                    url: "/getReview",
+                                    params: getReviewData
+                                }).then((res)=> {
+                                    console.log(res.data);                                          
+                                });
+
                                 document.getElementById("messageDiv").innerHTML =
-                                        `<button type="button" onclick="postReview('${place.place_name}')">내 리뷰가 첫 리뷰라니!</button>
-                                        <div>작성된 리뷰가 없습니다ㅠㅠ</div>`
-                                
-                                        console.log(place.place_name)
+                                    `<button type="button" onclick="postReview('${place.place_name}')">내 리뷰가 첫 리뷰라니!</button>
+                                    <div>작성된 리뷰가 없습니다ㅠㅠ</div>`
 
-                                // let data = { placeName : place.place_name }
-
-                                // axios({
-                                //             method: "GET",
-                                //             url: "/getReview",
-                                //             params: data
-                                //         }).then((res)=> {
-                                //             if (res) {
-                                //                 console.log(res);
-                                //                 console.log("true");
-                                //                 return
-                                //             }
-                                //             else {
-                                //                 console.log("fauls")
-                                //             }                                            
-                                //         })
 
                                 // SB: 마커를 클릭하면 나오는 문구에 대한 함수입니다.
                                 // for (let i = 0; i < reviewData.length; i++) {

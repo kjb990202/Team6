@@ -1,6 +1,11 @@
 const express = require("express");
 const controller = require("../controller/index");
 const router = express.Router();
+const Cuser = require("../controller/Cuser");
+const Cmap_Database = require("../controller/Cmap_Database");
+const Cmap_Information = require("../controller/Cmap_Information");
+
+
 
 router.get("/", controller.index);
 
@@ -19,10 +24,12 @@ router.get("/signin", controller.signin);
 
 router.get("/mapBackend", controller.mapBackend);
 
-router.get("/getReview", controller.getReview);
+router.post("/uploadStore", Cmap_Information.uploadStore);
 
-router.post("/uplodeReview", controller.uplodeReview);
 
+router.get("/getReview", Cmap_Database.getReview);
+
+router.post("/uplodeReview", Cmap_Database.uplodeReview);
 
 
 module.exports = router;

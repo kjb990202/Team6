@@ -1,9 +1,9 @@
 {
     "development": {
         "host": "localhost",
-        "database": "Team_six_map",
-        "username": "user",
-        "password": "05270206!",
+        "database": "projectTeamSix",
+        "username": "teamsix",
+        "password": "1234qwer*",
         "dialect": "mysql"
     },
     "production": {
