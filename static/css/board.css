@@ -107,3 +107,16 @@ body {
   min-height: 40px;
   min-width: 120px;
 }
+
+#editTitle {
+  text-align: left;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+/* 게시판 작성 페이지(boardEdit) 카테고리 선택창
+ */
+
+.form-select {
+  cursor: pointer;
+}
