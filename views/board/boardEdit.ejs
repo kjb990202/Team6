@@ -59,6 +59,7 @@
     </div>
   </div>
         <div id="editTitle" class="pe-none">내용<a style="color: red;">&nbsp;*</a></div>
+        
         <!-- 에디터를 적용할 요소 (컨테이너) -->
         <div id="content"></div>
         <!-- TOAST TUI 에디터 JS CDN -->
@@ -67,20 +68,13 @@
           const editor = new toastui.Editor({
             el: document.querySelector('#content'), // 에디터를 적용할 요소 (컨테이너)
             height: '500px', // 에디터 영역의 높이 값 (OOOpx || auto)
-            initialEditType: 'content', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+            initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
             previewStyle: 'vertical', // 마크다운 프리뷰 스타일 (tab || vertical)
           });
 
-          
-// const editor = new toastui.Editor({
-//   el: document.querySelector('#editor'),
-//   height: '500px',
-//   initialValue: content,
-//   initialEditType: 'wysiwyg'
-// });
+
         </script>
         <br />
-        <!-- <div class="col-12"> -->
           <div class="d-flex gap-2" >
           <button type="button" class="btn btn-secondary" id="editButton"  onclick="location.href='/boardMain'">취소</button>
           <button type="submit" class="btn btn-primary" id="editButton">등록</button>

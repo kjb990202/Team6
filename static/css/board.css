@@ -117,6 +117,21 @@ body {
 /* 게시판 작성 페이지(boardEdit) 카테고리 선택창
  */
 
+/* 포인터 설정 */
 .form-select {
   cursor: pointer;
+}
+
+/* 입력시 부트스트랩 체크박스 삭제 */
+.form-control.is-valid,
+.was-validated .form-control:valid {
+  background-image: none;
+}
+
+/* 입력시 부트스트랩 체크박스 삭제 */
+.form-select.is-valid:not([multiple]):not([size]),
+.form-select.is-valid:not([multiple])[size="1"],
+.was-validated .form-select:valid:not([multiple]):not([size]),
+.was-validated .form-select:valid:not([multiple])[size="1"] {
+  background-image: none;
 }
