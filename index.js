@@ -10,8 +10,8 @@ app.use(express.json());
 const router = require("./routes");
 app.use("/", router);
 
-app.get("*", function(req, res){
-  res.render("404")
+app.get("*", function (req, res) {
+  res.render("404");
 });
 
 app.listen(PORT, () => {
