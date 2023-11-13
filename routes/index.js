@@ -30,6 +30,8 @@ router.post('/checknickname', user.checkNickname);
 router.get("/user/signin", user.signin);
 // 로그인 페이지
 router.post("/user/signin", user.post_signin);
+// 로그아웃 
+
 // 아이디 찾기
 router.get("/user/findId", user.findId);
 // 아아디 찾기

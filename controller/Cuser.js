@@ -1,4 +1,5 @@
 const {User} = require ("../model")
+const crypto = require('crypto');
 
 // 홈화면 랜더링
 exports.index = (req, res) => {
@@ -9,16 +10,23 @@ exports.signup = (req, res) => {
   res.render("./user/signup")
 }
 // 회원가입 페이지 랜더링
-exports.post_signup = (req, res) => {
-    const data = {
-        userid: req.body.userid,
-        password : req.body.password,
-        email : req.body.email,
-        nickname : req.body.nickname
-    }
-    const createUser =  User.create(data)
-    res.send(createUser)
-}
+exports.post_signup = async (req, res) => {
+  const salt = crypto.randomBytes(16).toString('base64');
+  const iterations = 100;
+  const keylen = 64;
+  const digest = 'sha512';
+  const hashedPassword = crypto.pbkdf2Sync(req.body.password, salt, iterations, keylen, digest).toString('base64');
+
+  const data = {
+      userid: req.body.userid,
+      password: hashedPassword, // 암호화된 비밀번호 저장
+      salt: salt, // 솔트 저장
+      email: req.body.email,
+      nickname: req.body.nickname
+  }
+  const createUser = await User.create(data)
+  res.send(createUser)
+};
 // 아이디 중복확인
 exports.checkId = (req, res) => {
   User.findAll({
@@ -59,18 +67,39 @@ exports.signin = (req, res) => {
   res.render("./user/signin")
 }
 // 로그인 화면 랜더링
-exports.post_signin = (req, res) => {
-    User.findAll({
-      where:{
-        userid: req.body.userid,
-        password: req.body.password}
-    })
-    .then((result)=>{
-    if (result.length > 0) res.send({ result: true, id: result[0].id })
-    else res.send({ result: false })
-})
-
+exports.post_signin = async (req, res) => {
+  const user = await User.findOne({ where: { userid: req.body.userid } });
+  
+  if (!user) {
+    return res.send({ result: false });
   }
+
+  const iterations = 100;
+  const keylen = 64;
+  const digest = 'sha512';
+  const hashedPassword = crypto.pbkdf2Sync(req.body.password, user.salt, iterations, keylen, digest).toString('base64');
+
+  if (user.password === hashedPassword) {
+    req.session.user = user; // 세션에 사용자 정보 저장
+    console.log('세션 생성:', req.session); // 세션 상태 출력
+    res.send({ result: true, id: user.id });
+  } else {
+    res.send({ result: false });
+  }
+}; // 이 부분에 중괄호를 추가했습니다.
+
+// 로그아웃
+exports.logOut = (req, res) => {
+  req.session.destroy((err) => { // 세션 삭제
+    if (err) {
+      console.error(err);
+    } else {
+      console.log('세션 삭제, 현재 세션 상태:', req.session); // 세션 상태 출력
+      res.redirect("/"); // 로그인 페이지로 리다이렉트
+    }
+  });
+};
+
 // 아이디 찾기 페이지 랜더링
 exports.findId = (req, res) => {
     res.render("./user/findId")

@@ -1,9 +1,9 @@
 {
     "development" : {
         "host": "localhost",
-        "database" :"team6",
-        "username" :"user",
-        "password" :"sba123$",
+        "database" :"projectTeamSix",
+        "username" :"teamsix",
+        "password" :"1234qwer*",
         "dialect" : "mysql"
     },
     "production" : {

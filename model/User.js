@@ -15,9 +15,13 @@ function User(Sequelize, DataTypes) {
 
             },
             password: {
-                    type : DataTypes.STRING(20),
+                    type : DataTypes.STRING(255),
 
             },
+            salt: {
+                    type: DataTypes.STRING(100),
+                    allowNull: false,
+            },    
             email: {
                     type : DataTypes.STRING(50),
 
@@ -35,6 +39,9 @@ function User(Sequelize, DataTypes) {
             // createAt, updateAt
         }
     )
-}
+    
+};
+
+
 
 module.exports = User;
