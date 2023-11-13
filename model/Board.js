@@ -1,7 +1,7 @@
 // // 게시글 작성
 module.exports = (sequelize, DataTypes) => {
   const Submit = sequelize.define(
-    "Submit",
+    "board",
     {
       // 모델 정의
       boardID: {
