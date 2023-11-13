@@ -98,40 +98,21 @@
 </footer>
 </div>
 <script>
-  // 등록 버튼 유효성 검사
- (() => {
-  'use strict'
-
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  const forms = document.querySelectorAll('.needs-validation')
-
-  // Loop over them and prevent submission
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-
-      form.classList.add('was-validated')
-    }, false)
-  })
-})()
 
 // 등록버튼 클릭시 데이터 전송
 document.getElementById('submitButton').addEventListener('click', function(event) {
     event.preventDefault();
 
-    const categoryId = document.getElementById('validationCustom04').value;
+    const category = document.getElementById('validationCustom04').value;
     const title = document.getElementById('validationCustom01').value;
     const content = editor.getMarkdown(); // 에디터 내용
-    const nickname = '사용자닉네임'; // 로그인한 사용자의 닉네임
+    const boardID = '사용자닉네임'; // 로그인한 사용자의 닉네임
 
     axios.post('/boardSubmit', {
-      category_id: categoryId,
+      boardID: boardID,
       title: title,
+      category: category,
       content: content,
-      nickname: nickname
     })
     .then(function (response) {
       console.log(response);
@@ -143,6 +124,24 @@ document.getElementById('submitButton').addEventListener('click', function(event
       // 에러 처리 로직
     });
   });
+  
+  // 등록 버튼 유효성 검사
+ (() => {
+  'use strict'
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+
 
 </script>
 

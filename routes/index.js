@@ -17,7 +17,7 @@ router.get("/boardEdit", controller.boardEdit);
 // 게시판 작성 화면 -> 게시글 등록
 router.post("/boardSubmit", async (req, res) => {
   try {
-    const { category_id, title, content, nickname } = req.body;
+    const { boardID, id, title, category, content } = req.body;
     // 게시글 저장 로직
     const newSubmit = await dbSubmit.create({
       boardID: boardID,
@@ -26,7 +26,6 @@ router.post("/boardSubmit", async (req, res) => {
       category: category,
       content: content,
     });
-
     res.status(201).json(newSubmit);
   } catch (error) {
     console.error(error);
