@@ -20,13 +20,14 @@ function Map_Information(Sequelize, DataTypes) {
             }
         },
         {
+            modelName: 'Map_Information',
             tableName: "Map_Information",
             freezeTableName: true,
             timestamps: false,
         });
 };
 
-Map_Information.hasMany(Map_Database, {foreignKey: 'storeID'});
-Map_Database.belongsTo(Map_Information, { foreignKey: 'storeID' });
+// Map_Information.hasMany(Map_Database, {foreignKey: 'storeID'});
+// Map_Database.belongsTo(Map_Information, { foreignKey: 'storeID' });
 
 module.exports = Map_Information;

@@ -14,11 +14,17 @@ function Map_Database(Sequelize, DataTypes) {
         },
         id: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            references: {
+                model: User,
+                key: 'id',
+            },
         },
         storeID: {
             type: DataTypes.STRING(50),
-            allowNull: false
+            references: {
+                model: Map_Information,
+                key: 'id',
+            },
         },
         reviewComment: {
             type: DataTypes.TEXT,
@@ -28,7 +34,7 @@ function Map_Database(Sequelize, DataTypes) {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        createAta: {
+        createdAt: {
             type: DataTypes.DATE,
             defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
         },
@@ -44,10 +50,5 @@ function Map_Database(Sequelize, DataTypes) {
             timestamps: true,
         })
 }
-
-
-Map_Database.belongsTo(User, { foreignKey: 'id' });
-Map_Database.belongsTo(Map_Information, { foreignKey: 'storeID' });
-
 
 module.exports = Map_Database;

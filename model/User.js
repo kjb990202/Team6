@@ -28,6 +28,7 @@ function User(Sequelize, DataTypes) {
             }
         },
         {
+            modelName: 'User',
             tableName: "User",
             freezeTableName: true,
             timestamps: false,
@@ -35,6 +36,6 @@ function User(Sequelize, DataTypes) {
         
 };
 
-User.hasMany(Map_Database, {foreignKey: 'id'});
+// User.hasMany(Map_Database, {foreignKey: 'id'});
 
 module.exports = User;
