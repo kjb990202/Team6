@@ -12,10 +12,10 @@ const sequelize = new Sequelize(
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-// db = { sequelize: sequelize, Sequelize: Sequelize }
 
-// db.Visitor = require("./Visitor")(sequelize, Sequelize);
 
+db.Map_Information = require("./Map_Information")(sequelize, Sequelize);
+db.Map_Database = require("./Map_Database")(sequelize, Sequelize);
 db.User = require("./User")(sequelize, Sequelize);
 db.Submit = require("./Board")(sequelize, Sequelize);
 

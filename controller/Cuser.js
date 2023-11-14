@@ -1,4 +1,4 @@
-const {User} = require ("../model")
+const { User } = require("../model");
 const crypto = require('crypto');
 
 // 홈화면 랜더링
