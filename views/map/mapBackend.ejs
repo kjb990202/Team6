@@ -29,11 +29,11 @@
                     <span class="category_bg cafe"></span>
                     카페
                 </li>   
-                <li id="AT4" data-order="3"> 
+                <li id="MT1" data-order="3"> 
                     <span class="category_bg mart"></span>
                     마트
                 </li>  
-                <li id="CT1" data-order="4"> 
+                <li id="PM9" data-order="4"> 
                     <span class="category_bg pharmacy"></span>
                     약국
                 </li>
@@ -165,18 +165,11 @@
                     $('#messageDiv').append(
                         `<div>작성일 : ${res.data.createdAt}</div>
                         <div>수정일 : ${res.data.updatedAt}</div>
-                        <div>식당이름 : ${place.place_name}</div>
+                        <div>식당이름 : ${placeName}</div>
                         <div>별점 : ${res.data.rating}</div>
                         <div>내용 : ${res.data.reviewComment}</div>
                         </div>`
                     )
-                    // SB: 추후 두 방법 중 하나를 고르도록 합시다.
-
-                    // SB: 1번 input 칸 비우기
-                    // form.rating.value = '';
-                    // form.reviewComment.value = '';
-
-                    // SB: 2번 div 태그 없애기
                     reviewDiv.innerHTML = ""
                 })
             }

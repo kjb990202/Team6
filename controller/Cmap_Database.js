@@ -38,14 +38,16 @@ exports.uplodeReview = (req, res) => {
   }
 
   Map_Database.create(data).then(() => {
-    res.send("리뷰 작성이 완료되었습니다.");
-  });
-  Map_Database.findOne({
-    where: {
-      id: req.body.id,
-      storeID: req.body.storeID,
-      reviewComment: req.body.reviewComment,
-      rating: req.body.rating
-  }
+    Map_Database.findOne({
+      where: {
+        id: req.body.id,
+        storeID: req.body.storeID,
+        reviewComment: req.body.reviewComment,
+        rating: req.body.rating
+    }
+  }).then((results) => {
+    res.send(results.dataValues);
   })
+  });
+  
 };
