@@ -40,28 +40,31 @@ router.post("/boardSubmit", async (req, res) => {
   }
 });
 
-// 로그인 페이지
-router.get("/signin", controller.signin);
 // 회원가입 페이지
-router.get("/user/signup", user.signup);
-// 회원가입 페이지
-router.post("/user/signup", user.post_signup);
+router.get("/signup", user.signup);
+router.post("/signup", user.post_signup);
+
 // 아이디 중복확인
 router.post("/checkid", user.checkId);
+
 // 닉네임 중복확인
 router.post("/checknickname", user.checkNickname);
+
 // 로그인 페이지
-router.get("/user/signin", user.signin);
-// 로그인 페이지
-router.post("/user/signin", user.post_signin);
-// 로그아웃 페이지 구현
+router.get("/signin", user.signin);
+router.post("/signin", user.post_signin);
 
 // 아이디 찾기
-router.get("/user/findId", user.findId);
-// 아아디 찾기
-router.post("/user/findId", user.post_findId);
+router.get("/findId", user.findId);
+router.post("/findId", user.post_findId);
+
 // 비밀번호 찾기
-router.get("/user/findPassword", user.findPassword);
+router.get("/findPassword", user.findPassword);
+router.post("/findPassword", user.postFindPassword);
+
+// 비밀번호 변경페이지
+router.get("/changePassword", user.changePassword);
+router.post("/changePassword", user.updatePassword);
 
 // router.post("/user/profile", user.profile)
 // router.patch("/user/profile/edit/:id", user.profile_edit)
