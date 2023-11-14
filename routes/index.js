@@ -1,9 +1,16 @@
 const express = require("express");
 const controller = require("../controller/index");
 const router = express.Router();
+const Cmap_Database = require("../controller/Cmap_Database");
+const Cmap_Information = require("../controller/Cmap_Information");
 const user = require("../controller/Cuser");
 
 router.get("/", controller.index);
+
+router.get("/mapBackend", controller.mapBackend);
+router.post("/uploadStore", Cmap_Information.uploadStore);
+router.get("/getReview", Cmap_Database.getReview);
+router.post("/uplodeReview", Cmap_Database.uplodeReview);
 
 // 맛집 지도 메인 페이지
 router.get("/mapMain", controller.mapMain);
@@ -32,11 +39,9 @@ router.post("/boardSubmit", async (req, res) => {
     res.status(500).json({ message: "에러가 발생했습니다." });
   }
 });
+
 // 로그인 페이지
 router.get("/signin", controller.signin);
-
-// 메인 페이지
-router.get("/", user.index);
 // 회원가입 페이지
 router.get("/user/signup", user.signup);
 // 회원가입 페이지
@@ -49,6 +54,7 @@ router.post("/checknickname", user.checkNickname);
 router.get("/user/signin", user.signin);
 // 로그인 페이지
 router.post("/user/signin", user.post_signin);
+// 로그아웃 페이지 구현
 // 아이디 찾기
 router.get("/user/findId", user.findId);
 // 아아디 찾기
