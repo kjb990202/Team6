@@ -7,7 +7,7 @@ const sequelize = new Sequelize(
   config.database,
   config.username,
   config.password,
-  config
+  { ...config, logging: console.log }
 );
 
 db.sequelize = sequelize;
@@ -17,6 +17,6 @@ db.Sequelize = Sequelize;
 // db.Visitor = require("./Visitor")(sequelize, Sequelize);
 
 db.User = require("./User")(sequelize, Sequelize);
-db.Submit = require("./Board")(sequelize, Sequelize);
+db.Board = require("./Board")(sequelize, Sequelize);
 
 module.exports = db;

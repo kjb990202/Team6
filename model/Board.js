@@ -1,6 +1,6 @@
 // // 게시글 작성
 module.exports = (sequelize, DataTypes) => {
-  const Submit = sequelize.define(
+  const Board = sequelize.define(
     "board",
     {
       // 모델 정의
@@ -45,8 +45,9 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Board",
       tableName: "board", // 실제 데이터베이스의 테이블 이름
       timestamps: false, // createdAt과 updatedAt 컬럼을 사용하지 않음
+      freezeTableName: true,
     }
   );
 
-  return Submit;
+  return Board;
 };

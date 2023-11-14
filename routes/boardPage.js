@@ -6,7 +6,7 @@ const router =express.Router();
 // router.get('/loadMorePosts', pagination.getBoard);
 
 
-router.get("/loadMorePosts", async (req, res) => {
+router.get("/api/boards", async (req, res) => {
     try {
       const boards = await pagination.getBoards(req.query.cursor, req.query.limit);
       res.json(boards);
