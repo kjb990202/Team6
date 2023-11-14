@@ -7,13 +7,30 @@ const user = require("../controller/Cuser");
 
 router.get("/", controller.index);
 
-router.get("/mapBackend", controller.mapBackend);
-router.post("/uploadStore", Cmap_Information.uploadStore);
-router.get("/getReview", Cmap_Database.getReview);
-router.post("/uplodeReview", Cmap_Database.uplodeReview);
-
 // 맛집 지도 메인 페이지
 router.get("/mapMain", controller.mapMain);
+
+
+
+// 맛집 지도 페이지(SB)
+router.get("/mapBackend", controller.mapBackend);
+
+// DB(Map_Information)에 사업장 정보 업로드하는 기능
+router.post("/uploadStore", Cmap_Information.uploadStore);
+
+// DB(Map_Database)에 리뷰 조회하는 기능
+router.get("/getReview", Cmap_Database.getReview);
+
+// DB(Map_Database)에 리뷰 업로드하는 기능
+router.post("/uplodeReview", Cmap_Database.uplodeReview);
+
+// DB(Map_Database)에 리뷰 수정하는 기능
+router.patch("/updateReview", Cmap_Database.updateReview);
+
+// DB(Map_Database)에 리뷰 삭제하는 기능
+router.delete("/reviewDelete/:reviewNumber", Cmap_Database.reviewDelete);
+
+
 
 // 게시판 메인 페이지
 router.get("/boardMain", controller.boardMain);

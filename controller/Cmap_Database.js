@@ -9,6 +9,7 @@ exports.getReview = (req, res) => {
     }).then((results) => {
       if (results.length > 0) {
         const data = results.map((result) => ({
+          reviewNumber: result.dataValues.reviewNumber,
           storeID: result.dataValues.storeID,
           reviewComment: result.dataValues.reviewComment,
           rating: result.dataValues.rating,
@@ -50,4 +51,36 @@ exports.uplodeReview = (req, res) => {
   })
   });
   
+};
+
+exports.updateReview = (req, res) => {
+  console.log(req.body)
+  const data = {
+    rating: req.body.rating,
+    reviewComment: req.body.reviewComment
+  };
+  Map_Database.update(data, {
+    where: {
+      reviewNumber: req.body.reviewNumber
+    },
+  }).then((result) => {
+    console.log("update result: ", result);
+    res.send(req.body.reviewNumber);
+  });
+};
+
+exports.reviewDelete = (req, res) => {
+  console.log("나 여기있다", req.params)
+  Map_Database.destroy({
+    where: {
+      reviewNumber: req.params.reviewNumber
+    },
+  }).then((result) => {
+    if (result == 1) {
+      res.send("리뷰가 삭제되었습니다.");
+    }
+    else {
+      res.send("이미 삭제된 리뷰입니다.");
+    }
+  });
 };
