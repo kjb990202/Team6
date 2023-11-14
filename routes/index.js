@@ -8,11 +8,8 @@ const user = require("../controller/Cuser");
 router.get("/", controller.index);
 
 router.get("/mapBackend", controller.mapBackend);
-
 router.post("/uploadStore", Cmap_Information.uploadStore);
-
 router.get("/getReview", Cmap_Database.getReview);
-
 router.post("/uplodeReview", Cmap_Database.uplodeReview);
 
 // 맛집 지도 메인 페이지
