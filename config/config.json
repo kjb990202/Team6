@@ -1,17 +1,16 @@
 {
-    "development": {
+    "development" : {
         "host": "localhost",
-        "database": "projectTeamSix",
-        "username": "teamsix",
-        "password": "1234qwer*",
-        "dialect": "mysql"
+        "database" :"projectTeamSix",
+        "username" :"teamsix",
+        "password" :"1234qwer*",
+        "dialect" : "mysql"
     },
-    "production": {
-        "host": "",
-        "database": "",
-        "username": "",
-        "password": "",
-        "dialect": "mysql"
-
+    "production" : {
+        "host" : "",
+        "database" :"",
+        "username" :"",
+        "password" :"",
+        "dialect" : "mysql"
     }
 }

@@ -1,28 +1,64 @@
-<!DOCTYPE html>
-<html lang="kr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./user.css">
+<html>
+  <head>
     <title>로그인</title>
-</head>
-<body>
-    <div class="flex">
-        <div class="login-box flex">
-            <form action="">
-                <div><input type="text" class="login-input" placeholder="아이디" name="userid" required></div>
-                <input type="password" class="login-input" placeholder="패스워드" name="password" required>
-                <br />
-                <button class="login-button" type="button" ><span>로그인</span></button>
-            </form>
-            <ul class="find-box flex">
-                <li>아이디 찾기</li>
-                <li>비밀번호 찾기</li>
-                <li>회원 가입</li>
-            </ul>
-        </div>
-        
-    </div>
-    
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300&amp;display=swap'>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" href="../static/css/user.css">
+
+    <script>
+      function login() {
+        const form = document.forms["form-login"];
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          console.log("reportValidity");
+
+          return false;
+        }
+        let user = {
+          userid: form.userid.value,
+          password: form.password.value
+        };
+
+        axios({
+          method: 'post',
+          url: '/user/signin',
+          data: user
+        }).then((res) => {
+          if (res.data.result == true) {
+            alert("로그인 성공");
+            // const form_info = document.forms["form-info"];
+            // form_info.id.value = res.data.id;
+            // form_info.submit();
+            window.location.href = "/";
+          } else {
+            alert("로그인 실패");
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+        <div class="flex" >
+          <div class="login-box flex">
+              <form name="form-login" action="/profile" method="POST">
+                  <div><input type="text" class="login-input" placeholder="아이디" name="userid" required></div>
+                  <input type="password" class="login-input" placeholder="패스워드" name="password" required>
+                  <br />
+                  <button class="login-button" type="button" onclick="login()" ><span>로그인</span></button>
+              </form>
+              <ul class="find-box flex">
+                <a href="./findId"><li>아이디 찾기</li></a>
+                <a href="./findPassword"><li>비밀번호 찾기</li></a>
+                <a href="./signup"><li>회원 가입</li></a>
+              </ul>
+          </div>
+      </div>
+        <!-- <a href="/signup">Register</a> -->
+
+  </body>
 </html>
