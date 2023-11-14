@@ -1,15 +1,14 @@
-<html>
-  <head>
-    <title>로그인</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300&amp;display=swap'>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <link rel="stylesheet" href="../static/css/user.css">
-
+<!DOCTYPE html>
+<html lang="ko" class="h-100" data-bs-theme="auto">
+  <!DOCTYPE html>
+  <html lang="ko" class="h-100" data-bs-theme="auto">
+    <head>
+      <!-- CDN들 불러오기 -->
+      <%- include('../components/cdn.ejs') %>
+      <!-- CSS 연결 -->
+      <link href="../static/css/user.css" rel="stylesheet" />
+      <title>로그인</title>
+    <body class="d-flex h-100 text-center text-bg-white">
     <script>
       function login() {
         const form = document.forms["form-login"];
@@ -21,13 +20,13 @@
         }
         let user = {
           userid: form.userid.value,
-          password: form.password.value
+          password: form.password.value,
         };
 
         axios({
-          method: 'post',
-          url: '/user/signin',
-          data: user
+          method: "post",
+          url: "/user/signin",
+          data: user,
         }).then((res) => {
           if (res.data.result == true) {
             alert("로그인 성공");
@@ -42,23 +41,43 @@
       }
     </script>
   </head>
+   <!-- 헤더 : 상단 메뉴바  -->
+   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="container">
+      <div><%- include('../components/header.ejs') %></div>
+    </header>
   <body>
-        <div class="flex" >
-          <div class="login-box flex">
-              <form name="form-login" action="/profile" method="POST">
-                  <div><input type="text" class="login-input" placeholder="아이디" name="userid" required></div>
-                  <input type="password" class="login-input" placeholder="패스워드" name="password" required>
-                  <br />
-                  <button class="login-button" type="button" onclick="login()" ><span>로그인</span></button>
-              </form>
-              <ul class="find-box flex">
-                <a href="./findId"><li>아이디 찾기</li></a>
-                <a href="./findPassword"><li>비밀번호 찾기</li></a>
-                <a href="./signup"><li>회원 가입</li></a>
-              </ul>
+    <div class="flex">
+      <div class="login-box flex">
+        <form name="form-login" action="/profile" method="POST">
+          <div>
+            <input
+              type="text"
+              class="login-input"
+              placeholder="아이디"
+              name="userid"
+              required
+            />
           </div>
+          <input
+            type="password"
+            class="login-input"
+            placeholder="패스워드"
+            name="password"
+            required
+          />
+          <br />
+          <button class="login-button" type="button" onclick="login()">
+            <span>로그인</span>
+          </button>
+        </form>
+        <ul class="find-box flex">
+          <a href="./findId"><li>아이디 찾기</li></a>
+          <a href="./findPassword"><li>비밀번호 찾기</li></a>
+          <a href="./signup"><li>회원 가입</li></a>
+        </ul>
       </div>
-        <!-- <a href="/signup">Register</a> -->
-
+    </div>
+    <!-- <a href="/signup">Register</a> -->
   </body>
 </html>
