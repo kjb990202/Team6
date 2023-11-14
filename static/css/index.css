@@ -10,34 +10,14 @@
   text-shadow: none; /* Prevent inheritance from `body` */
 }
 
-
-/* 
-메인 테스트 삭제예정 시작 ---------------------
-*/
-#boxTest {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+/* 폰트 : 인천교육자람체 */
+@font-face {
+  font-family: "iceJaram-Rg";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/iceJaram-Rg.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
 }
-#box1 {
-  background-color: rgb(255, 208, 0);
-  width: 325px;
-  height: 325px;
-  margin-bottom: 25px;
-}
-#box2 {
-  background-color: rgb(255, 145, 0);
-  width: 325px;
-  height: 325px;
-}
-#box3 {
-  background-color: rgb(255, 77, 0);
-  width: 325px;
-  height: 325px;
-}
-/* 
-메인 테스트 삭제예정 끝---------------------
-*/
 
 /*
  * Base structure
@@ -129,223 +109,229 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* --------------------------  메인 움직이는 이미지 -------------------------- */
-/* *,
-*:before,
-*:after {
-  box-sizing: border-box;
-  position: relative;
-}
-
-* {
-  transform-style: preserve-3d;
-}
-
-:root {
-  --duration: 3.2s;
-  --stagger: 0.65s;
-  --easing: cubic-bezier(0.36, 0.07, 0.25, 1);
-  --offscreen: 130vmax;
-  //cubic-bezier(.5, 0, .4, 1);
-  --color-bg: #ef735a;
-  --color-blue: #384969;
-  --color-shadow: #211842;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--color-bg);
-}
-
-#app {
-  height: 70vmin;
-  width: 40vmin;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transform: translateX(25vw) rotateX(-20deg) rotateY(-55deg);
-  background: var(--color-blue);
-  border-radius: 2vmin;
-  perspective: 10000px;
-
-  &:before {
-    border: 10vmin solid white;
-    border-left-width: 2vmin;
-    border-right-width: 2vmin;
-    border-radius: inherit;
-    content: "";
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    border: 10vmin solid white;
-    border-left-width: 2vmin;
-    border-right-width: 2vmin;
-    background: var(--color-blue);
-  }
-
-  > .papers,
-  &:before {
-    transform: translateZ(3vmin);
-  }
-
-  &:after {
-    content: "";
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    background: inherit;
-    border-radius: inherit;
-    transform: translateZ(1.5vmin);
-  }
-
-  > .shadow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transform-origin: bottom center;
-    transform: rotateX(90deg);
-    background: var(--color-shadow);
-    border-radius: inherit;
-  }
-}
-
-.paper-shadow {
-  background: var(--color-shadow);
-  height: 50%;
-  width: 100%;
-  position: absolute;
-  top: calc(100% + 3vmin);
-  left: 0;
-  transform-origin: top center;
-  animation: shadow-in var(--duration) var(--easing) infinite;
-  animation-delay: calc(var(--i) * var(--stagger));
-  animation-fill-mode: both;
-
-  @keyframes shadow-in {
-    0%,
-    5% {
-      transform: scale(0.8, 1) translateY(var(--offscreen));
-    }
-    100% {
-      transform: scale(0.8, 0);
-    }
-  }
-}
-
-.papers {
-  width: 30vmin;
-  height: 40vmin;
-  background: white;
-}
-
-.paper {
-  --segments: 5;
-  --segment: calc(100% * 1 / var(--segments));
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-
-  animation: fly-in var(--duration) var(--easing) infinite;
-  animation-delay: calc((var(--i) * var(--stagger)));
-
-  @keyframes fly-in {
-    0%,
-    2% {
-      transform: translateZ(var(--offscreen)) translateY(80%) rotateX(30deg);
-    }
-    80%,
-    100% {
-      transform: translateZ(0px) translateY(0%) rotateX(0deg);
-    }
-  }
-
-  > .segment {
-    height: var(--segment);
-  }
-}
-
-.segment {
-  --rotate: 20deg;
-  height: 100%;
-  transform-origin: top center;
-  background: white;
-  border: 1px solid rgba(black, 0.2);
-  border-top: none;
-  border-bottom: none;
-
-  > .segment {
-    top: 98%;
-  }
-
-  animation: inherit;
-  animation-name: curve-paper;
-
-  @keyframes curve-paper {
-    0%,
-    2% {
-      transform: rotateX(var(--rotate, 0deg));
-    }
-    90%,
-    100% {
-      transform: rotateX(0deg);
-    }
-  }
-}
-
-/* ---------------------------------- */
 /* 
-.paper.-rogue {
-  transform-origin: top center -5vmin;
+메인 디자인 
+*/
 
-  .segment {
-    --rotate: 30deg;
-    animation-name: curve-rogue-paper;
+body {
+  background: url("http://cdn.blogosfere.it/styleandfashion/images/162417963_10.jpg")
+    no-repeat center center fixed;
+  background-size: cover;
+  background-color: #ededed;
+  overflow: hidden;
+  touch-action: none;
+}
 
-    @keyframes curve-rogue-paper {
-      0%,
-      50% {
-        transform: rotateX(var(--rotate));
-      }
-      100% {
-        transform: rotateX(0deg);
-      }
-    }
+.wrapper-squares {
+  width: 410px;
+  height: 410px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -205px;
+  margin-top: -205px;
+}
+
+.square {
+  height: 200px;
+  width: 200px;
+  line-height: 200px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 100;
+  font-family: "Gill sans", sans;
+  position: absolute;
+  transition: all 600ms ease-in-out;
+}
+
+/* 네모박스 첫화면 */
+.square-brand {
+  background-color: #ffd503;
+  color: #000;
+  z-index: 10;
+  cursor: pointer;
+  font-family: "iceJaram-Rg";
+  font-size: 45px;
+  /* 텍스트 커서표시 안되게 설정 */
+  user-select: none;
+}
+
+.square-pulse {
+  box-shadow: 0 0 3px #515151;
+  -webkit-animation: pulse 3s infinite; /* Safari 4+ */
+  -moz-animation: pulse 3s infinite; /* Fx 5+ */
+  -o-animation: pulse 3s infinite; /* Opera 12+ */
+  animation: pulse 3s infinite; /* IE 10+ */
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    box-shadow: 0 0 3px #515151;
   }
-
-  // First segment of the paper
-  > .segment {
-    animation: inherit;
-    animation-name: rogue-paper;
-    transform-origin: left top 20vmin;
-
-    @keyframes rogue-paper {
-      0%,
-      2% {
-        transform: rotateX(1.5turn);
-      }
-      80%,
-      100% {
-        transform: rotateX(0turn);
-      }
-    }
+  50% {
+    box-shadow: 0 0 60px #ccc;
   }
-} */
+  100% {
+    box-shadow: 0 0 3px #515151;
+  }
+}
+@-moz-keyframes pulse {
+  0% {
+    box-shadow: 0 0 3px #515151;
+  }
+  50% {
+    box-shadow: 0 0 60px #ccc;
+  }
+  100% {
+    box-shadow: 0 0 3px #515151;
+  }
+}
+@-o-keyframes pulse {
+  0% {
+    box-shadow: 0 0 3px #515151;
+  }
+  50% {
+    box-shadow: 0 0 60px #ccc;
+  }
+  100% {
+    box-shadow: 0 0 3px #515151;
+  }
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 3px #515151;
+  }
+  50% {
+    box-shadow: 0 0 60px #ccc;
+  }
+  100% {
+    box-shadow: 0 0 3px #515151;
+  }
+}
+
+.square-pulse:hover {
+  box-shadow: 0 0 100px #ccc;
+}
+
+.square-center {
+  left: 50%;
+  top: 50%;
+  margin-top: -100px;
+  margin-left: -100px;
+  cursor: pointer;
+}
+
+/* 흩날리는 포스트잇 구현 ---------------------*/
+
+.confetti {
+  width: 100px;
+  height: 100px;
+  background-color: #f2d74e;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-animation: confetti 5s ease-in-out -2s infinite;
+  animation: confetti 5s ease-in-out -2s infinite;
+  transform-origin: left top;
+}
+
+.confetti:nth-child(1) {
+  background-color: #f2d74e;
+  -webkit-animation-delay: 0;
+  animation-delay: 0;
+}
+
+.confetti:nth-child(2) {
+  background-color: #95c3de;
+  -webkit-animation-delay: -5s;
+
+  animation-delay: -5s;
+}
+
+.confetti:nth-child(3) {
+  background-color: #ff9a91;
+  -webkit-animation-delay: -3s;
+  animation-delay: -3s;
+}
+
+.confetti:nth-child(4) {
+  background-color: #f2d74e;
+  -webkit-animation-delay: -2.5s;
+  animation-delay: -2.5s;
+}
+
+.confetti:nth-child(5) {
+  background-color: #95c3de;
+  -webkit-animation-delay: -4s;
+  animation-delay: -4s;
+}
+
+.confetti:nth-child(6) {
+  background-color: #ff9a91;
+  -webkit-animation-delay: -6s;
+  animation-delay: -6s;
+}
+
+.confetti:nth-child(7) {
+  background-color: #f2d74e;
+  -webkit-animation-delay: -1.5s;
+  animation-delay: -1.5s;
+}
+
+.confetti:nth-child(8) {
+  background-color: #95c3de;
+  -webkit-animation-delay: -2s;
+  animation-delay: -2s;
+}
+
+.confetti:nth-child(9) {
+  background-color: #ff9a91;
+  -webkit-animation-delay: -3.5s;
+  animation-delay: -3.5s;
+}
+
+.confetti:nth-child(10) {
+  background-color: #f2d74e;
+  -webkit-animation-delay: -2.5s;
+  animation-delay: -2.5s;
+}
+
+@-webkit-keyframes confetti {
+  0% {
+    transform: rotateZ(15deg) rotateY(0deg) translate(0, 0);
+  }
+  25% {
+    transform: rotateZ(5deg) rotateY(60deg) translate(-5vw, 20vh);
+  }
+  50% {
+    transform: rotateZ(15deg) rotateY(420deg) translate(5vw, 60vh);
+  }
+  75% {
+    transform: rotateZ(5deg) rotateY(880deg) translate(-10vw, 80vh);
+  }
+  100% {
+    transform: rotateZ(15deg) rotateY(1240deg) translate(10vw, 110vh);
+  }
+}
+
+@keyframes confetti {
+  0% {
+    transform: rotateZ(15deg) rotateY(0deg) translate(0, 0);
+  }
+  25% {
+    transform: rotateZ(5deg) rotateY(60deg) translate(-5vw, 20vh);
+  }
+  50% {
+    transform: rotateZ(15deg) rotateY(420deg) translate(5vw, 60vh);
+  }
+  75% {
+    transform: rotateZ(5deg) rotateY(880deg) translate(-10vw, 80vh);
+  }
+  100% {
+    transform: rotateZ(15deg) rotateY(1240deg) translate(10vw, 110vh);
+  }
+}
+
+/* 흩날리는 포스트잇 구현 끝 ----------------- */

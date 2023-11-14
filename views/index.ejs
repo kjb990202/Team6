@@ -33,6 +33,13 @@
       href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"
     />
 
+    <!-- Jquery CDN -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+
     <!-- Custom styles for this template -->
     <link href="../static/css/index.css" rel="stylesheet" />
   </head>
@@ -55,20 +62,32 @@
       </header>
 
       <main class="px-3">
-        여기는 메인
-        <!-- 메인 테스트 삭제예정 시작 ------------>
-        <div id="boxTest">
-          <div id="box1"></div>
-          <div id="box2"></div>
-          <div id="box3"></div>
-          <div id="box1"></div>
-          <div id="box2"></div>
-          <div id="box3"></div>
-          <div id="box1"></div>
-          <div id="box2"></div>
-          <div id="box3"></div>
+        <!-- 메인 배경 흩날리는 포스티잇 시작 ----------->
+        <div class="confetti-group">
+          <div class="confetti confetti1"></div>
+          <div class="confetti confetti2"></div>
+          <div class="confetti confetti3"></div>
+          <div class="confetti confetti4"></div>
+          <div class="confetti confetti5"></div>
+          <div class="confetti confetti6"></div>
+          <div class="confetti confetti7"></div>
+          <div class="confetti confetti8"></div>
+          <div class="confetti confetti9"></div>
+          <div class="confetti confetti10"></div>
         </div>
-        <!-- 메인 테스트 삭제예정 끝 ------------>
+        <div id="root"></div>
+        <!-- 메인 배경 흩날리는 포스티잇 끝 -->
+      </div>
+    </header>
+
+    <main class="px-3">
+      <!-- 메인 포스트잇 이미지 ----------->
+      <div class="wrapper-squares">
+        <div class="square square1 square-brand square-pulse square-center">
+          SeSAC-it
+        </div>
+      </div>
+      <!-- 메인 포스트잇 이미지 끝 ------------>
       </main>
 
       <footer class="mt-auto text-white-50">
