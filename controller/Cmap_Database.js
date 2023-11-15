@@ -59,7 +59,6 @@ exports.uplodeReview = (req, res) => {
 };
 
 exports.updateReview = (req, res) => {
-  console.log(req.body)
   const data = {
     rating: req.body.rating,
     reviewComment: req.body.reviewComment
@@ -89,7 +88,6 @@ exports.updateReview = (req, res) => {
 };
 
 exports.reviewDelete = (req, res) => {
-  console.log("나 여기있다", req.params)
   Map_Database.destroy({
     where: {
       reviewNumber: req.params.reviewNumber
