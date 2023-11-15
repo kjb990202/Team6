@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>댓글 페이지</title>
+</head>
+<body>
+  <h1>댓글 목록</h1>
+  <ul>
+    <% comments.forEach(comment => { %>
+      <li><%= comment.Field %> - 작성자: <%= comment.id %> - 작성일: <%= comment.createComment %></li>
+    <% }); %>
+  </ul>
+  <form action="/comment" method="post">
+    <!-- boardID를 hidden으로 전달할 수 있는지 확인 -->
+    <input type="hidden" name="boardID" value="<%= boardID %>">
+    <label for="id">작성자:</label>
+    <input type="text" id="id" name="id" required>
+    <label for="Field">댓글 내용:</label>
+    <textarea id="Field" name="Field" required></textarea>
+    <button type="submit">댓글 작성</button>
+  </form>
+</body>
+</html>
