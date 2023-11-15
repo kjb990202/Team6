@@ -1,4 +1,4 @@
-const Comment = require('../model/Comment');
+const Comment = require('../model');
 
 // 댓글 목록을 가져오는 함수
 exports.getComment = async (req, res) => {
