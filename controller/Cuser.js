@@ -81,24 +81,13 @@ exports.post_signin = async (req, res) => {
 
   if (user.password === hashedPassword) {
     req.session.user = user; // 세션에 사용자 정보 저장
+    req.session.isAuthenticated = true; // 로그인 상태를 true로 설정
     console.log('세션 생성:', req.session); // 세션 상태 출력
     res.send({ result: true, id: user.id });
   } else {
     res.send({ result: false });
   }
-}; // 이 부분에 중괄호를 추가했습니다.
-
-// 로그아웃
-exports.logOut = (req, res) => {
-  req.session.destroy((err) => { // 세션 삭제
-    if (err) {
-      console.error(err);
-    } else {
-      console.log('세션 삭제, 현재 세션 상태:', req.session); // 세션 상태 출력
-      res.redirect("/"); // 로그인 페이지로 리다이렉트
-    }
-  });
-};
+}; 
 
 // 아이디 찾기 페이지 랜더링
 exports.findId = (req, res) => {
@@ -126,7 +115,43 @@ exports.post_findId = (req, res) => {
 exports.findPassword = (req, res) => {
     res.render("./user/findPassword")
   }
+// 비밀번호 찾기 검증
+exports.postFindPassword = async (req, res) => {
+  const { userid, email } = req.body;
+  const user = await User.findOne({ 
+    where: { 
+      userid: userid, email: email 
+    } 
+  });
+  const valid = user !== null;
+  res.json({ success: valid });
+};
 
+// 비밀번호 변경 페이지 랜더링
+exports.changePassword = (req, res) => {
+  res.render("./user/changePassword")
+};
+// 비밀번호 변경 암호화
+exports.updatePassword = async (req, res) => {
+  const { userid, changePassword } = req.body;
+  const user = await User.findOne({ where: { userid: userid } });
+
+  if (!user) {
+    return res.send({ result: false, message: "유저를 찾을 수 없습니다." });
+  }
+
+  const salt = crypto.randomBytes(16).toString('base64');
+  const iterations = 100;
+  const keylen = 64;
+  const digest = 'sha512';
+  const hashedPassword = crypto.pbkdf2Sync(changePassword, salt, iterations, keylen, digest).toString('base64');
+
+  user.password = hashedPassword; 
+  user.salt = salt; 
+  await user.save();
+
+  res.send({ result: true, message: "비밀번호가 성공적으로 변경되었습니다." });
+};
 
 
 // exports.profile = (req, res) => {
