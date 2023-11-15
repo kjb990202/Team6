@@ -30,7 +30,7 @@
     
             axios({
                 method: 'post',
-                url: '/user/findId',
+                url: '/findId',
                 data: { email: email }
             }).then((res) => {
                 if (res.data.userid) {
@@ -44,7 +44,7 @@
                     let loginButton = document.createElement('button');
                     loginButton.innerText = '로그인 페이지';
                     loginButton.onclick = function() {
-                        location.href = '/user/signin';  
+                        location.href = '/signin';  
                     };
                     loginButton.style.backgroundColor = "rgb(43, 43, 43)";
                     loginButton.style.color = "white";
@@ -58,7 +58,7 @@
                     let passwordButton = document.createElement('button');
                     passwordButton.innerText = '비밀번호 찾기';
                     passwordButton.onclick = function() {
-                        location.href = '/user/findPassword'; 
+                        location.href = '/findPassword'; 
                     };
                     passwordButton.style.backgroundColor = "rgb(43, 43, 43)";
                     passwordButton.style.color = "white";
