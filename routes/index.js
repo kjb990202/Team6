@@ -66,6 +66,18 @@ router.post("/findPassword", user.postFindPassword);
 router.get("/changePassword", user.changePassword);
 router.post("/changePassword", user.updatePassword);
 
+// 로그아웃
+router.get('/logout', (req, res) => {
+  req.session.destroy((err) => { // 세션 삭제
+    if (err) {
+      console.error(err);
+    } else {
+      console.log('세션 삭제, 현재 세션 상태:', req.session); // 세션 상태 출력
+      res.redirect("/"); // 로그인 페이지로 리다이렉트
+    }
+  });
+});
+
 // router.post("/user/profile", user.profile)
 // router.patch("/user/profile/edit/:id", user.profile_edit)
 // router.delete("/user/profile/delete/:id", user.profile_delete)
