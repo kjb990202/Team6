@@ -24,9 +24,9 @@
         };
 
         axios({
-          method: "post",
-          url: "/user/signin",
-          data: user,
+          method: 'post',
+          url: '/signin',
+          data: user
         }).then((res) => {
           if (res.data.result == true) {
             alert("로그인 성공");

@@ -126,7 +126,43 @@ exports.post_findId = (req, res) => {
 exports.findPassword = (req, res) => {
     res.render("./user/findPassword")
   }
+// 비밀번호 찾기 검증
+exports.postFindPassword = async (req, res) => {
+  const { userid, email } = req.body;
+  const user = await User.findOne({ 
+    where: { 
+      userid: userid, email: email 
+    } 
+  });
+  const valid = user !== null;
+  res.json({ success: valid });
+};
 
+// 비밀번호 변경 페이지 랜더링
+exports.changePassword = (req, res) => {
+  res.render("./user/changePassword")
+};
+// 비밀번호 변경 암호화
+exports.updatePassword = async (req, res) => {
+  const { userid, changePassword } = req.body;
+  const user = await User.findOne({ where: { userid: userid } });
+
+  if (!user) {
+    return res.send({ result: false, message: "유저를 찾을 수 없습니다." });
+  }
+
+  const salt = crypto.randomBytes(16).toString('base64');
+  const iterations = 100;
+  const keylen = 64;
+  const digest = 'sha512';
+  const hashedPassword = crypto.pbkdf2Sync(changePassword, salt, iterations, keylen, digest).toString('base64');
+
+  user.password = hashedPassword; 
+  user.salt = salt; 
+  await user.save();
+
+  res.send({ result: true, message: "비밀번호가 성공적으로 변경되었습니다." });
+};
 
 
 // exports.profile = (req, res) => {
