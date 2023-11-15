@@ -81,24 +81,13 @@ exports.post_signin = async (req, res) => {
 
   if (user.password === hashedPassword) {
     req.session.user = user; // 세션에 사용자 정보 저장
+    req.session.isAuthenticated = true; // 로그인 상태를 true로 설정
     console.log('세션 생성:', req.session); // 세션 상태 출력
     res.send({ result: true, id: user.id });
   } else {
     res.send({ result: false });
   }
-}; // 이 부분에 중괄호를 추가했습니다.
-
-// 로그아웃
-exports.logOut = (req, res) => {
-  req.session.destroy((err) => { // 세션 삭제
-    if (err) {
-      console.error(err);
-    } else {
-      console.log('세션 삭제, 현재 세션 상태:', req.session); // 세션 상태 출력
-      res.redirect("/"); // 로그인 페이지로 리다이렉트
-    }
-  });
-};
+}; 
 
 // 아이디 찾기 페이지 랜더링
 exports.findId = (req, res) => {
