@@ -4,6 +4,7 @@ const router = express.Router();
 const Cmap_Database = require("../controller/Cmap_Database");
 const Cmap_Information = require("../controller/Cmap_Information");
 const user = require("../controller/Cuser");
+const board = require("../controller/Cboard");
 
 router.get("/", controller.index);
 
@@ -39,6 +40,9 @@ router.post("/boardSubmit", async (req, res) => {
     res.status(500).json({ message: "에러가 발생했습니다." });
   }
 });
+
+//데이터 가져오기 테스트
+router.get("/getBoard",board.getBoard);
 
 // 로그인 페이지
 router.get("/signin", controller.signin);
