@@ -40,15 +40,20 @@ exports.uplodeReview = (req, res) => {
 
   Map_Database.create(data).then(() => {
     Map_Database.findOne({
+
       where: {
         id: req.body.id,
         storeID: req.body.storeID,
         reviewComment: req.body.reviewComment,
         rating: req.body.rating
-    }
-  }).then((results) => {
-    res.send(results.dataValues);
-  })
+      }
+
+    }).then((results) => {
+      res.send(results.dataValues);
+    }).catch((error) => {
+      console.log(error);
+      res.status(500).send("Internal Server Error");
+    });
   });
   
 };
@@ -64,8 +69,22 @@ exports.updateReview = (req, res) => {
       reviewNumber: req.body.reviewNumber
     },
   }).then((result) => {
-    console.log("update result: ", result);
-    res.send(req.body.reviewNumber);
+    if (result == 1) {
+      Map_Database.findOne({
+        where: {
+          reviewNumber: req.body.reviewNumber
+      }
+      }).then((results) => {
+        res.send(results.dataValues);
+      })
+    } else if (result == 0) {
+      res.send(false);
+    } else {
+      res.status(500).send("Internal Server Error");
+    }
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
   });
 };
 
