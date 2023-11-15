@@ -8,10 +8,9 @@ function User(Sequelize, DataTypes) {
                 autoIncrement: true,
                 allowNull: false
             },
-
             userid :{  
                     type : DataTypes.STRING(20),
-                    allowNull: false,
+                    allowNull: false
 
             },
             password: {

@@ -1,8 +1,10 @@
-// // 게시글 작성
-module.exports = (sequelize, DataTypes) => {
-  const Submit = sequelize.define(
-    "Submit",
-    {
+const Map_Database = require('./Map_Database');
+
+function Board(Sequelize, DataTypes) {
+    // sequelize 객체의 define이라는 메소드를 이용해서 모델(테이블)을 정의한다.
+    return Sequelize.define(
+        'board', // 테이블 이름
+        {
       // 모델 정의
       boardID: {
         type: DataTypes.INTEGER,
@@ -10,13 +12,9 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
-      id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
       title: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       category: {
         type: DataTypes.TEXT,
@@ -38,15 +36,19 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: true,
       },
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
     },
     {
       // 모델 옵션
-      sequelize,
-      modelName: "Board",
-      tableName: "board", // 실제 데이터베이스의 테이블 이름
+      tableName: "board",
+      frezzeTableName: true,
       timestamps: false, // createdAt과 updatedAt 컬럼을 사용하지 않음
     }
   );
 
-  return Submit;
 };
+
+module.exports = Board;
