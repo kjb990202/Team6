@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" class="h-100" data-bs-theme="auto">
+  <!DOCTYPE html>
+  <html lang="ko" class="h-100" data-bs-theme="auto">
+    <head>
+      <!-- CDN들 불러오기 -->
+      <%- include('../components/cdn.ejs') %>
+      <!-- CSS 연결 -->
+      <link href="../static/css/mypage.css" rel="stylesheet" />
+      <title>SeSAC-it : 마이페이지</title>
+    </head>
+    <body class="d-flex h-100 text-center text-bg-white">
+        <!-- 헤더 : 상단 메뉴바  -->
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+          <header class="container">
+            <div><%- include('../components/header.ejs') %></div>
+          </header>
+    <body class="d-flex h-100 text-center text-bg-white">
+      <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <main class="px-3">
+            <!-- 사용자 프로필 -->
+            <div class="container">
+                    <div class="userProfile">
+                        <!-- 로그인 시 nickname 값을 가져와서 표시 -->
+                        <% if (isAuthenticated) { %>
+                            <h5 class="name"><%= user.nickname %>님</h5>
+                            <% } %>
+                    </div>
+                        <!-- 메뉴들 -->
+                        <div class="userProfileMenu">
+                    <button>
+                        <a class="mypageButton review" href="">작성한 리뷰</a>
+                            </button>
+                            <button><a class="mypageButton board" href="">작성한 게시글</a>
+                            </button>
+                            <button><a class="mypageButton comment" href="">작성한 댓글</a>
+                            </button>
+                            <button><a class="mypageButton good" href="">좋아요 목록</a>
+                            </button>
+                            <button><a class="mypageButton userDelete" href="">회원 탈퇴</a>
+                            </button>
+                        </div>
+                        </div>
+                      </div>
+        </main>
+  
+        <footer class="mt-auto text-white-50">
+          <p>SeSAC 용산2기 풀스텍 웹개발자 양성과정 @내 통장에 6조</p>
+        </footer>
+      </div>
+    </body>
+  </html>
+  

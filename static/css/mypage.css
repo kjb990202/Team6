@@ -1,0 +1,17 @@
+body {
+  position: relative;
+}
+
+.userProfile {
+  position: relative;
+  background-color: #fed503;
+  width: 300px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+}
+
+.userProfileMenu {
+  background-color: aqua;
+  display: block;
+}

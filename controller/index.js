@@ -23,7 +23,7 @@ exports.board = (req, res) => {
 
 exports.mapBackend = (req, res) => {
   res.render("map/mapBackend");
-}
+};
 
 // 게시판 메인 화면
 exports.boardMain = (req, res) => {
