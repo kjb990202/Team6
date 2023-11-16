@@ -1,20 +1,23 @@
-const { Map_Database } = require("../model");
+const { Map_Database, User } = require("../model");
 
 // 리뷰 조회
 exports.getReview = (req, res) => {
   Map_Database.findAll({
       where: {
         storeID: req.query.storeID,
-    }
+      },
+      include: [{model: User, attributes: ["nickname"]}]
     }).then((results) => {
       if (results.length > 0) {
         const data = results.map((result) => ({
+          id: result.dataValues.id,
           reviewNumber: result.dataValues.reviewNumber,
           storeID: result.dataValues.storeID,
           reviewComment: result.dataValues.reviewComment,
           rating: result.dataValues.rating,
           createdAt: result.dataValues.createdAt,
           updatedAt: result.dataValues.updatedAt,
+          nickname: result.dataValues.user.nickname
         }));
 
         res.send(data);
@@ -46,7 +49,8 @@ exports.uplodeReview = (req, res) => {
         storeID: req.body.storeID,
         reviewComment: req.body.reviewComment,
         rating: req.body.rating
-      }
+      },
+      include: [{model: User, attributes: ["nickname"]}]
 
     }).then((results) => {
       res.send(results.dataValues);
@@ -72,7 +76,8 @@ exports.updateReview = (req, res) => {
       Map_Database.findOne({
         where: {
           reviewNumber: req.body.reviewNumber
-      }
+      },
+      include: [{model: User, attributes: ["nickname"]}]
       }).then((results) => {
         res.send(results.dataValues);
       })
