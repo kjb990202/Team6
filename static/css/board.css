@@ -162,9 +162,10 @@ body {
   margin: 1rem;
   float: left;
   list-style: none;
+  background-color: gray;
 
 }
-
+/* 
 .nowBox-list div{
   display: block;
   width: 300px;
@@ -173,7 +174,7 @@ body {
   background-color: gray;
   margin: 1rem;
 
-}
+} */
 
 .px-3{
   width: 100%;
