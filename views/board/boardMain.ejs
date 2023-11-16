@@ -46,7 +46,8 @@
         //요소 생성
         const boardList = document.querySelector('.board-list');//보드를 담을 리스트
         const boards = document.querySelectorAll('.nowBox-list');//현재 출력되고있는 보드를 담을 리스트
-        function getBoard(cursor) {
+        let cursor = null;
+        function getBoard() {
           axios({
             method: "get",
             url: "/getBoard",
@@ -80,6 +81,8 @@
               if (res.data.length > 0) {
                 cursor = res.data[res.data.length - 1].boardID;
                 console.log("Updated cursor:", cursor);
+                console.log("res.data.length",res.data.length);
+                console.log("res.data",res.data);
                 observeLastBoard(io, document.querySelectorAll(".nowBox-list"));
               }
             })
@@ -88,19 +91,20 @@
             });
         }
         //-------------------------------------------------------------------------------------------------------
-        let cursor =null;
-        getBoard(cursor);
-        function addBoard(){
-         getBoard(cursor);
+        
+        getBoard();
+       
 
-        }
         
         function callback(entries, observer) {
               entries.forEach(function (entry) {
+                if (cursor==1){
+                  return;
+                }
                 if (entry.isIntersecting) {
                   observer.unobserve(entry.target);
-
-                  addBoard();
+                  console.log("커서",cursor);//왜 늘어나지....왜?
+                  getBoard();
                   // 새로 생성된 nowBox-list를 감시
                   observeLastBoard(observer, document.querySelectorAll(".nowBox-list"));
                 }
