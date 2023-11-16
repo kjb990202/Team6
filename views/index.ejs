@@ -17,7 +17,7 @@
    </header>
    <main>
         <!-- 메인 배경 흩날리는 포스티잇 시작 ----------->
-        <div class="confetti-group">
+        <!-- <div class="confetti-group">
           <div class="confetti confetti1"></div>
           <div class="confetti confetti2"></div>
           <div class="confetti confetti3"></div>
@@ -28,17 +28,132 @@
           <div class="confetti confetti8"></div>
           <div class="confetti confetti9"></div>
           <div class="confetti confetti10"></div>
-        </div>
+        </div> -->
         <div id="root"></div>
         <!-- 메인 배경 흩날리는 포스티잇 끝 -->
       </div>
       <!-- 메인 포스트잇 이미지 ----------->
       <div class="wrapper-squares">
-        <div class="square square1 square-brand square-pulse square-center">
+        <div class="square square1 square-brand square-pulse square-center" id="activeball">
           SeSAC-it
         </div>
       </div>
     </div>
   </main>
   </body>
+  <script>
+    const square1 = '<svg class="confetti confetti1"><rect width="100" height="100" fill="#f2d74e"/></svg>'
+    const square2 = '<svg class="confetti confetti2"><rect width="100" height="100" fill="#95c3de"/></svg>'
+    const square3 = '<svg class="confetti confetti3"><rect width="100" height="100" fill="#ff9a91"/></svg>'
+    const square4 = '<svg class="confetti confetti3"><rect width="100" height="100" fill="#87d3ad"/></svg>'
+
+    const data = [square1,square2,square3,square4]
+
+  const max = 60
+
+let particles = []
+let animationFrameId;
+
+class Spread{
+constructor(shape){
+this.shape = $(shape)
+// 속도 3~6 랜덤 (Math.random()은 0~1을 생성)
+this.speed = 3 + Math.random() * 6
+this.vx = (Math.random() * this.speed) - (Math.random() * this.speed)
+this.vy = (Math.random() * this.speed) - (Math.random() * this.speed)
+// 크기 20 ~ 60 랜덤
+this.radius = 20 + Math.round(Math.random() * 60)
+this.w = $(window).width()
+this.h = $(window).height()
+this.x = (this.w-this.radius)/2
+this.y = (this.h-this.radius)/2
+
+$(window).on("resize", this.resize.bind(this))
+this.render()
+}
+
+render(){
+$(this.shape).css({
+  width: this.radius,
+  height: this.radius
+})
+$("body").append(this.shape)
+}
+
+resize(){
+this.w = $(window).width()
+this.h = $(window).height()
+}
+
+move(){
+this.x = this.x+this.vx
+this.y = this.y+this.vy
+
+
+this.shape.css({
+  left: this.x,
+  top: this.y,
+  transform: "rotate(" + this.y + "deg)"
+})
+
+if(this.x < 0 || this.x > this.w - this.radius){
+  this.vx = -this.vx
+}
+if(this.y < 0 || this.y > this.h - this.radius){
+  this.vy = -this.vy
+}
+return this
+}
+}
+
+
+function randomInt(min,max){
+return Math.floor(Math.random()*(max-min+1)+min);
+}
+
+
+for(let i=0;i<max;i++){
+particles.push(
+new Spread( data[randomInt(0,data.length-1)] )
+)
+}
+
+function update(){
+particles = particles.filter(function(p){
+return p.move()
+})
+// 애니메이션 루프 생성
+requestAnimationFrame(update.bind(this))
+}
+// 페이지 로드시 update함수를 호출해 애니메이션 시작
+//  클릭 했을 때 애니메이션 작동하려면 update() 주석처리해야함!
+// update()
+function startAnimation() {
+    // 기존 애니메이션 중단 및 모든 애니메이션 요소 제거
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      $('.confetti').remove(); // 애니메이션 요소들을 제거
+    }
+    particles = []; // particles 배열 초기화
+
+    // 새로운 particles 생성
+    for (let i = 0; i < max; i++) {
+      particles.push(new Spread(data[randomInt(0, data.length - 1)]));
+    }
+
+    // 애니메이션 시작
+    update();
+  }
+
+  function update() {
+    particles = particles.filter(function(p) {
+      return p.move();
+    });
+
+    animationFrameId = requestAnimationFrame(update);
+  }
+
+  // 클릭 이벤트 리스너 추가
+  document.getElementById('activeball').addEventListener('click', startAnimation);
+</script>
 </html>

@@ -1,91 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="../static/css/mapBackend.css">
-        <script
-            src="https://code.jquery.com/jquery-3.7.1.min.js"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-            crossorigin="anonymous">
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    </head>
-    <body>
-        <div class="map_wrap">
-            <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-            <ul id="category">
-                <li id="FD6" data-order="0"> 
-                    <!-- SB: 카테고리 아이콘을 결정하는 클래스입니다. ex) cafe, store -->
-                    <span class="category_bg cafe"></span>
-                    음식점
-                </li>  
-                <li id="CS2" data-order="1"> 
-                    <span class="category_bg store"></span>
-                    편의점
-                </li>
-                <li id="CE7" data-order="2"> 
-                    <span class="category_bg cafe"></span>
-                    카페
-                </li>   
-                <li id="MT1" data-order="3"> 
-                    <span class="category_bg mart"></span>
-                    마트
-                </li>  
-                <li id="PM9" data-order="4"> 
-                    <span class="category_bg pharmacy"></span>
-                    약국
-                </li>
-            </ul>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/mapBackend.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div class="map_wrap">
+      <div
+        id="map"
+        style="width: 100%; height: 100%; position: relative; overflow: hidden"
+      ></div>
+      <ul id="category">
+        <li id="FD6" data-order="0">
+          <!-- SB: 카테고리 아이콘을 결정하는 클래스입니다. ex) cafe, store -->
+          <span class="category_bg cafe"></span>
+          음식점
+        </li>
+        <li id="CS2" data-order="1">
+          <span class="category_bg store"></span>
+          편의점
+        </li>
+        <li id="CE7" data-order="2">
+          <span class="category_bg cafe"></span>
+          카페
+        </li>
+        <li id="MT1" data-order="3">
+          <span class="category_bg mart"></span>
+          마트
+        </li>
+        <li id="PM9" data-order="4">
+          <span class="category_bg pharmacy"></span>
+          약국
+        </li>
+      </ul>
+    </div>
 
+    <!-- SB: 리뷰작성 버튼과 작성된 리뷰를 보여주는 div입니다. -->
+    <div id="messageDiv" style="background-color: pink"></div>
+    <!-- SB: 리뷰작성 버튼을 누르면 작성칸을 보여주는 div입니다.-->
+    <form name="reviewForm">
+      <div id="reviewDiv" style="background-color: skyblue"></div>
+    </form>
+    <form name="reviewFixForm">
+      <div id="fixDiv" style="background-color: lightgreen"></div>
+    </form>
 
-
-        <!-- SB: 리뷰작성 버튼과 작성된 리뷰를 보여주는 div입니다. -->
-        <div id="messageDiv" style="background-color: pink;"></div>
-        <!-- SB: 리뷰작성 버튼을 누르면 작성칸을 보여주는 div입니다.-->
-        <form name="reviewForm">
-            <div id='reviewDiv' style='background-color: skyblue;'></div>
-        </form>
-        <form name="reviewFixForm">
-            <div id='fixDiv' style='background-color: lightgreen;'></div>
-        </form>
-
-
-        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a54c1412f5e82ee9e5256c32dc403b24&libraries=services"></script>
-        <script>
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a54c1412f5e82ee9e5256c32dc403b24&libraries=services"
+    ></script>
+    <script>
             // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
-            var placeOverlay = new kakao.maps.CustomOverlay({zIndex:1}), 
-                contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다 
+            var placeOverlay = new kakao.maps.CustomOverlay({zIndex:1}),
+                contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
                 markers = [], // 마커를 담을 배열입니다
                 currCategory = ''; // 현재 선택된 카테고리를 가지고 있을 변수입니다
-            
-            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div
                 mapOption = {
                     center: new kakao.maps.LatLng(37.53368846953789, 126.96331420297767), // 지도의 중심좌표
                     level: 4 // 지도의 확대 레벨
                 };
 
-            // 지도를 생성합니다    
-            var map = new kakao.maps.Map(mapContainer, mapOption); 
+            // 지도를 생성합니다
+            var map = new kakao.maps.Map(mapContainer, mapOption);
 
             // 장소 검색 객체를 생성합니다
-            var ps = new kakao.maps.services.Places(map); 
+            var ps = new kakao.maps.services.Places(map);
 
             // 지도에 idle 이벤트를 등록합니다
             kakao.maps.event.addListener(map, 'idle', searchPlaces);
 
-            // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다 
+            // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
             contentNode.className = 'placeinfo_wrap';
 
             // 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
-            // 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다 
+            // 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다
             addEventHandle(contentNode, 'mousedown', kakao.maps.event.preventMap);
             addEventHandle(contentNode, 'touchstart', kakao.maps.event.preventMap);
 
             // 커스텀 오버레이 컨텐츠를 설정합니다
-            placeOverlay.setContent(contentNode);  
+            placeOverlay.setContent(contentNode);
 
             // 각 카테고리에 클릭 이벤트를 등록합니다
             addCategoryClickEvent();
@@ -104,13 +107,13 @@
                 if (!currCategory) {
                     return;
                 }
-                // 커스텀 오버레이를 숨깁니다 
+                // 커스텀 오버레이를 숨깁니다
                 placeOverlay.setMap(null);
 
                 // 지도에 표시되고 있는 마커를 제거합니다
                 removeMarker();
-                
-                ps.categorySearch(currCategory, placesSearchCB, {useMapBounds:true}); 
+
+                ps.categorySearch(currCategory, placesSearchCB, {useMapBounds:true});
             }
 
             // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -124,7 +127,7 @@
 
                 } else if (status === kakao.maps.services.Status.ERROR) {
                     // 에러로 인해 검색결과가 나오지 않은 경우 해야할 처리가 있다면 이곳에 작성해 주세요
-                    
+
                 }
             }
 
@@ -153,7 +156,7 @@
                     id: 1,
                     storeID: `${placeName}_${placeAddress}`,
                     rating: form.rating.value,
-                    reviewComment: form.reviewComment.value 
+                    reviewComment: form.reviewComment.value
                 };
                 axios({
                     method: "POST",
@@ -195,7 +198,7 @@
                 const data = {
                     reviewNumber: reviewNumber,
                     rating: form.rating.value,
-                    reviewComment: form.reviewComment.value 
+                    reviewComment: form.reviewComment.value
                 };
                 axios({
                     method: "patch",
@@ -210,7 +213,7 @@
                         `<div>작성일 : ${res.data.createdAt}</div>
                             <div>수정일 : ${res.data.updatedAt}</div>
                             <div id="ratingDiv">
-                                
+
                                 : ${res.data.rating}</div>
                             <div id="reviewCommentDiv">내용 : ${res.data.reviewComment}</div>
                             <button type="button" onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}')">리뷰 수정</button>
@@ -259,7 +262,7 @@
                                 }
 
                                 // SB: 마커를 클릭하면 가게 정보를 DB에 올리는 함수입니다.
-                                let storeData = { 
+                                let storeData = {
                                     storeID: `${place.place_name}_${place.address_name}`,
                                     placeName : place.place_name,
                                     address: place.address_name
@@ -269,11 +272,11 @@
                                     url: "/uploadStore",
                                     data: storeData
                                 }).then((res)=> {
-                                    console.log(res.data);                                          
+                                    console.log(res.data);
                                 });
 
                                 // SB: 마커를 클릭하면 리뷰정보를 가져오는 함수입니다.
-                                let getReviewData = { 
+                                let getReviewData = {
                                     storeID: `${place.place_name}_${place.address_name}`
                                 };
 
@@ -305,7 +308,7 @@
                                             `<div>${place.place_name}</div>
                                             <button type="button" onclick="postReview('${place.place_name}', '${place.address_name}')">내 리뷰가 첫 리뷰라니!</button>
                                             <div>작성된 리뷰가 없습니다ㅠㅠ</div>`
-                                    }                                
+                                    }
                                 });
                             });
                         })(marker, places[i]);
@@ -340,7 +343,7 @@
             function removeMarker() {
                 for ( var i = 0; i < markers.length; i++ ) {
                     markers[i].setMap(null);
-                }   
+                }
                 markers = [];
             }
 
@@ -354,15 +357,15 @@
                                 '  <span class="jibun" title="' + place.address_name + '">(지번 : ' + place.address_name + ')</span>';
                 }  else {
                     content += '    <span title="' + place.address_name + '">' + place.address_name + '</span>';
-                }                
-            
-                content += '    <span class="tel">' + place.phone + '</span>' + 
-                            '</div>' + 
+                }
+
+                content += '    <span class="tel">' + place.phone + '</span>' +
+                            '</div>' +
                             '<div class="after"></div>';
 
                 contentNode.innerHTML = content;
                 placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
-                placeOverlay.setMap(map);  
+                placeOverlay.setMap(map);
             }
 
 

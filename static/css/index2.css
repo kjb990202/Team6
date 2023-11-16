@@ -20,8 +20,8 @@
 }
 
 /*
- * Base structure
- */
+   * Base structure
+   */
 
 /* 홈페이지 좌우 여백 조절하는 곳 */
 .cover-container {
@@ -29,8 +29,8 @@
 }
 
 /* 
-메인 디자인 
-*/
+  메인 디자인 
+  */
 
 body {
   background: url("http://cdn.blogosfere.it/styleandfashion/images/162417963_10.jpg")
@@ -151,72 +151,72 @@ body {
   position: absolute;
   left: 50%;
   top: 50%;
-  /* -webkit-animation: confetti 5s ease-in-out -2s infinite;
-  animation: confetti 5s ease-in-out -2s infinite; */
+  -webkit-animation: confetti 5s ease-in-out -2s infinite;
+  animation: confetti 5s ease-in-out -2s infinite;
   transform-origin: left top;
 }
-/* 
-.confetti1 {
+
+.confetti:nth-child(1) {
   background-color: #f2d74e;
   -webkit-animation-delay: 0;
   animation-delay: 0;
 }
 
-.confetti2 {
+.confetti:nth-child(2) {
   background-color: #95c3de;
   -webkit-animation-delay: -5s;
 
   animation-delay: -5s;
 }
 
-.confetti3 {
+.confetti:nth-child(3) {
   background-color: #ff9a91;
   -webkit-animation-delay: -3s;
   animation-delay: -3s;
 }
 
-.confetti4 {
+.confetti:nth-child(4) {
   background-color: #f2d74e;
   -webkit-animation-delay: -2.5s;
   animation-delay: -2.5s;
 }
 
-.confetti5 {
+.confetti:nth-child(5) {
   background-color: #95c3de;
   -webkit-animation-delay: -4s;
   animation-delay: -4s;
 }
 
-.confetti6 {
+.confetti:nth-child(6) {
   background-color: #ff9a91;
   -webkit-animation-delay: -6s;
   animation-delay: -6s;
 }
 
-.confetti7 {
+.confetti:nth-child(7) {
   background-color: #f2d74e;
   -webkit-animation-delay: -1.5s;
   animation-delay: -1.5s;
 }
 
-.confetti8 {
+.confetti:nth-child(8) {
   background-color: #95c3de;
   -webkit-animation-delay: -2s;
   animation-delay: -2s;
 }
 
-.confetti9 {
+.confetti:nth-child(9) {
   background-color: #ff9a91;
   -webkit-animation-delay: -3.5s;
   animation-delay: -3.5s;
 }
 
-.confetti1) {
+.confetti:nth-child(10) {
   background-color: #f2d74e;
   -webkit-animation-delay: -2.5s;
   animation-delay: -2.5s;
-} */
-/* 
+}
+
 @-webkit-keyframes confetti {
   0% {
     transform: rotateZ(15deg) rotateY(0deg) translate(0, 0);
@@ -233,8 +233,8 @@ body {
   100% {
     transform: rotateZ(15deg) rotateY(1240deg) translate(10vw, 110vh);
   }
-} */
-/* 
+}
+
 @keyframes confetti {
   0% {
     transform: rotateZ(15deg) rotateY(0deg) translate(0, 0);
@@ -251,6 +251,45 @@ body {
   100% {
     transform: rotateZ(15deg) rotateY(1240deg) translate(10vw, 110vh);
   }
-} */
+}
 
 /* 흩날리는 포스트잇 구현 끝 ----------------- */
+
+/* 멀리멀리 튕겨지는 도형들 */
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background: #e4eaf1;
+}
+
+.circle {
+  fill: #ed412d;
+}
+
+.pentahedron {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  fill: #3e82f7;
+}
+
+.rhombus {
+  fill: #2da94f;
+  stroke: #2da94f;
+}
+
+.x {
+  fill: #fdbd00;
+}
+
+svg {
+  display: block;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  transform: translateZ(0px);
+}
