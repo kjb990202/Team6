@@ -161,7 +161,59 @@ exports.updatePassword = async (req, res) => {
 
 // 마이페이지 랜더링
 exports.mypage = (req, res) => {
-  res.render("user/mypage");
+  res.render('user/mypage', { user: req.session.user, isAuthenticated: req.session.isAuthenticated });
+};
+
+exports.updateProfile = async (req, res) => {
+  const { id, nickname, email, password } = req.body;
+  
+  const salt = crypto.randomBytes(16).toString('base64');
+  const iterations = 100;
+  const keylen = 64;
+  const digest = 'sha512';
+  const hashedPassword = crypto.pbkdf2Sync(password, salt, iterations, keylen, digest).toString('base64');
+
+  const user = await User.findOne({ where: { id: id } });
+
+  if (user) {
+    user.nickname = nickname;
+    user.email = email;
+    user.password = hashedPassword;
+    user.salt = salt;
+    await user.save();
+
+    res.send({ result: true, message: '프로필이 성공적으로 수정되었습니다.' });
+  } else {
+    res.send({ result: false, message: '유저를 찾을 수 없습니다.' });
+  }
+};
+  exports.deleteAccount = async function(req, res) {
+    const { id, password } = req.body;
+
+    const user = await User.findOne({ where: { id: id } });
+
+    const iterations = 100;
+    const keylen = 64;
+    const digest = 'sha512';
+    const hashedPassword = crypto.pbkdf2Sync(password, user.salt, iterations, keylen, digest).toString('base64');
+
+    if (user.password === hashedPassword) {
+      await User.destroy({ where: { id: id } });
+      // 세션 삭제
+    req.session.destroy(err => {
+      if(err) {
+        // 에러 처리
+        console.log(err);
+        res.send({ result: false, message: '세션 삭제 중 오류가 발생했습니다.' });
+      } else {
+        // 세션 삭제 후 리다이렉트
+        res.send({ result: true, message: '계정이 성공적으로 삭제되었습니다.' });
+      }
+    });
+
+  } else {
+    res.send({ result: false, message: '비밀번호가 일치하지 않습니다.' });
+  }
 };
 
 // exports.profile = (req, res) => {
