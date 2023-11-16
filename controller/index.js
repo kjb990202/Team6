@@ -3,6 +3,11 @@ exports.index = (req, res) => {
   res.render("index");
 };
 
+// 메인 페이지 (디자인테스트 후 해당 코드 삭제)
+exports.index2 = (req, res) => {
+  res.render("index2");
+};
+
 exports.map = (req, res) => {
   res.render("map/map");
 };
