@@ -4,7 +4,7 @@ const router = express.Router();
 const Cmap_Database = require("../controller/Cmap_Database");
 const Cmap_Information = require("../controller/Cmap_Information");
 const user = require("../controller/Cuser");
-const comment = require("../controller/Ccomment")
+const comment = require("../controller/Ccomment");
 
 router.get("/", controller.index);
 
@@ -34,7 +34,7 @@ router.delete("/reviewDelete/:reviewNumber", Cmap_Database.reviewDelete);
 // 댓글 목록을 가져오는 GET 라우트
 // router.get('/comment', comment.getComments);
 // 새 댓글을 생성하는 POST 라우트
-router.post('/comment', comment.createComment);
+router.post("/comment", comment.createComment);
 
 
 
@@ -90,16 +90,20 @@ router.get("/changePassword", user.changePassword);
 router.post("/changePassword", user.updatePassword);
 
 // 로그아웃
-router.get('/logout', (req, res) => {
-  req.session.destroy((err) => { // 세션 삭제
+router.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    // 세션 삭제
     if (err) {
       console.error(err);
     } else {
-      console.log('세션 삭제, 현재 세션 상태:', req.session); // 세션 상태 출력
+      console.log("세션 삭제, 현재 세션 상태:", req.session); // 세션 상태 출력
       res.redirect("/"); // 로그인 페이지로 리다이렉트
     }
   });
 });
+
+// 마이페이지
+router.get("/mypage", user.mypage);
 
 // router.post("/user/profile", user.profile)
 // router.patch("/user/profile/edit/:id", user.profile_edit)
