@@ -1,8 +1,13 @@
-<!DOCTYPE html>
-<html lang="ko" class="h-100" data-bs-theme="auto">
   <!DOCTYPE html>
   <html lang="ko" class="h-100" data-bs-theme="auto">
     <head>
+      <!-- ... -->
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <!-- ... -->
       <!-- CDN들 불러오기 -->
       <%- include('../components/cdn.ejs') %>
       <!-- CSS 연결 -->
@@ -36,9 +41,49 @@
                                       alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                                       style="width: 150px; z-index: 1">
                                     <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
-                                      style="z-index: 1;">
+                                    data-toggle="modal" data-target="#profileModal" style="z-index: 1;">
                                       프로필 수정
                                     </button>
+                                    <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header"> 
+                                            <h5 class="modal-title" id="profileModalLabel">프로필 수정</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <!-- 프로필 수정 폼 -->
+                                            <div style="color: black;">
+                                              <% if (isAuthenticated) { %>
+                                                <h5><%= user.nickname %> 님 수정하실 정보를 입력해주세요.</h5>
+                                              <% } %>
+                                            </div>
+                                            <form id="profileForm">
+                                              <div class="form-group">
+                                                <label for="nickname">닉네임</label>
+                                                <input type="text" class="form-control" name="nickname" value="<%= user.nickname %>" placeholder="변경하실 닉네임을 입력하세요">
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="password">새로운 비밀번호</label>
+                                                <input type="password" class="form-control" id="password" name="password" placeholder="새로운 비밀번호를 입력하세요">
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="confirmPassword">비밀번호 확인</label>
+                                                <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 다시 입력하세요" oninput="checkPasswordMatch();">
+                                              </div>
+                                              <span id="checkPasswordMatch"></span>
+                                            </form>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                            <button type="button" class="btn btn-danger" onclick="deleteAccount()">회원 탈퇴</button>
+                                            <button type="button" class="btn btn-primary" onclick="updateProfile()">저장</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
                                   <div class="ms-3" style="margin-top: 130px;">
                                         <!-- 로그인 시 nickname 값을 가져와서 표시 -->
@@ -124,6 +169,88 @@
       </div>
     </body>
     <script>
+        function updateProfile() {
+          const form = document.forms["profileForm"];
+          const nickname = form.nickname.value;
+          const password = form.password.value.trim();
+          const confirmPassword = document.getElementById('confirmPassword').value;
+
+          // 비밀번호가 비어있는지 확인
+          if (!password) {
+            alert('비밀번호를 입력해주세요.');
+            return false;
+          }
+          if (password !== confirmPassword) {
+            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+            return;
+          }
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return false;
+          }
+          
+          let user = {
+            id: '<%= user.id %>', // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
+            nickname: form.nickname.value,
+            password: form.password.value
+          };
+
+          axios({
+            method: 'post',
+            url: '/updateProfile',
+            data: user
+          }).then((res) => {
+            if (res.data.result) {
+              alert(res.data.message);
+              location.reload();
+            } else {
+              alert(res.data.message);
+            }
+          });
+          $('#profileModal').modal('hide');
+        }
+        
+        function checkPasswordMatch() {
+          let password = document.getElementById('password').value;
+          let confirmPassword = document.getElementById('confirmPassword').value;
+          let checkPasswordMatch = document.getElementById('checkPasswordMatch');
+
+          if (password === confirmPassword) {
+            checkPasswordMatch.style.color = 'green';
+            checkPasswordMatch.innerHTML = '⭕️';
+          } else {
+            checkPasswordMatch.style.color = 'red';
+            checkPasswordMatch.innerHTML = '❌';
+          }
+        }
+
+        function deleteAccount() {
+          const userid = '<%= user.id %>'; // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
+          const password = prompt("탈퇴를 위해 비밀번호를 다시 입력해주세요.");
+
+          // 비밀번호가 비어있는지 확인
+          if (!password) {
+              alert('비밀번호를 입력해주세요.');
+              return;
+          }
+
+              axios({
+                method: 'post',
+                url: '/deleteAccount',
+                data: { id: userid, password: password }
+              }).then((res) => {
+              if (res.data.result) {
+                  alert(res.data.message);
+                  window.location.href = "/signin";
+              } else {
+                  alert(res.data.message);
+              }
+          }).catch((error) => {
+              console.error(error);
+          });
+
+          $('#profileModal').modal('hide');
+      }
         // 각 섹션의 내용을 숨기는 함수
 function hideAllSections() {
   document.querySelectorAll('.sectionContent').forEach((section) => {
@@ -131,26 +258,26 @@ function hideAllSections() {
   });
 }
 
-// 특정 섹션만 표시하는 함수
-function showSection(sectionId) {
-  hideAllSections();
-  document.querySelector(sectionId).style.display = 'block';
-}
+// // 특정 섹션만 표시하는 함수
+// function showSection(sectionId) {
+//   hideAllSections();
+//   document.querySelector(sectionId).style.display = 'block';
+// }
 
-// 페이지가 로드될 때 모든 섹션을 숨기고, 첫 번째 섹션(리뷰)만 표시
-window.onload = () => {
-  hideAllSections();
-  showSection('#reviewsSection');
-};
+// // 페이지가 로드될 때 모든 섹션을 숨기고, 첫 번째 섹션(리뷰)만 표시
+// window.onload = () => {
+//   hideAllSections();
+//   showSection('#reviewsSection');
+// };
 
-// 각 링크에 이벤트 리스너 추가
-document.querySelector('#reviewsLink').addEventListener('click', () => {
-  showSection('#reviewsSection');
-});
+// // 각 링크에 이벤트 리스너 추가
+// document.querySelector('#reviewsLink').addEventListener('click', () => {
+//   showSection('#reviewsSection');
+// });
 
-document.querySelector('#postsLink').addEventListener('click', () => {
-  showSection('#postsSection');
-});
+// document.querySelector('#postsLink').addEventListener('click', () => {
+//   showSection('#postsSection');
+// });
 
 // 추가적인 링크들도 동일한 방식으로 설정
 

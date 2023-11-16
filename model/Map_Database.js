@@ -1,5 +1,4 @@
-const User = require('./User');
-const Map_Information = require('./Map_Information');
+// const {User, Map_Information} = require('./index');
 
 function Map_Database(Sequelize, DataTypes) {
     // sequelize 객체의 define이라는 메소드를 이용해서 모델(테이블)을 정의한다.
@@ -13,18 +12,10 @@ function Map_Database(Sequelize, DataTypes) {
             primaryKey: true
         },
         id: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: User,
-                key: 'id',
-            },
+            type: DataTypes.INTEGER
         },
         storeID: {
-            type: DataTypes.STRING(50),
-            references: {
-                model: Map_Information,
-                key: 'id',
-            },
+            type: DataTypes.STRING(50)
         },
         reviewComment: {
             type: DataTypes.TEXT,
