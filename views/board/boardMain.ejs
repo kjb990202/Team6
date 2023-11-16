@@ -1,20 +1,4 @@
-  <!DOCTYPE html>
-  <html lang="ko" class="h-100" data-bs-theme="auto">
-    <head>
-      <!-- CDN들 불러오기 -->
-      <%- include('../components/cdn.ejs') %>
-      <!-- CSS 연결 -->
-      <link href="../static/css/board.css" rel="stylesheet" />
-      <title>게시판</title>
-    </head>
-    <body class="d-flex h-100 text-center text-bg-white">
-      <!-- 헤더 : 상단 메뉴바  -->
-      <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-        <header class="container">
-          <div><%- include('../components/header.ejs') %></div>
-        </header>
-        <main class="px-3">
-  <!DOCTYPE html>
+<!DOCTYPE html>
   <html lang="ko" class="h-100" data-bs-theme="auto">
     <head>
       <!-- CDN들 불러오기 -->
@@ -37,11 +21,6 @@
         </ul>
 
       </main>
-
-      <footer class="mt-auto text-white-50">
-        <p>SeSAC 용산2기 풀스텍 웹개발자 양성과정 @내 통장에 6조</p>
-        <!--JW: 삭제하거나 바닥으로 따라가게 만들어야 할것같습니다 -->
-      </footer>
       <script>
         //요소 생성
         const boardList = document.querySelector('.board-list');//보드를 담을 리스트
