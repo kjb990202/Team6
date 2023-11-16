@@ -11,6 +11,7 @@ exports.signup = (req, res) => {
 }
 // 회원가입 페이지 랜더링
 exports.post_signup = async (req, res) => {
+  
   const salt = crypto.randomBytes(16).toString('base64');
   const iterations = 100;
   const keylen = 64;
@@ -68,6 +69,7 @@ exports.signin = (req, res) => {
 }
 // 로그인 화면 랜더링
 exports.post_signin = async (req, res) => {
+
   const user = await User.findOne({ where: { userid: req.body.userid } });
   
   if (!user) {
