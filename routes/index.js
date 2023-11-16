@@ -105,6 +105,11 @@ router.get("/logout", (req, res) => {
 // 마이페이지
 router.get("/mypage", user.mypage);
 
+// 프로필 수정
+router.post('/updateProfile', user.updateProfile);
+// 회원 탈퇴
+router.post("/deleteAccount", user.deleteAccount);
+
 // router.post("/user/profile", user.profile)
 // router.patch("/user/profile/edit/:id", user.profile_edit)
 // router.delete("/user/profile/delete/:id", user.profile_delete)
