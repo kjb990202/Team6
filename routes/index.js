@@ -15,9 +15,6 @@ router.get("/", controller.index);
 // 맛집 지도 메인 페이지
 router.get("/mapMain", controller.mapMain);
 
-// 맛집 지도 페이지(SB)
-router.get("/mapBackend", controller.mapBackend);
-
 // DB(Map_Information)에 사업장 정보 업로드하는 기능
 router.post("/uploadStore", Cmap_Information.uploadStore);
 

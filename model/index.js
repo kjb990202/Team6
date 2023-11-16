@@ -23,5 +23,10 @@ db.Comment = require("./Comment")(sequelize, Sequelize);
 
 db.Board = require("./Board")(sequelize, Sequelize);
 
+db.Map_Database.belongsTo(db.User, { foreignKey: 'id' })
+db.User.hasMany(db.Map_Database, { foreignKey: 'id' })
+
+db.Map_Database.belongsTo(db.Map_Information, { foreignKey: 'storeID' } )
+db.Map_Information.hasMany(db.Map_Database, { foreignKey: 'storeID' })
 
 module.exports = db;
