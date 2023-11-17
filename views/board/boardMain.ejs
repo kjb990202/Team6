@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
   <html lang="ko" class="h-100" data-bs-theme="auto">
     <head>
       <!-- CDN들 불러오기 -->
@@ -15,92 +15,98 @@
         </header>
         <main class="px-3">
         <button type="button" onclick="location.href='/boardEdit'" >작성하기</button>
+      
         <ul class="board-list">
-          <li class="nowBox-list">
-            <div></div>
-          </li>
-          <li class="nowBox-list">
-            <div></div>
-          </li>
-          <li class="nowBox-list">
-            <div></div>
-          </li>
-          <li class="nowBox-list">
-            <div></div>
-          </li>
-          <li class="nowBox-list">
-            <div></div>
-          </li>
-          <li class="nowBox-list">
-            <div></div>
-          </li>
-          <li class="nowBox-list">
-            <div></div>
-          </li>
-          <li class="nowBox-list">
-            <div></div>
-          </li>
-          <li class="nowBox-list">
-            <div></div>
-          </li>
-          <li class="nowBox-list">
-            <div></div>
-          </li>
-          <li class="nowBox-list">
-            <div></div>
-          </li>
-          <li class="nowBox-list">
-            <div></div>
-          </li>
           <!-- 테스트 나중에 db에서 데이터를 가져와야함 -->
         </ul>
 
       </main>
-
-      <footer class="mt-auto text-white-50">
-        <p>SeSAC 용산2기 풀스텍 웹개발자 양성과정 @내 통장에 6조</p>
-        <!--JW: 삭제하거나 바닥으로 따라가게 만들어야 할것같습니다 -->
-      </footer>
       <script>
         //요소 생성
         const boardList = document.querySelector('.board-list');//보드를 담을 리스트
         const boards = document.querySelectorAll('.nowBox-list');//현재 출력되고있는 보드를 담을 리스트
-  
-        function addBoard(){
-          boards.forEach((board) => boardList.appendChild(board.cloneNode(true)));//배열 순회(임시)
-  
-          //버튼을 누르면 div 박스+내용을 서버에서 가져와 생성(9개)
-          //내용을 다 가져온다음 표시만 3줄을 표시할것인지 데이터를 가져올때부터 3줄만 가져올것인지 효율따져보기
-          //누르면 내용 9개만 가져온다. 한번더 누르면 그 다음 9개를 가져온다. 만약 남은 컨텐츠의 개수가 9개이하일경우 남은 개수만 가져온다.
-          
-  
+        let cursor = null;
+        function getBoard() {
+          axios({
+            method: "get",
+            url: "/getBoard",
+            params: {
+              cursor: cursor,
+            },
+          })
+            .then(function (res) {
+              console.log("얻은데이터:", res.data);
+              console.log("새로받은 데이터 개수:", res.data.length);
+
+              const boardList = document.querySelector('.board-list');
+
+              res.data.forEach((boardData) => {
+                const newBoard = document.createElement('li');
+                newBoard.className = 'nowBox-list';
+
+                newBoard.innerHTML = `
+                  <div class="title">제목: ${boardData.title}</div>
+                  <div class="category">카테고리: ${boardData.category}</div>
+                  <div class="content">${boardData.content}</div>
+                  <div class="views">조회수: ${boardData.views}</div>
+                  <div class="createBoard">작성일: ${boardData.createBoard}</div>
+                  <div class="modifiedBoard">수정일: ${boardData.modifiedBoard}</div>
+                `;
+
+                boardList.appendChild(newBoard);
+              });
+
+              // 마지막 데이터의 boardID를 기준으로 cursor 설정
+              if (res.data.length > 0) {
+                cursor = res.data[res.data.length - 1].boardID;
+                console.log("Updated cursor:", cursor);
+                console.log("res.data.length",res.data.length);
+                console.log("res.data",res.data);
+                observeLastBoard(io, document.querySelectorAll(".nowBox-list"));
+              }
+            })
+            .catch(function (error) {
+              console.error("보드 데이터를 불러오는데 실패했습니다", error);
+            });
         }
-        function callback(entries,boards){
-          entries.forEach(function(entry){
-            if(entry.isIntersecting){
-              io.unobserve(entry.target);
-              setTimeout(function(){
-                addBoard();
-                observeLastBoard(io,document.querySelectorAll(".nowBox-list"));
-  
-              },1000);//비동기 통신 따라한것
-            }
-          });
-          
+        //-------------------------------------------------------------------------------------------------------
+        
+        getBoard();
+       
+
+        
+        function callback(entries, observer) {
+              entries.forEach(function (entry) {
+                if (cursor==1){
+                  return;
+                }
+                if (entry.isIntersecting) {
+                  observer.unobserve(entry.target);
+                  console.log("커서",cursor);//왜 늘어나지....왜?
+                  getBoard();
+                  // 새로 생성된 nowBox-list를 감시
+                  observeLastBoard(observer, document.querySelectorAll(".nowBox-list"));
+                }
+              });
         }
+
+
         function observeLastBoard(io, boards){
-          const lastBoard = boards[boards.length - 1];
-          io.observe(lastBoard);
+          if (boards.length > 0) {
+            const lastBoard = boards[boards.length - 1];
+            io.observe(lastBoard);
+          }
         }
   
   
   
         //-----------관찰하는 시점을 바꿔야함.(맨아래 보다 위로 올리기)
         //관찰자 객체 생성
-        const io = new IntersectionObserver(callback, {threshold:0.9});
+        const io = new IntersectionObserver(callback, {threshold:0.7});
         //관찰대상이 70퍼센트이상 들어오면 callback 함수 실행
         //io는 특정 요소가 어디에 위치하는지 판별하는 객체.
-        observeLastBoard(io, boards);
+        // observeLastBoard(io, boards);
+        
       </script>
     </div>
   </body>

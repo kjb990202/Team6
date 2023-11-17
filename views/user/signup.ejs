@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="ko" class="h-100" data-bs-theme="auto">
   <!DOCTYPE html>
   <html lang="ko" class="h-100" data-bs-theme="auto">
     <head>
@@ -17,6 +15,9 @@
         </header>
 
     <script>
+        let idChecked = false;
+        let nicknameChecked = false;
+
         function checkId() {
            let userid = document.forms["form-register"].userid.value;
            if (!userid) {
@@ -29,10 +30,12 @@
             url: "/checkid",
             data: { userid: userid }
         }).then((res) => {
-            if (res.data.duplicate) {
+              if (res.data.duplicate) {
                 alert("이미 사용 중인 아이디입니다.");
+                idChecked = false;
             } else {
                 alert("사용 가능한 아이디입니다.");
+                idChecked = true;
             }
         });
     }
@@ -50,18 +53,30 @@
             data: { nickname: nickname }
         }).then((res) => {
             if (res.data.duplicate) {
-                alert("이미 사용 중인 닉네임입니다.");
+              alert("이미 사용 중인 닉네임입니다.");
+                nicknameChecked = false;
             } else {
                 alert("사용 가능한 닉네임입니다.");
+                nicknameChecked = true;
             }
         });
     }
       
         function register() {
           var form = document.forms["form-register"];
+          if (!idChecked || !nicknameChecked) {
+            alert("아이디와 닉네임의 중복 확인을 해주세요.");
+            return;
+        }
           if (!form.checkValidity()) {
             form.reportValidity();
             return false;
+          }
+          let password = form.password.value;
+          let confirmPassword = form.confirmPassword.value;
+          if (password !== confirmPassword) {
+            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+            return;
           }
   
           let user = {
@@ -72,13 +87,38 @@
           };
   
           axios({
-            method: 'post',
-            url: './signup',
-            data: user
-          }).then((res) => {
-            alert("회원가입 성공");
-            document.location.href = "./signin";
-          });
+          method: 'post',
+          url: './signup',
+          data: user
+        }).then((res) => {
+          alert("회원가입 성공");
+          document.location.href = "./signin";
+        }).catch((error) => {
+          if (error.response) {
+            // 요청이 서버에 도달했지만, 서버가 2xx의 범위를 벗어나는 HTTP 상태 코드로 응답한 경우
+            alert(error.response.data.error);
+          } else if (error.request) {
+            // 요청이 만들어졌지만, 응답을 받지 못한 경우
+            alert('회원가입 요청에 실패했습니다.');
+          } else {
+            // 그 외의 에러 발생 시
+            alert('회원가입 중에 오류가 발생했습니다.');
+          }
+        });
+        }
+
+        function checkPasswordMatch() {
+          let password = document.getElementById('password').value;
+          let confirmPassword = document.getElementById('confirmPassword').value;
+          let checkPasswordMatch = document.getElementById('checkPasswordMatch');
+
+          if (password === confirmPassword) {
+            checkPasswordMatch.style.color = 'green';
+            checkPasswordMatch.innerHTML = '⭕️';
+          } else {
+            checkPasswordMatch.style.color = 'red';
+            checkPasswordMatch.innerHTML = '❌';
+          }
         }
       </script>
 </head>
@@ -88,7 +128,10 @@
             <form name="form-register">
                 <input type="text" class="login-input" placeholder="아이디" name="userid" required>
                 <button type="button" onclick="checkId();">중복확인</button>
-                <input type="password" class="login-input" placeholder="패스워드" name="password" required>
+                <input type="password" class="login-input" id="password" placeholder="패스워드" name="password" required>
+                <input type="password" class="login-input" id="confirmPassword" placeholder="패스워드 확인" 
+                name="confirmPassword" required oninput="checkPasswordMatch();">
+                <span id="checkPasswordMatch"></span>
                 <input type="text" class="login-input" placeholder="이메일" name="email" required>
                 <input type="text" class="login-input" placeholder="닉네임" name="nickname" required>
                 <button type="button" onclick="checkNickname();">중복확인</button>

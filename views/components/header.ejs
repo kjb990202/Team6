@@ -1,4 +1,13 @@
 <style>
+  /* 폰트 : 인천교육자람체 */
+  @font-face {
+    font-family: "iceJaram-Rg";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/iceJaram-Rg.woff2")
+      format("woff2");
+    font-weight: normal;
+    font-style: normal;
+  }
+
   /*
  * Header
  */
@@ -6,6 +15,19 @@
   .cover-container .d-flex .w-100 .h-100 .p-3 .mx-auto .flex-column {
     text-align: center;
   }
+
+  /* 헤더 로고 폰트 */
+  .logo {
+    font-family: "iceJaram-Rg";
+    font-size: 39px;
+    font-weight: 900;
+  }
+  /* 헤더 메뉴 폰트 */
+  nav {
+    font-family: "iceJaram-Rg";
+    font-size: 25px;
+  }
+
   .nav-masthead .nav-link {
     color: rgb(0, 0, 0);
     border-bottom: 0.25rem solid transparent;
@@ -82,15 +104,15 @@
   <header class="mb-auto">
     <div>
       <a href="/">
-        <h3 class="float-md-start mb-0">SeSAC-it</h3>
+        <h3 class="logo float-md-start mb-0">SeSAC-it</h3>
       </a>
       <nav class="nav nav-masthead justify-content-center float-md-end">
         <% if (isAuthenticated) { %>
         <!-- 로그인 상태일 때의 메뉴 -->
         <a class="nav-link fw-bold py-1 px-0" href="/mapMain">맛집 지도</a>
         <a class="nav-link fw-bold py-1 px-0" href="/boardMain">게시판</a>
-        <a class="nav-link fw-bold py-1 px-0" href="/profile">내 프로필</a>
         <a class="nav-link fw-bold py-1 px-0" href="/comment">댓글</a>
+        <a class="nav-link fw-bold py-1 px-0" href="/mypage">내 프로필</a>
         <a class="nav-link fw-bold py-1 px-0" href="/logout">로그아웃</a>
         
         <% } else { %>

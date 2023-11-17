@@ -4,14 +4,33 @@ const router = express.Router();
 const Cmap_Database = require("../controller/Cmap_Database");
 const Cmap_Information = require("../controller/Cmap_Information");
 const user = require("../controller/Cuser");
+
 const Ccomment = require("../controller/Ccomment")
 
+
+const board = require("../controller/Cboard");
+
+const comment = require("../controller/Ccomment");
+
+// 메인 페이지
 router.get("/", controller.index);
 
-router.get("/mapBackend", controller.mapBackend);
+// 메인 페이지 (디자인테스트 후 해당 코드 삭제)
+// 컨트롤러/index.js에서도 삭제 필요
+router.get("/test", controller.index2);
+
+// 맛집 지도 메인 페이지
+router.get("/mapMain", controller.mapMain);
+
+// DB(Map_Information)에 사업장 정보 업로드하는 기능
 router.post("/uploadStore", Cmap_Information.uploadStore);
+
+// DB(Map_Database)에 리뷰 조회하는 기능
 router.get("/getReview", Cmap_Database.getReview);
+
+// DB(Map_Database)에 리뷰 업로드하는 기능
 router.post("/uplodeReview", Cmap_Database.uplodeReview);
+
 
 
 router.get("/comment",Ccomment.comment);
@@ -26,6 +45,14 @@ router.get("/comment",Ccomment.comment);
 
 // 맛집 지도 메인 페이지
 router.get("/mapMain", controller.mapMain);
+
+// DB(Map_Database)에 리뷰 수정하는 기능
+router.patch("/updateReview", Cmap_Database.updateReview);
+
+// DB(Map_Database)에 리뷰 삭제하는 기능
+router.delete("/reviewDelete/:reviewNumber", Cmap_Database.reviewDelete);
+
+
 
 // 게시판 메인 페이지
 router.get("/boardMain", controller.boardMain);
@@ -51,6 +78,15 @@ router.post("/boardSubmit", async (req, res) => {
     res.status(500).json({ message: "에러가 발생했습니다." });
   }
 });
+
+
+//데이터 가져오기 테스트
+router.get("/getBoard",board.getBoard);
+
+// 로그인 페이지
+router.get("/signin", controller.signin);
+// 회원가입 페이지
+router.get("/user/signup", user.signup);
 
 // 회원가입 페이지
 router.get("/signup", user.signup);
@@ -79,16 +115,26 @@ router.get("/changePassword", user.changePassword);
 router.post("/changePassword", user.updatePassword);
 
 // 로그아웃
-router.get('/logout', (req, res) => {
-  req.session.destroy((err) => { // 세션 삭제
+router.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    // 세션 삭제
     if (err) {
       console.error(err);
     } else {
-      console.log('세션 삭제, 현재 세션 상태:', req.session); // 세션 상태 출력
+      console.log("세션 삭제, 현재 세션 상태:", req.session); // 세션 상태 출력
       res.redirect("/"); // 로그인 페이지로 리다이렉트
     }
   });
 });
+
+
+// 마이페이지
+router.get("/mypage", user.mypage);
+
+// 프로필 수정
+router.post('/updateProfile', user.updateProfile);
+// 회원 탈퇴
+router.post("/deleteAccount", user.deleteAccount);
 
 
 // router.post("/user/profile", user.profile)

@@ -3,6 +3,11 @@ exports.index = (req, res) => {
   res.render("index");
 };
 
+// 메인 페이지 (디자인테스트 후 해당 코드 삭제)
+exports.index2 = (req, res) => {
+  res.render("index2");
+};
+
 exports.map = (req, res) => {
   res.render("map/map");
 };
@@ -20,10 +25,6 @@ exports.signin = (req, res) => {
 exports.board = (req, res) => {
   res.render("board/board");
 };
-
-exports.mapBackend = (req, res) => {
-  res.render("map/mapBackend");
-}
 
 // 게시판 메인 화면
 exports.boardMain = (req, res) => {
