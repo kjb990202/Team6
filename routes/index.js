@@ -4,7 +4,7 @@ const router = express.Router();
 const Cmap_Database = require("../controller/Cmap_Database");
 const Cmap_Information = require("../controller/Cmap_Information");
 const user = require("../controller/Cuser");
-const comment = require("../controller/Ccomment")
+const Ccomment = require("../controller/Ccomment")
 
 router.get("/", controller.index);
 
@@ -13,10 +13,16 @@ router.post("/uploadStore", Cmap_Information.uploadStore);
 router.get("/getReview", Cmap_Database.getReview);
 router.post("/uplodeReview", Cmap_Database.uplodeReview);
 
-// 댓글 목록을 가져오는 GET 라우트
-// router.get('/comment', comment.getComments);
-// 새 댓글을 생성하는 POST 라우트
-router.post('/comment', comment.createComment);
+
+router.get("/comment",Ccomment.comment);
+// 댓글 등록
+// router.post("/comment", Ccomment.postComment);
+// // 댓글 수정
+// router.patch("/comment", Ccomment.patchComment);
+// // 댓글 하나 조회
+// router.get("/comment/:commentID", Ccomment.getCommentById);
+// // 댓글 삭제
+// router.delete("/comment/:commentID", Ccomment.deleteComment);
 
 // 맛집 지도 메인 페이지
 router.get("/mapMain", controller.mapMain);
@@ -83,6 +89,7 @@ router.get('/logout', (req, res) => {
     }
   });
 });
+
 
 // router.post("/user/profile", user.profile)
 // router.patch("/user/profile/edit/:id", user.profile_edit)
