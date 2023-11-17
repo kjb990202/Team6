@@ -46,3 +46,15 @@
 .placeinfo .title {font-weight: bold; font-size:14px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
 .placeinfo .tel {color:#0f7833;}
 .placeinfo .jibun {color:#999;font-size:11px;margin-top:0;}
+
+.rating__input {
+	display: none; /* 라디오버튼 hide */
+}
+
+.rating__label .star-icon {
+	width: 24px;
+	height: 24px;
+	display: block;
+	background-image: url("../img/yellow_stars_empty.jpg");
+	background-repeat: no-repeat;
+}
