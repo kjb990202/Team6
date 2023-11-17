@@ -5,6 +5,9 @@ const Cmap_Database = require("../controller/Cmap_Database");
 const Cmap_Information = require("../controller/Cmap_Information");
 const user = require("../controller/Cuser");
 
+const Ccomment = require("../controller/Ccomment")
+
+
 const board = require("../controller/Cboard");
 
 const comment = require("../controller/Ccomment");
@@ -28,16 +31,28 @@ router.get("/getReview", Cmap_Database.getReview);
 // DB(Map_Database)에 리뷰 업로드하는 기능
 router.post("/uplodeReview", Cmap_Database.uplodeReview);
 
+
+
+router.get("/comment",Ccomment.comment);
+// 댓글 등록
+// router.post("/comment", Ccomment.postComment);
+// // 댓글 수정
+// router.patch("/comment", Ccomment.patchComment);
+// // 댓글 하나 조회
+// router.get("/comment/:commentID", Ccomment.getCommentById);
+// // 댓글 삭제
+// router.delete("/comment/:commentID", Ccomment.deleteComment);
+
+// 맛집 지도 메인 페이지
+router.get("/mapMain", controller.mapMain);
+
 // DB(Map_Database)에 리뷰 수정하는 기능
 router.patch("/updateReview", Cmap_Database.updateReview);
 
 // DB(Map_Database)에 리뷰 삭제하는 기능
 router.delete("/reviewDelete/:reviewNumber", Cmap_Database.reviewDelete);
 
-// 댓글 목록을 가져오는 GET 라우트
-// router.get('/comment', comment.getComments);
-// 새 댓글을 생성하는 POST 라우트
-router.post("/comment", comment.createComment);
+
 
 // 게시판 메인 페이지
 router.get("/boardMain", controller.boardMain);
@@ -112,6 +127,7 @@ router.get("/logout", (req, res) => {
   });
 });
 
+
 // 마이페이지
 router.get("/mypage", user.mypage);
 
@@ -119,6 +135,7 @@ router.get("/mypage", user.mypage);
 router.post('/updateProfile', user.updateProfile);
 // 회원 탈퇴
 router.post("/deleteAccount", user.deleteAccount);
+
 
 // router.post("/user/profile", user.profile)
 // router.patch("/user/profile/edit/:id", user.profile_edit)
