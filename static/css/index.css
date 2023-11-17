@@ -31,13 +31,13 @@
 /* 
 메인 디자인 
 */
-
+/* 
 body {
   background-size: cover;
   background-color: #fefff7;
   overflow: hidden;
   touch-action: none;
-}
+} */
 
 .square {
   height: 200px;
@@ -64,7 +64,7 @@ body {
   /* 텍스트 커서표시 안되게 설정 */
   user-select: none;
   /* 외곽선 */
-  border: 1.2px solid #7f7979;
+  /* border: 1.2px solid #7f7979; */
 }
 
 .square-pulse {
@@ -138,5 +138,5 @@ body {
   left: 50%;
   top: 50%;
   /* 외곽선 */
-  border: 1.2px solid #7f7979;
+  /* border: 1.2px solid #7f7979; */
 }
