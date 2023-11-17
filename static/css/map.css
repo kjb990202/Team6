@@ -2,13 +2,6 @@
  * Globals
  */
 
-/* Custom default button */
-.btn-light,
-.btn-light:hover,
-.btn-light:focus {
-  color: #333;
-  text-shadow: none; /* Prevent inheritance from `body` */
-}
 
 /*
  * Base structure

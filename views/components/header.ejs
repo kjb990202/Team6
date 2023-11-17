@@ -1,11 +1,4 @@
 <style>
-  body {
-    background-size: cover;
-    background-color: #fefff7;
-    overflow: hidden;
-    touch-action: none;
-  }
-
   /* 폰트 : 인천교육자람체 */
   @font-face {
     font-family: "iceJaram-Rg";
@@ -13,6 +6,16 @@
       format("woff2");
     font-weight: normal;
     font-style: normal;
+  }
+
+  body {
+    background-size: cover;
+    background-color: #fefff7;
+  }
+
+  /* 홈페이지 좌우 여백 조절하는 곳 */
+  .cover-container {
+    max-width: 72em;
   }
 
   /*
@@ -33,7 +36,6 @@
   nav {
     font-family: "iceJaram-Rg";
     font-size: 25px;
-    z-index: 20;
   }
 
   .nav-masthead .nav-link {

@@ -7,22 +7,23 @@
     <link href="../static/css/index.css" rel="stylesheet" />
     <title>SeSAC-it</title>
   </head>
-
   <body class="d-flex h-100 text-center text-bg-white">
     <!-- 헤더 : 상단 메뉴바-->
-    <header class="container">
-      <div><%- include('../views/components/header.ejs') %></div>
-    </header>
-    <main>
-      <div class="wrapper-squares">
-        <div
-          class="square square1 square-brand square-pulse square-center"
-          id="activeball"
-        >
-          SeSAC-it
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="container">
+        <div><%- include('../views/components/header.ejs') %></div>
+      </header>
+      <main>
+        <div class="wrapper-squares">
+          <div
+            class="square square1 square-brand square-pulse square-center"
+            id="activeball"
+          >
+            SeSAC-it
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </body>
   <script>
     const confettiColors = ["#f2d74e", "#95c3de", "#ff9a91", "#add"];

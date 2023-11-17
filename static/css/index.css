@@ -11,18 +11,13 @@
   font-style: normal;
 }
 
-/* Custom default button */
-.btn-light,
-.btn-light:hover,
-.btn-light:focus {
-  color: #333;
-  text-shadow: none; /* Prevent inheritance from `body` */
-}
-
 /*
  * Base structure
  */
-
+body {
+  overflow: hidden;
+  touch-action: none;
+}
 /* 홈페이지 좌우 여백 조절하는 곳 */
 .cover-container {
   max-width: 72em;
@@ -31,13 +26,6 @@
 /* 
 메인 디자인 
 */
-/* 
-body {
-  background-size: cover;
-  background-color: #fefff7;
-  overflow: hidden;
-  touch-action: none;
-} */
 
 .square {
   height: 200px;
