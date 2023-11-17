@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="ko" class="h-100" data-bs-theme="auto">
   <!DOCTYPE html>
   <html lang="ko" class="h-100" data-bs-theme="auto">
     <head>
       <!-- CDN들 불러오기 -->
       <%- include('../components/cdn.ejs') %>
       <!-- CSS 연결 -->
-      <link href="../static/css/user.css" rel="stylesheet" />
+      <link href="../static/css/borad.css" rel="stylesheet" />
       <title>회원 가입</title>
     </head>
     <body class="d-flex h-100 text-center text-bg-white">
@@ -18,17 +16,13 @@
     <!-- TOAST TUI 에디터 CSS CDN -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
   </head>
-
   <body class="d-flex h-100 text-center text-bg-white">
-   
-
       <main class="px-3">
 <!-- 카테고리, 제목 선택창 -->
   <!-- pe-none : 마우스 호버시 마우스변경 방지 -->
 <form class="row g-3 needs-validation" novalidate>
   <div class="col-md-100">
-    <div class="pe-none" id="editTitle">카테고리<a style="color: red;">&nbsp;*</a></div>
-    <!-- <label for="validationCuomst04" class="form-label" id="editTitle">카테고리<a style="color: red;">&nbsp;*</a></label> -->
+    <div class="d-flex align-items-end" pe-none" id="editTitle">카테고리<a style="color: red;">&nbsp;*</a></div>
     <select class="form-select" id="validationCustom04" required>
       <option selected disabled value="">카테고리를 선택해 주세요.</option>
       <option value="1">잡담</option>
@@ -39,14 +33,13 @@
     </div>
   </div>
   <div class="col-md-100">
-    <div id="editTitle" class="pe-none">제목<a style="color: red;">&nbsp;*</a></div>
-    <!-- <label for="validationCustom01" class="form-label" id="editTitle">제목<a style="color: red;">&nbsp;*</a></label> -->
+    <div id="editTitle" class="d-flex align-items-end" pe-none">제목<a style="color: red;">&nbsp;*</a></div>
     <input type="text" class="form-control" id="validationCustom01" placeholder="제목을 입력해 주세요." required>
     <div class="pe-none invalid-feedback">
       필수 입력 항목입니다.
     </div>
   </div>
-        <div id="editTitle" class="pe-none">내용<a style="color: red;">&nbsp;*</a></div>
+        <div id="editTitle" class="d-flex align-items-end" pe-none">내용<a style="color: red;">&nbsp;*</a></div>
         
         <!-- 에디터를 적용할 요소 (컨테이너) -->
         <div id="content"></div>

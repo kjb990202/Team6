@@ -74,9 +74,8 @@ router.post("/boardSubmit", async (req, res) => {
   }
 });
 
-
 //데이터 가져오기 테스트
-router.get("/getBoard",board.getBoard);
+router.get("/getBoard", board.getBoard);
 
 // 로그인 페이지
 router.get("/signin", controller.signin);
@@ -127,7 +126,7 @@ router.get("/logout", (req, res) => {
 router.get("/mypage", user.mypage);
 
 // 프로필 수정
-router.post('/updateProfile', user.updateProfile);
+router.post("/updateProfile", user.updateProfile);
 // 회원 탈퇴
 router.post("/deleteAccount", user.deleteAccount);
 
