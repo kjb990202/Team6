@@ -7,9 +7,10 @@
     <link href="../static/css/index.css" rel="stylesheet" />
     <title>SeSAC-it</title>
   </head>
+  <!-- 각 ejs 파일별로 body, div 태그가 나란히 배치해야 헤더 간격이 일정함!-->
   <body class="d-flex h-100 text-center text-bg-white">
-    <!-- 헤더 : 상단 메뉴바-->
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <!-- 헤더 -->
       <header class="container">
         <div><%- include('../views/components/header.ejs') %></div>
       </header>

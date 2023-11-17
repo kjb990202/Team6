@@ -32,6 +32,13 @@ a:hover {
   color: #1565c0;
 }
 
+/* 모달 */
+
+.modal-content {
+  width: 400px;
+  height: 400px;
+}
+
 .box {
   margin-bottom: 10px;
   border-radius: 5px;
