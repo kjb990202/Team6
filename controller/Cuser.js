@@ -161,7 +161,7 @@ exports.updatePassword = async (req, res) => {
 
 // 마이페이지 랜더링
 exports.mypage = (req, res) => {
-  res.render('user/mypage', { user: req.session.user, isAuthenticated: req.session.isAuthenticated });
+  res.render('./user/mypage', { user: req.session.user, isAuthenticated: req.session.isAuthenticated });
 };
 
 exports.updateProfile = async (req, res) => {
