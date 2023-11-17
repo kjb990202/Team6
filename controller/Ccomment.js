@@ -9,7 +9,7 @@ exports.comment = (req, res) => {
   // select * from comment;
   Comment.findAll().then((result) => {
     console.log("findAll result: ", result);
-    console.log("0 index의 id", result[0].id);
+    console.log("0 index의 id", result.id);
     res.render("./comment/comment", { data: result });
   });
 };

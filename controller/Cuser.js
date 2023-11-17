@@ -182,7 +182,16 @@ exports.updateProfile = async (req, res) => {
     user.salt = salt;
     await user.save();
 
-    res.send({ result: true, message: '프로필이 성공적으로 수정되었습니다.' });
+  // 세션에 있는 사용자 정보도 업데이트
+    req.session.user = user.dataValues;
+    req.session.save(err => {
+      if (err) {
+        // 에러 처리
+        res.send({ result: false, message: '세션 업데이트에 실패하였습니다.' });
+      } else {
+        res.send({ result: true, message: '프로필이 성공적으로 수정되었습니다.' });
+      }
+    });
   } else {
     res.send({ result: false, message: '유저를 찾을 수 없습니다.' });
   }

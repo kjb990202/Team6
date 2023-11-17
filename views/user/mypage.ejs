@@ -64,16 +64,22 @@
                                               <div class="form-group">
                                                 <label for="nickname">닉네임</label>
                                                 <input type="text" class="form-control" name="nickname" value="<%= user.nickname %>" placeholder="변경하실 닉네임을 입력하세요">
+                                                <button type="button" onclick="checkNickname();">중복확인</button>
                                               </div>
                                               <div class="form-group">
                                                 <label for="password">새로운 비밀번호</label>
-                                                <input type="password" class="form-control" id="password" name="password" placeholder="새로운 비밀번호를 입력하세요">
+                                                <input type="password" class="form-control" id="password" name="password" 
+                                                pattern="(?=.*[a-z])(?=.*[\W]).{6,}" 
+                                                required oninput="validatePassword();"
+                                                placeholder="새로운 비밀번호를 입력하세요">
+                                                <span id="passwordError"></span>
                                               </div>
                                               <div class="form-group">
                                                 <label for="confirmPassword">비밀번호 확인</label>
-                                                <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 다시 입력하세요" oninput="checkPasswordMatch();">
+                                                <input type="password" class="form-control" id="confirmPassword" 
+                                                placeholder="비밀번호를 다시 입력하세요" oninput="checkPasswordMatch();">
+                                                <span id="checkPasswordMatch"></span>
                                               </div>
-                                              <span id="checkPasswordMatch"></span>
                                             </form>
                                           </div>
                                           <div class="modal-footer">
@@ -216,13 +222,26 @@
           let checkPasswordMatch = document.getElementById('checkPasswordMatch');
 
           if (password === confirmPassword) {
-            checkPasswordMatch.style.color = 'green';
-            checkPasswordMatch.innerHTML = '⭕️';
+            checkPasswordMatch.style.display = 'none';
           } else {
             checkPasswordMatch.style.color = 'red';
-            checkPasswordMatch.innerHTML = '❌';
+            checkPasswordMatch.style.display = 'block';
+            checkPasswordMatch.innerHTML = '비밀번호가 일치하지 않습니다.';
           }
         }
+
+        function validatePassword() {
+          var password = document.getElementById("password");
+          var passwordError = document.getElementById("passwordError");
+
+          if (password.validity.patternMismatch) {
+              passwordError.style.color = 'red';
+              passwordError.innerText = "특수문자를 포함한 6자 이상의 비밀번호를 입력해주세요.";
+              passwordError.style.display = 'block';
+          } else {
+              passwordError.style.display = 'none';
+          }
+      }
 
         function deleteAccount() {
           const userid = '<%= user.id %>'; // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
@@ -251,6 +270,30 @@
 
           $('#profileModal').modal('hide');
       }
+            let nicknameChecked = false;
+
+            function checkNickname() {
+           let nickname = document.forms["profileForm"].nickname.value;
+           if (!nickname) {
+                alert("닉네임을 입력해주세요.");
+                return;
+            }
+
+        axios({
+            method: "post",
+            url: "/checknickname",
+            data: { nickname: nickname }
+        }).then((res) => {
+            if (res.data.duplicate) {
+              alert("이미 사용 중인 닉네임입니다.");
+                nicknameChecked = false;
+            } else {
+                alert("사용 가능한 닉네임입니다.");
+                nicknameChecked = true;
+            }
+        });
+    }
+      
         // 각 섹션의 내용을 숨기는 함수
 function hideAllSections() {
   document.querySelectorAll('.sectionContent').forEach((section) => {
