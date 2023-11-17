@@ -4,13 +4,8 @@ const router = express.Router();
 const Cmap_Database = require("../controller/Cmap_Database");
 const Cmap_Information = require("../controller/Cmap_Information");
 const user = require("../controller/Cuser");
-
 const Ccomment = require("../controller/Ccomment")
-
-
 const board = require("../controller/Cboard");
-
-const comment = require("../controller/Ccomment");
 
 // 메인 페이지
 router.get("/", controller.index);
