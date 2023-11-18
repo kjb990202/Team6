@@ -56,23 +56,7 @@ router.get("/boardMain", controller.boardMain);
 router.get("/boardEdit", controller.boardEdit);
 
 // 게시판 작성 화면 -> 게시글 등록
-router.post("/boardSubmit", async (req, res) => {
-  try {
-    const { boardID, id, title, category, content } = req.body;
-    // 게시글 저장 로직
-    const newSubmit = await dbSubmit.create({
-      boardID: boardID,
-      id: id,
-      title: title,
-      category: category,
-      content: content,
-    });
-    res.status(201).json(newSubmit);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "에러가 발생했습니다." });
-  }
-});
+router.post("/boardSubmit", board.boardSubmit);
 
 //데이터 가져오기 테스트
 router.get("/getBoard", board.getBoard);

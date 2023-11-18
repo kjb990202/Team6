@@ -47,6 +47,7 @@
 
                 newBoard.innerHTML = `
                   <div class="title">제목: ${boardData.title}</div>
+                  <div class="userId">작성자: ${boardData.user.nickname}</div>
                   <div class="category">카테고리: ${boardData.category}</div>
                   <div class="content">${boardData.content}</div>
                   <div class="views">조회수: ${boardData.views}</div>
@@ -105,6 +106,19 @@
         //관찰대상이 70퍼센트이상 들어오면 callback 함수 실행
         //io는 특정 요소가 어디에 위치하는지 판별하는 객체.
         // observeLastBoard(io, boards);
+
+        
+        //-------------작성하기 버튼클릭시 동작하는 기능
+        // function makeBoaed(){
+        //   if(){//세션에 값이있으면 
+        //     //작성페이지로 보내기
+        //   }
+        //   else{
+        //     alert("로그인 해주세요");
+        //     //로그인 창으로 보내기or 그냥 창만뜨고 말기
+        //   }
+        // }
+
       </script>
     </div>
   </body>

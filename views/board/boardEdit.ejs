@@ -3,6 +3,7 @@
     <head>
       <!-- CDN들 불러오기 -->
       <%- include('../components/cdn.ejs') %>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
       <!-- CSS 연결 -->
       <link href="../static/css/borad.css" rel="stylesheet" />
       <title>회원 가입</title>
@@ -84,12 +85,15 @@
 document.getElementById('submitButton').addEventListener('click', function(event) {
     event.preventDefault();
 
-    const category = document.getElementById('validationCustom04').value;
-    const title = document.getElementById('validationCustom01').value;
+    const category = document.getElementById('validationCustom04').value;//카테고리
+    const title = document.getElementById('validationCustom01').value;//제목
     const content = editor.getMarkdown(); // 에디터 내용
-    const boardID = '사용자닉네임'; // 로그인한 사용자의 닉네임
-
+    const boardID = '사용자닉네임'; // 로그인한 사용자의 닉네임 JW:이거 닉네임이아니라 보드 구분하는 키인것같아요
+    const thisUserID ="<%= user ? user.id : '' %>"
+    
+  
     axios.post('/boardSubmit', {
+      id:thisUserID,
       boardID: boardID,
       title: title,
       category: category,
