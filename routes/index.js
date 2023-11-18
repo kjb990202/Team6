@@ -109,9 +109,11 @@ router.get("/logout", (req, res) => {
 // 마이페이지
 router.get("/mypage", user.mypage);
 
-// 프로필 수정
-router.post("/updateProfile", user.updateProfile);
-// 회원 탈퇴
+// 마이페이지 닉네임수정
+router.post("/updateMypageNickname", user.updateMypageNickname);
+// 마이페이지 비밀번호 수정
+router.post("/updateMypagePassword", user.updateMypagePassword);
+// 마이페이지 회원 탈퇴
 router.post("/deleteAccount", user.deleteAccount);
 
 
