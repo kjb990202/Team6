@@ -28,17 +28,16 @@
     text-align: center;
   }
 
-  /* 헤더 로고 폰트 */
-  .logo {
-    font-family: "Pretendard";
-    font-size: 39px;
-    font-weight: 900;
-  }
-
   /* 헤더 메뉴 폰트&사이즈 (굵기는 아래 html에서 fw-값을 바꿔야함.) */
   nav {
     font-family: "Pretendard";
     font-size: 18px;
+  }
+
+  /* 헤더 로고 */
+  .navbar-brand {
+    width: 100px;
+    height: 100px;
   }
 
   .nav-masthead .nav-link {
@@ -116,10 +115,16 @@
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
     <div>
-      <a href="/">
-        <h3 class="logo float-md-start mb-0">SeSAC-it</h3>
+      <a class="navbar-brand float-md-start mb-0" href="/">
+        <%-
+        include('/Users/naraka/Documents/github/Team6/static/img/SeSACitLogo.svg')
+        %>
       </a>
+      <!-- <a href="/">
+        <h3 class="logo float-md-start mb-0">SeSAC-it</h3>
+      </a> -->
       <nav class="nav nav-masthead justify-content-center float-md-end">
+        <div class="container"></div>
         <% if (isAuthenticated) { %>
         <!-- 로그인 상태일 때의 메뉴 -->
         <a class="nav-link fw-normal py-1 px-0" href="/mapMain">맛집 지도</a>
