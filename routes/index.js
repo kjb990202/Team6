@@ -30,13 +30,18 @@ router.post("/uplodeReview", Cmap_Database.uplodeReview);
 
 router.get("/comment",Ccomment.comment);
 // 댓글 등록
-// router.post("/comment", Ccomment.postComment);
-// // 댓글 수정
-// router.patch("/comment", Ccomment.patchComment);
-// // 댓글 하나 조회
-// router.get("/comment/:commentID", Ccomment.getCommentById);
-// // 댓글 삭제
-// router.delete("/comment/:commentID", Ccomment.deleteComment);
+router.post("/comment", Ccomment.postComment);
+//  댓글 수정
+router.patch("/comment", Ccomment.patchComment);
+// /댓글 하나 조회
+router.get("/comment/:commentID", Ccomment.getCommentById);
+//  댓글 삭제
+router.delete("/comment/:commentID", Ccomment.deleteComment);
+
+// GET /comments/:boardID => 해당 게시판 댓글 전체 조회
+// router.get('/comments/:boardID', Ccomment.getCommentsByBoardID);
+
+module.exports = router;
 
 // 맛집 지도 메인 페이지
 router.get("/mapMain", controller.mapMain);
