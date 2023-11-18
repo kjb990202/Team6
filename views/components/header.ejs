@@ -7,6 +7,8 @@
     font-weight: normal;
     font-style: normal;
   }
+  /* 폰트 : 프리텐다드 */
+  @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
   body {
     background-size: cover;
@@ -19,8 +21,8 @@
   }
 
   /*
- * Header
- */
+   * Header
+   */
 
   .cover-container .d-flex .w-100 .h-100 .p-3 .mx-auto .flex-column {
     text-align: center;
@@ -28,18 +30,19 @@
 
   /* 헤더 로고 폰트 */
   .logo {
-    font-family: "iceJaram-Rg";
+    font-family: "Pretendard";
     font-size: 39px;
     font-weight: 900;
   }
-  /* 헤더 메뉴 폰트 */
+
+  /* 헤더 메뉴 폰트&사이즈 (굵기는 아래 html에서 fw-값을 바꿔야함.) */
   nav {
-    font-family: "iceJaram-Rg";
-    font-size: 25px;
+    font-family: "Pretendard";
+    font-size: 18px;
   }
 
   .nav-masthead .nav-link {
-    color: rgb(0, 0, 0);
+    color: #6a6a6a;
     border-bottom: 0.25rem solid transparent;
   }
 
@@ -110,7 +113,6 @@
     -webkit-overflow-scrolling: touch;
   }
 </style>
-
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
     <div>
@@ -120,18 +122,18 @@
       <nav class="nav nav-masthead justify-content-center float-md-end">
         <% if (isAuthenticated) { %>
         <!-- 로그인 상태일 때의 메뉴 -->
-        <a class="nav-link fw-bold py-1 px-0" href="/mapMain">맛집 지도</a>
-        <a class="nav-link fw-bold py-1 px-0" href="/boardMain">게시판</a>
-        <a class="nav-link fw-bold py-1 px-0" href="/comment">댓글</a>
-        <a class="nav-link fw-bold py-1 px-0" href="/mypage">내 프로필</a>
-        <a class="nav-link fw-bold py-1 px-0" href="/logout">로그아웃</a>
-        
+        <a class="nav-link fw-normal py-1 px-0" href="/mapMain">맛집 지도</a>
+        <a class="nav-link fw-normal py-1 px-0" href="/boardMain">게시판</a>
+        <a class="nav-link fw-normal py-1 px-0" href="/comment">댓글</a>
+        <a class="nav-link fw-normal py-1 px-0" href="/mypage">내 프로필</a>
+        <a class="nav-link fw-normal py-1 px-0" href="/logout">로그아웃</a>
+
         <% } else { %>
         <!-- 로그아웃 상태일 때의 메뉴 -->
-        <a class="nav-link fw-bold py-1 px-0" href="/mapMain">맛집 지도</a>
-        <a class="nav-link fw-bold py-1 px-0" href="/boardMain">게시판</a>
-        <a class="nav-link fw-bold py-1 px-0" href="/signin">로그인</a>
-        <a class="nav-link fw-bold py-1 px-0" href="/comment">댓글</a>
+        <a class="nav-link fw-normal py-1 px-0" href="/mapMain">맛집 지도</a>
+        <a class="nav-link fw-normal py-1 px-0" href="/boardMain">게시판</a>
+        <a class="nav-link fw-normal py-1 px-0" href="/signin">로그인</a>
+        <a class="nav-link fw-normal py-1 px-0" href="/comment">댓글</a>
         <% } %>
       </nav>
     </div>
