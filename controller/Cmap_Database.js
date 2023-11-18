@@ -19,7 +19,6 @@ exports.getReview = (req, res) => {
           updatedAt: result.dataValues.updatedAt,
           nickname: result.dataValues.user.nickname
         }));
-
         res.send(data);
       } else {
         res.send(false);

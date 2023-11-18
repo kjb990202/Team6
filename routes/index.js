@@ -4,10 +4,8 @@ const router = express.Router();
 const Cmap_Database = require("../controller/Cmap_Database");
 const Cmap_Information = require("../controller/Cmap_Information");
 const user = require("../controller/Cuser");
-
+const Ccomment = require("../controller/Ccomment")
 const board = require("../controller/Cboard");
-
-const comment = require("../controller/Ccomment");
 
 // 메인 페이지
 router.get("/", controller.index);
@@ -28,16 +26,33 @@ router.get("/getReview", Cmap_Database.getReview);
 // DB(Map_Database)에 리뷰 업로드하는 기능
 router.post("/uplodeReview", Cmap_Database.uplodeReview);
 
+
+
+router.get("/comment",Ccomment.comment);
+// 댓글 등록
+router.post("/comment", Ccomment.postComment);
+//  댓글 수정
+router.patch("/comment", Ccomment.patchComment);
+// /댓글 하나 조회
+router.get("/comment/:commentID", Ccomment.getCommentById);
+//  댓글 삭제
+router.delete("/comment/:commentID", Ccomment.deleteComment);
+
+// GET /comments/:boardID => 해당 게시판 댓글 전체 조회
+// router.get('/comments/:boardID', Ccomment.getCommentsByBoardID);
+
+module.exports = router;
+
+// 맛집 지도 메인 페이지
+router.get("/mapMain", controller.mapMain);
+
 // DB(Map_Database)에 리뷰 수정하는 기능
 router.patch("/updateReview", Cmap_Database.updateReview);
 
 // DB(Map_Database)에 리뷰 삭제하는 기능
 router.delete("/reviewDelete/:reviewNumber", Cmap_Database.reviewDelete);
 
-// 댓글 목록을 가져오는 GET 라우트
-// router.get('/comment', comment.getComments);
-// 새 댓글을 생성하는 POST 라우트
-router.post("/comment", comment.createComment);
+
 
 // 게시판 메인 페이지
 router.get("/boardMain", controller.boardMain);
@@ -46,27 +61,10 @@ router.get("/boardMain", controller.boardMain);
 router.get("/boardEdit", controller.boardEdit);
 
 // 게시판 작성 화면 -> 게시글 등록
-router.post("/boardSubmit", async (req, res) => {
-  try {
-    const { boardID, id, title, category, content } = req.body;
-    // 게시글 저장 로직
-    const newSubmit = await dbSubmit.create({
-      boardID: boardID,
-      id: id,
-      title: title,
-      category: category,
-      content: content,
-    });
-    res.status(201).json(newSubmit);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "에러가 발생했습니다." });
-  }
-});
-
+router.post("/boardSubmit", board.boardSubmit);
 
 //데이터 가져오기 테스트
-router.get("/getBoard",board.getBoard);
+router.get("/getBoard", board.getBoard);
 
 // 로그인 페이지
 router.get("/signin", controller.signin);
@@ -112,13 +110,17 @@ router.get("/logout", (req, res) => {
   });
 });
 
+
 // 마이페이지
 router.get("/mypage", user.mypage);
 
-// 프로필 수정
-router.post('/updateProfile', user.updateProfile);
-// 회원 탈퇴
+// 마이페이지 닉네임수정
+router.post("/updateMypageNickname", user.updateMypageNickname);
+// 마이페이지 비밀번호 수정
+router.post("/updateMypagePassword", user.updateMypagePassword);
+// 마이페이지 회원 탈퇴
 router.post("/deleteAccount", user.deleteAccount);
+
 
 // router.post("/user/profile", user.profile)
 // router.patch("/user/profile/edit/:id", user.profile_edit)

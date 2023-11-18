@@ -1,25 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>댓글 페이지</title>
-</head>
-<body>
-  <h1>댓글 목록</h1>
-  <ul>
-    <% comments.forEach(comment => { %>
-      <li><%= comment.Field %> - 작성자: <%= comment.id %> - 작성일: <%= comment.createComment %></li>
-    <% }); %>
-  </ul>
-  <form action="/comment" method="post">
-    <!-- boardID를 hidden으로 전달할 수 있는지 확인 -->
-    <input type="hidden" name="boardID" value="<%= boardID %>">
-    <label for="id">작성자:</label>
-    <input type="text" id="id" name="id" required>
-    <label for="Field">댓글 내용:</label>
-    <textarea id="Field" name="Field" required></textarea>
-    <button type="submit">댓글 작성</button>
-  </form>
-</body>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>댓글</title>
+    <!-- CDN들 불러오기 -->
+    <%- include('../components/cdn.ejs') %>
+    <!-- CSS 연결 -->
+    <link href="../static/css/board.css" rel="stylesheet" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <form name="form-comment">
+      <fieldset>
+        <legend>댓글 등록</legend>
+        <div>
+          <% if (isAuthenticated) { %>
+            <h5><%= user.nickname %> 님 </h5>
+          <% } %>
+        </div>
+        <input type="text" name="Field" placeholder="내용" />
+        <br />
+        <div class="btn-group">
+          <button type="button" onclick="addComment()">등록</button>
+        </div>
+      </fieldset>
+    </form>
+    <div>
+      <table border="1" cellspacing="0">
+        <thead>
+          <tr>
+            <th>글 번호</th>
+            <th>id번호</th>
+            <th>내용</th>
+            <th>작성시간</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if(user) { %>
+            <% for(let i = 0; i< data.length; i++) { %> 
+              <tr id="tr_<%=data[i].commentID%>"> 
+                <td><%= data[i].commentID %></td>
+                <td><%= data[i].id %></td>
+                <td><%= data[i].Field %></td>
+                <td><%= data[i].createComment %></td>
+                <td>
+                  <% if (isAuthenticated && user.id === data[i].id) { %>
+                    <button type="button" onclick="updateComment('<%= data[i].commentID %>')">수정</button>
+                    <button type="button" onclick="deleteComment('<%= data[i].commentID %>')">삭제</button>
+                  <% } %>
+                </td>
+              </tr>
+            <% } %>
+          <% }else { %>
+            <% for(let i = 0; i< data.length; i++) { %> 
+              <tr id="tr_<%=data[i].commentID%>"> 
+                <td><%= data[i].commentID %></td>
+                <td><%= data[i].id %></td>
+                <td><%= data[i].Field %></td>
+                <td><%= data[i].createComment %></td>
+              </tr>
+            <% } %>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+    <script>
+      function addComment() {
+        // 서버에 보낼 데이터를 만들어야 함.
+        const form = document.forms["form-comment"];
+        const userId = `<%= user ? user.id : null %>`
+        console.log("userId:", userId); 
+
+        const data = {
+          id : userId,
+            // 서버에서 생성한 ID 사용
+          Field: form.Field.value,
+        }
+
+        console.log("data:", data); 
+
+        // axios를 이용해 데이터를 서버로 전송.
+        axios({
+          method: 'post',
+          url: '/comment',
+          data: data
+        }).then((res) => {
+          // axios 응답을 받으면, table에 행 추가 (동적으로)
+          const {
+            commentID,
+            boardID,
+            id,
+            Field,
+            createComment
+          } = res.data;
+
+          $("tbody").append(`<tr id="tr_${commentID}">
+            <td>${commentID}</td>
+            <td>${id}</td>
+            <td>${Field}</td>
+            <td><button type="button" onclick="updateComment(${commentID})">수정</button></td>
+            <td><button type="button" onclick="deleteComment(${commentID})">삭제</button></td>
+          </tr>`);
+        })
+        .catch((error) => {
+          console.error("Error adding comment:", error);
+          alert("댓글 등록에 실패했습니다. 로그인 후 이용해주세요.");
+    });
+        
+        
+      }
+
+
+      function deleteComment(commentID, TrElement) {
+        // id를 이용해서 url을 완성, 요청 보내기
+        axios({
+          method: 'delete',
+          url: `/comment/${commentID}`
+        }).then((res) => {
+          console.log(res.data);
+
+          if (res.data.result) {
+            // 삭제할 td 태그가 필요함.
+            // $(TrElement).remove();
+            $(`#tr_${commentID}`).remove()
+          } else {
+            alert("존재하지 않는 댓글입니다.")
+          }
+        })
+      }
+
+      function updateComment(commentID) {
+  axios({
+    method: 'get',
+    url: `/comment/${commentID}`,
+  }).then((res) => {
+    const { commentID, Field } = res.data;
+
+    // commentID 값을 저장하고, 수정 폼에 필요한 값만 설정
+    const form = document.forms['form-comment'];
+    form.dataset.commentID = commentID;
+    form.Field.value = Field;
+
+    // [변경], [취소] 버튼 보이기
+    $(".btn-group").html(`
+      <button type='button' onclick='editDo();'>변경</button>
+      <button type='button' onclick='editCancel();'>취소</button>
+    `);
+  });
+}
+
+// 수정된 editDo 함수
+function editDo() {
+  const form = document.forms['form-comment'];
+  const commentID = form.dataset.commentID; // 이제 commentID를 가져올 수 있음
+
+  axios({
+  method: 'patch',
+  url: `/comment`,
+  data: {
+    commentID: commentID,
+    Field: form.Field.value,
+  },
+  }).then((res) => {
+  // 업데이트 성공 시 해당 행의 내용을 변경
+  $(`#tr_${commentID}`).children('td:eq(2)').text(form.Field.value);
+
+  // 입력창 초기화
+  editCancel();
+  }).catch((error) => {
+  console.error("Error updating comment:", error);
+  alert("댓글 업데이트 중 오류가 발생했습니다.");
+  });
+  }
+  function editCancel() {
+    // (1) input 초기화
+    const form = document.forms['form-comment'];
+    form.Field.value = '';
+
+    // (2) [등록] 버튼 보이기
+    $(".btn-group").html(`<button type='button' onclick='addComment();'>등록</button>`);
+  }
+</script>
+  </body>
 </html>

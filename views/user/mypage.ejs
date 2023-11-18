@@ -1,40 +1,26 @@
   <!DOCTYPE html>
   <html lang="ko" class="h-100" data-bs-theme="auto">
     <head>
-      <!-- ... -->
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <!-- ... -->
       <!-- CDN들 불러오기 -->
       <%- include('../components/cdn.ejs') %>
       <!-- CSS 연결 -->
       <link href="../static/css/mypage.css" rel="stylesheet" />
       <title>SeSAC-it : 마이페이지</title>
-
-      <!-- 테스트 -->
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
     </head>
-    <body class="d-flex h-100 text-center text-bg-white">
         <!-- 헤더 : 상단 메뉴바  -->
-        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <body class="d-flex h-100 text-center text-bg-white">
+          <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
           <header class="container">
             <div><%- include('../components/header.ejs') %></div>
           </header>
-    
-    <body class="d-flex h-100 text-center text-bg-white">
-      <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-        <main class="px-3">
+        <main class="">
             <!-- 사용자 프로필 -->
             <div class="container">
-                      <section class="h-100 gradient-custom-2">
-                        <div class="container py-5 h-100">
-                          <div class="row d-flex justify-content-center align-items-center h-100">
-                            <div class="col col-lg-9 col-xl-7">
-                              <div class="card">
+                      <div class="h-100 gradient-custom-2">
+                        <div class="container pt-5 h-100">
+                          <div class="row d-flex justify-content-center align-items-center">
+                            <!-- 그림자는 shadow 넣으면 생기고 빼면 없어짐! -->
+                            <div class="shadow col col-lg-9 col-xl-7">
                                 <div class="text-white d-flex flex-row" style="background-color: #fed503; height:200px;">
                                   <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
                                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
@@ -44,124 +30,159 @@
                                     data-toggle="modal" data-target="#profileModal" style="z-index: 1;">
                                       프로필 수정
                                     </button>
-                                    <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                          <div class="modal-header"> 
-                                            <h5 class="modal-title" id="profileModalLabel">프로필 수정</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                              <span aria-hidden="true">&times;</span>
-                                            </button>
-                                          </div>
-                                          <div class="modal-body">
-                                            <!-- 프로필 수정 폼 -->
-                                            <div style="color: black;">
-                                              <% if (isAuthenticated) { %>
-                                                <h5><%= user.nickname %> 님 수정하실 정보를 입력해주세요.</h5>
-                                              <% } %>
-                                            </div>
-                                            <form id="profileForm">
-                                              <div class="form-group">
-                                                <label for="nickname">닉네임</label>
-                                                <input type="text" class="form-control" name="nickname" value="<%= user.nickname %>" placeholder="변경하실 닉네임을 입력하세요">
-                                              </div>
-                                              <div class="form-group">
-                                                <label for="password">새로운 비밀번호</label>
-                                                <input type="password" class="form-control" id="password" name="password" placeholder="새로운 비밀번호를 입력하세요">
-                                              </div>
-                                              <div class="form-group">
-                                                <label for="confirmPassword">비밀번호 확인</label>
-                                                <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 다시 입력하세요" oninput="checkPasswordMatch();">
-                                              </div>
-                                              <span id="checkPasswordMatch"></span>
-                                            </form>
-                                          </div>
-                                          <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                                            <button type="button" class="btn btn-danger" onclick="deleteAccount()">회원 탈퇴</button>
-                                            <button type="button" class="btn btn-primary" onclick="updateProfile()">저장</button>
-                                          </div>
-                                        </div>
-                                      </div>
+                                    <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                                     >
+                                      대표이미지
+                                    </button>
                                     </div>
-                                  </div>
                                   <div class="ms-3" style="margin-top: 130px;">
-                                        <!-- 로그인 시 nickname 값을 가져와서 표시 -->
-                                        <% if (isAuthenticated) { %>
-                                            <h5 class="name"><%= user.nickname %>님</h5>
-                                    <% } %>
-                                  </div>
+                                    <!-- 로그인 시 nickname 값을 가져와서 표시 -->
+                                    <% if (isAuthenticated) { %>
+                                        <h5 class="name"><%= user.nickname %>님</h5>
+                                <% } %>
+                              </div>
+                            </div>
+                            <!-- 게시글/댓글/좋아요 수 부분 박스 -->
+                            <div class="p-3 text-black" style="background-color: #f8f9fa;">
+                              <div class="d-flex justify-content-end text-center py-1">
+                                <!-- DB에서 아래 숫자 데이터 추출 필요 -->
+                                <div>
+                                  <p class="mb-1 h5">253</p>
+                                  <p class="small text-muted mb-0">게시글수</p>
                                 </div>
-                               
-                                <div class="p-3 text-black" style="background-color: #f8f9fa;">
-                                  <div class="d-flex justify-content-end text-center py-1">
-                                    <!-- DB에서 아래 숫자 데이터 추출 필요 -->
-                                    <div>
-                                      <p class="mb-1 h5">253</p>
-                                      <p class="small text-muted mb-0">게시글수</p>
-                                    </div>
-                                    <div class="px-3">
-                                      <p class="mb-1 h5">1026</p>
-                                      <p class="small text-muted mb-0">댓글수</p>
-                                    </div>
-                                    <div>
-                                      <p class="mb-1 h5">478</p>
-                                      <p class="small text-muted mb-0">좋아요수</p>
-                                    </div>
-                                  </div>
+                                <div class="px-3">
+                                  <p class="mb-1 h5">1026</p>
+                                  <p class="small text-muted mb-0">댓글수</p>
                                 </div>
-                                <div class="card-body p-4 text-black">
-                                  <!-- <div class="mb-5">
-                                        <nav class="justify-content-center" aria-label="breadcrumb">
-                                            <ol class="breadcrumb">
-                                              <li class="breadcrumb-item"><a href="#" id="reviewsLink">작성한 리뷰</a></li>
-                                              <li class="breadcrumb-item"><a href="#" id="postsLink">작성한 게시글</a></li>
-                                              <li class="breadcrumb-item"><a href="#" id="commentLink">작성한 댓글</a></li>
-                                              <li class="breadcrumb-item"><a href="#" id="goodLink">좋아요 목록</a></li>
-                                              <li class="breadcrumb-item"><a href="#" id="userDelete">회원 탈퇴</a></li>
-                                            </ol>
-                                        </nav>
-                                  </div> -->
-                                  <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <p class="lead fw-normal mb-0">작성한 리뷰</p>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col mb-2">
-                                      작성한 리뷰 목록
-                                    </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <p class="lead fw-normal mb-0">작성한 게시글</p>
-                                      </div>
-                                      <div class="row">
-                                        <div class="col mb-2">
-                                          작성한 게시글 
-                                        </div>
-                                        </div>
-                                        <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <p class="lead fw-normal mb-0">작성한 댓글</p>
-                                          </div>
-                                          <div class="row">
-                                            <div class="col mb-2">
-                                              작성한 댓글
-                                            </div>
-                                            </div>
-                                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                                <p class="lead fw-normal mb-0">좋아요 목록</p>
-                                              </div>
-                                              <div class="row">
-                                                <div class="col mb-2">
-                                                  좋아요 목록
-                                                </div>
-                                                </div>
-                                  </div>
-                                  </div>
+                                <div>
+                                  <p class="mb-1 h5">478</p>
+                                  <p class="small text-muted mb-0">좋아요수</p>
                                 </div>
                               </div>
                             </div>
+                            <div class="card-body p-4 text-black">
+                              <div class="d-flex justify-content-between align-items-center mb-4">
+                                <p class="lead fw-normal mb-0">작성한 리뷰</p>
+                              </div>
+                              <div class="row">
+                                <div class="col mb-2">
+                                  작성한 리뷰 목록
+                                </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <p class="lead fw-normal mb-0">작성한 게시글</p>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col mb-2">
+                                      작성한 게시글 
+                                    </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <p class="lead fw-normal mb-0">작성한 댓글</p>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col mb-2">
+                                          작성한 댓글
+                                        </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <p class="lead fw-normal mb-0">좋아요 목록</p>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col mb-2">
+                                              좋아요 목록
+                                            </div>
+                                            </div>
+                                </div>
+                            </div>
                           </div>
-                        </div>
-                      </section>
+                        </section>
+                                          <!-- 모달 -->
+                                          <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true" >
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content p-0 ">
+                                                    <div class="modal-header"> 
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-header mx-1 mx-sm-3 mb-0 pb-0 border-0">
+                                                        <div class="tabs active" id="tab01">
+                                                            <h6 class="font-weight-bold">닉네임 변경</h6>
+                                                        </div>
+                                                        <div class="tabs" id="tab02">
+                                                            <h6 class="text-muted">비밀번호 변경</h6>
+                                                        </div>
+                                                        <div class="tabs" id="tab03">
+                                                            <h6 class="text-muted">회원 탈퇴</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="line"></div>
+                                                    <fieldset class="show" id="tab011">
+                                                        <div>
+                                                            <form name="nicknameForm">
+                                                                <div class="form-group pb-2 px-3">
+                                                                    <input type="text" name="nickname" placeholder="변경하실 닉네임을 입력하세요" class="form-control">
+                                                                    <button type="button" class="btn btn-primary" onclick="checkNickname();">중복확인</button>
+                                                                </div>
+                                                                <div class="modal-footer form-group pb-2 justify-content-center">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                                                    <button type="button" class="btn btn-primary" onclick="updateMypageNickname()">저장</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset id="tab021">
+                                                        <div>
+                                                            <form name="passwordForm">
+                                                                <div class="form-group pb-2 px-3">
+                                                                    <input 
+                                                                    type="password" 
+                                                                    id="password" 
+                                                                    name="password" 
+                                                                    placeholder="새로운 비밀번호를 입력하세요" 
+                                                                    class="form-control" 
+                                                                    pattern="(?=.*[a-z])(?=.*[\W]).{6,}" 
+                                                                    required
+                                                                    oninput="validatePassword();">
+                                                                </div>
+                                                                <span id="passwordError"></span>
+                                                                <div class="form-group pb-2 px-3">
+                                                                    <input 
+                                                                    type="password" 
+                                                                    id="confirmPassword"
+                                                                    name="confirmPassword"
+                                                                    placeholder="비밀번호를 다시 입력하세요" 
+                                                                    oninput="checkPasswordMatch();"
+                                                                    required
+                                                                    class="form-control" >
+                                                                    <span id="checkPasswordMatch"></span>
+                                                                </div>
+                                                                <div class="modal-footer form-group pb-2 justify-content-center">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                                                    <button type="button" class="btn btn-primary" onclick="updateMypagePassword()">저장</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset id="tab031">
+                                                        <div>
+                                                            <form name="deleteAccountForm">
+                                                                <div class="form-group pb-2 px-3">
+                                                                    <input type="password" id="accountDeletePassword" placeholder="탈퇴를 위해 비밀번호를 다시 입력해주세요." class="form-control">
+                                                                </div>
+                                                                <div class="modal-footer form-group pb-2 justify-content-center">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteAccount()">탈퇴</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        
+             
         </main>
         <footer class="mt-auto text-white-50">
           <p>SeSAC 용산2기 풀스텍 웹개발자 양성과정 @내 통장에 6조</p>
@@ -169,94 +190,155 @@
       </div>
     </body>
     <script>
-        function updateProfile() {
-          const form = document.forms["profileForm"];
-          const nickname = form.nickname.value;
-          const password = form.password.value.trim();
-          const confirmPassword = document.getElementById('confirmPassword').value;
 
-          // 비밀번호가 비어있는지 확인
-          if (!password) {
-            alert('비밀번호를 입력해주세요.');
-            return false;
-          }
-          if (password !== confirmPassword) {
-            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-            return;
-          }
-          if (!form.checkValidity()) {
-            form.reportValidity();
-            return false;
-          }
-          
-          let user = {
-            id: '<%= user.id %>', // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
-            nickname: form.nickname.value,
-            password: form.password.value
-          };
+        function checkNickname() {
+                  let nickname = document.forms["nicknameForm"].nickname.value;
+                  if (!nickname) {
+                        alert("닉네임을 입력해주세요.");
+                        return;
+                    }
 
-          axios({
-            method: 'post',
-            url: '/updateProfile',
-            data: user
-          }).then((res) => {
-            if (res.data.result) {
-              alert(res.data.message);
-              location.reload();
-            } else {
-              alert(res.data.message);
+                axios({
+                    method: "post",
+                    url: "/checknickname",
+                    data: { nickname: nickname }
+                }).then((res) => {
+                    if (res.data.duplicate) {
+                      alert("이미 사용 중인 닉네임입니다.");
+                        nicknameChecked = false;
+                    } else {
+                        alert("사용 가능한 닉네임입니다.");
+                        nicknameChecked = true;
+                    }
+                });
             }
-          });
-          $('#profileModal').modal('hide');
-        }
-        
         function checkPasswordMatch() {
           let password = document.getElementById('password').value;
           let confirmPassword = document.getElementById('confirmPassword').value;
           let checkPasswordMatch = document.getElementById('checkPasswordMatch');
 
+          if (!password || !confirmPassword) {
+            checkPasswordMatch.style.display = 'none';
+            return;
+      }
+
           if (password === confirmPassword) {
-            checkPasswordMatch.style.color = 'green';
-            checkPasswordMatch.innerHTML = '⭕️';
+            checkPasswordMatch.style.display = 'none';
           } else {
             checkPasswordMatch.style.color = 'red';
-            checkPasswordMatch.innerHTML = '❌';
+            checkPasswordMatch.style.display = 'block';
+            checkPasswordMatch.innerHTML = '비밀번호가 일치하지 않습니다.';
           }
         }
 
-        function deleteAccount() {
-          const userid = '<%= user.id %>'; // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
-          const password = prompt("탈퇴를 위해 비밀번호를 다시 입력해주세요.");
+        function validatePassword() {
+          var password = document.getElementById("password");
+          var passwordError = document.getElementById("passwordError");
+
+          if (password.validity.patternMismatch) {
+              passwordError.style.color = 'red';
+              passwordError.innerText = "특수문자를 포함한 6자 이상의 비밀번호를 입력해주세요.";
+              passwordError.style.display = 'block';
+          } else {
+              passwordError.style.display = 'none';
+          }
+      }
+      function updateMypageNickname() {
+          const form = document.forms["nicknameForm"];
+          const nickname = form.nickname.value;
+
+          let user = {
+              id: '<%= user.id %>', // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
+              nickname: form.nickname.value
+          };
+
+          axios({
+              method: 'post',
+              url: '/updateMypageNickname',
+              data: user
+          }).then((res) => {
+              if (res.data.result) {
+                  alert(res.data.message);
+                  location.reload();
+              } else {
+                  alert(res.data.message);
+              }
+          });
+          $('#profileModal').modal('hide');
+        }
+
+        function updateMypagePassword() {
+          const form = document.forms["passwordForm"];
+          const password = form.password.value.trim();
+          const confirmPassword = document.getElementById('confirmPassword').value;
 
           // 비밀번호가 비어있는지 확인
           if (!password) {
               alert('비밀번호를 입력해주세요.');
+              return false;
+          }
+          if (password !== confirmPassword) {
+              alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
               return;
           }
+          if (!form.checkValidity()) {
+              form.reportValidity();
+              return false;
+          }
 
-              axios({
-                method: 'post',
-                url: '/deleteAccount',
-                data: { id: userid, password: password }
-              }).then((res) => {
+          let user = {
+              id: '<%= user.id %>', // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
+              password: form.password.value
+          };
+
+          axios({
+              method: 'post',
+              url: '/updateMypagePassword',
+              data: user
+          }).then((res) => {
               if (res.data.result) {
                   alert(res.data.message);
-                  window.location.href = "/signin";
+                  location.reload();
               } else {
                   alert(res.data.message);
               }
+          });
+          $('#profileModal').modal('hide');
+        }
+        function deleteAccount() {
+          const userid = '<%= user.id %>'; // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
+          const password = document.getElementById("accountDeletePassword").value; // 비밀번호 입력 필드에서 값 가져오기
+
+          // 비밀번호가 비어있는지 확인
+          if (!password) {
+            alert('비밀번호를 입력해주세요.');
+            return;
+          }
+
+          // 회원 탈퇴 요청
+          axios({
+            method: 'post',
+            url: '/deleteAccount',
+            data: { id: userid, password: password }
+          }).then((res) => {
+            if (res.data.result) {
+              // 회원 탈퇴 성공 시 로그인 페이지로 이동
+              window.location.href = "/signin";
+            } else {
+              alert(res.data.message);
+            }
           }).catch((error) => {
-              console.error(error);
+            console.error(error);
           });
 
-          $('#profileModal').modal('hide');
-      }
-        // 각 섹션의 내용을 숨기는 함수
-function hideAllSections() {
-  document.querySelectorAll('.sectionContent').forEach((section) => {
-    section.style.display = 'none';
-  });
-}
+          $('#profileModal').modal('hide'); // 모달 창 닫기
+        }
+
+        function hideAllSections() {
+          document.querySelectorAll('.sectionContent').forEach((section) => {
+            section.style.display = 'none';
+          });
+        }
 
 // // 특정 섹션만 표시하는 함수
 // function showSection(sectionId) {
@@ -280,6 +362,36 @@ function hideAllSections() {
 // });
 
 // 추가적인 링크들도 동일한 방식으로 설정
+
+// 모달창 탭 작동
+$(document).ready(function(){
+$(".tabs").click(function(){
+    
+    $(".tabs").removeClass("active");
+    $(".tabs h6").removeClass("font-weight-bold");    
+    $(".tabs h6").addClass("text-muted");    
+    $(this).children("h6").removeClass("text-muted");
+    $(this).children("h6").addClass("font-weight-bold");
+    $(this).addClass("active");
+    current_fs = $(".active");
+    next_fs = $(this).attr('id');
+    next_fs = "#" + next_fs + "1";
+    $("fieldset").removeClass("show");
+    $(next_fs).addClass("show");
+
+    current_fs.animate({}, {
+        step: function() {
+            current_fs.css({
+                'display': 'none',
+                'position': 'relative'
+            });
+            next_fs.css({
+                'display': 'block'
+            });
+        }
+    });
+});
+});
 
     </script>
   </html>
