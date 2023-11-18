@@ -1,0 +1,43 @@
+<html lang="ko" class="h-100" data-bs-theme="auto">
+  <head>
+    <!-- CDN들 불러오기 -->
+    <%- include('../components/cdn.ejs') %>
+    <!-- axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- CSS 연결 -->
+    <link href="../static/css/board.css" rel="stylesheet" />
+    <title>게시판</title>
+  </head>
+  <body class="d-flex h-100 text-center text-bg-white">
+    <!-- 헤더 : 상단 메뉴바  -->
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="container">
+        <div><%- include('../components/header.ejs') %></div>
+      </header>
+      <main class="px-3">
+        <div class="inner-box" style="width: 1000px;height: 500px; background-color: gray;">
+            <!-- css 구현할때 인라인style요소 삭제해야함-->
+            <!-- 여기에 내용이 들어감 -->
+            <!-- ejs 사용 -->
+            <h2>제목:<%= title %></h2>
+           <div>작성자: <%= nickname %></div>
+           <div>카테고리: <%= category %></div> 
+            <div><%= content %></div>
+            <hr />
+           <div>작성일: <%= createBoard %></div>
+           <div>수정일: <%= modifiedBoard %></div>
+           <div>조회수: <%= views %></div>
+     
+        </div>
+
+        <!--  여기 아래에 댓글기능을 붙이면 될 것 같습니다~! -->
+      </main>
+    
+      <script>
+     
+
+      </script>
+
+    </div>
+  </body>
+</html>
