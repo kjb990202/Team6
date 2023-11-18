@@ -36,6 +36,8 @@ exports.boardEdit = (req, res) => {
   res.render("board/boardEdit");
 };
 
+
+
 // 댓글 관련
 const Comment = require("../model/index");
 

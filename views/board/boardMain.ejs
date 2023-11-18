@@ -45,13 +45,15 @@
                 newBoard.className = "nowBox-list";
 
                 newBoard.innerHTML = `
-                  <div class="title">제목: ${boardData.title}</div>
-                  <div class="userId">작성자: ${boardData.user.nickname}</div>
-                  <div class="category">카테고리: ${boardData.category}</div>
-                  <div class="content">${boardData.content}</div>
-                  <div class="views">조회수: ${boardData.views}</div>
-                  <div class="createBoard">작성일: ${boardData.createBoard}</div>
-                  <div class="modifiedBoard">수정일: ${boardData.modifiedBoard}</div>
+                  <div onclick="moveBoardDetail(${boardData.boardID})" style="cursor:pointer">
+                    <div class="title">제목: ${boardData.title}</div>
+                    <div class="userId">작성자: ${boardData.user.nickname}</div>
+                    <div class="category">카테고리: ${boardData.category}</div>
+                    <div class="content">${boardData.content}</div>
+                    <div class="views">조회수: ${boardData.views}</div>
+                    <div class="createBoard">작성일: ${boardData.createBoard}</div>
+                    <div class="modifiedBoard">수정일: ${boardData.modifiedBoard}</div>
+                  </div>
                 `;
 
                 boardList.appendChild(newBoard);
@@ -102,21 +104,12 @@
         //-----------관찰하는 시점을 바꿔야함.(맨아래 보다 위로 올리기)
         //관찰자 객체 생성
         const io = new IntersectionObserver(callback, { threshold: 0.7 });
-        //관찰대상이 70퍼센트이상 들어오면 callback 함수 실행
-        //io는 특정 요소가 어디에 위치하는지 판별하는 객체.
-        // observeLastBoard(io, boards);
-
-        
-        //-------------작성하기 버튼클릭시 동작하는 기능
-        // function makeBoaed(){
-        //   if(){//세션에 값이있으면 
-        //     //작성페이지로 보내기
-        //   }
-        //   else{
-        //     alert("로그인 해주세요");
-        //     //로그인 창으로 보내기or 그냥 창만뜨고 말기
-        //   }
-        // }
+       
+        //보드 상세페이지로이동
+        function moveBoardDetail(boardID){
+          console.log(boardID);
+          window.location.href = `/boardDetail/:${boardID}`//  로 보내야함  boardDetail:boardID
+        }
 
       </script>
     </div>
