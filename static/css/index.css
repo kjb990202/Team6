@@ -36,7 +36,7 @@ body {
   color: #ffffff;
   font-size: 30px;
   font-weight: 100;
-  font-family: "Gill sans", sans;
+  font-family: "Pretendard";
   position: absolute;
   transition: all 600ms ease-in-out;
 }
@@ -44,11 +44,12 @@ body {
 /* 네모박스 첫화면 */
 .square-brand {
   background-color: #ffd503;
-  color: #000;
+  color: #6a6a6a;
   z-index: 10;
   cursor: pointer;
-  font-family: "iceJaram-Rg";
-  font-size: 45px;
+  font-family: "Pretendard";
+  font-size: 30px;
+  font-weight: 800;
   /* 텍스트 커서표시 안되게 설정 */
   user-select: none;
   /* 외곽선 */
