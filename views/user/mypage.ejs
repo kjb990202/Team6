@@ -87,100 +87,103 @@
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mb-4">
                                             <p class="lead fw-normal mb-0">좋아요 목록</p>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col mb-2">
+                                            좋아요 목록
                                           </div>
-                                          <div class="row">
-                                            <div class="col mb-2">
-                                              좋아요 목록
-                                            </div>
-                                            </div>
+                                        </div>
                                 </div>
                             </div>
                           </div>
-                        </section>
-                                          <!-- 모달 -->
-                                          <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true" >
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content p-0 ">
-                                                    <div class="modal-header"> 
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-header mx-1 mx-sm-3 mb-0 pb-0 border-0">
-                                                        <div class="tabs active" id="tab01">
-                                                            <h6 class="font-weight-bold">닉네임 변경</h6>
-                                                        </div>
-                                                        <div class="tabs" id="tab02">
-                                                            <h6 class="text-muted">비밀번호 변경</h6>
-                                                        </div>
-                                                        <div class="tabs" id="tab03">
-                                                            <h6 class="text-muted">회원 탈퇴</h6>
-                                                        </div>
-                                                    </div>
-                                                    <div class="line"></div>
-                                                    <fieldset class="show" id="tab011">
-                                                        <div>
-                                                            <form name="nicknameForm">
-                                                                <div class="form-group pb-2 px-3">
-                                                                    <input type="text" name="nickname" placeholder="변경하실 닉네임을 입력하세요" class="form-control">
-                                                                    <button type="button" class="btn btn-primary" onclick="checkNickname();">중복확인</button>
-                                                                </div>
-                                                                <div class="modal-footer form-group pb-2 justify-content-center">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                                                                    <button type="button" class="btn btn-primary" onclick="updateMypageNickname()">저장</button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </fieldset>
-                                                    <fieldset id="tab021">
-                                                        <div>
-                                                            <form name="passwordForm">
-                                                                <div class="form-group pb-2 px-3">
-                                                                    <input 
-                                                                    type="password" 
-                                                                    id="password" 
-                                                                    name="password" 
-                                                                    placeholder="새로운 비밀번호를 입력하세요" 
-                                                                    class="form-control" 
-                                                                    pattern="(?=.*[a-z])(?=.*[\W]).{6,}" 
-                                                                    required
-                                                                    oninput="validatePassword();">
-                                                                </div>
-                                                                <span id="passwordError"></span>
-                                                                <div class="form-group pb-2 px-3">
-                                                                    <input 
-                                                                    type="password" 
-                                                                    id="confirmPassword"
-                                                                    name="confirmPassword"
-                                                                    placeholder="비밀번호를 다시 입력하세요" 
-                                                                    oninput="checkPasswordMatch();"
-                                                                    required
-                                                                    class="form-control" >
-                                                                    <span id="checkPasswordMatch"></span>
-                                                                </div>
-                                                                <div class="modal-footer form-group pb-2 justify-content-center">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                                                                    <button type="button" class="btn btn-primary" onclick="updateMypagePassword()">저장</button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </fieldset>
-                                                    <fieldset id="tab031">
-                                                        <div>
-                                                            <form name="deleteAccountForm">
-                                                                <div class="form-group pb-2 px-3">
-                                                                    <input type="password" id="accountDeletePassword" placeholder="탈퇴를 위해 비밀번호를 다시 입력해주세요." class="form-control">
-                                                                </div>
-                                                                <div class="modal-footer form-group pb-2 justify-content-center">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                                                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteAccount()">탈퇴</button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </fieldset>
-                                                </div>
-                                            </div> 
-                                        </div>
+                    </div>
+                </div>
+            </div>
+          </section>
+         <!-- 모달 -->
+         <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true" >
+          <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-content p-0 ">
+                    <div class="modal-header"> 
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-header mx-1 mx-sm-3 mb-0 pb-0 border-0">
+                        <div class="tabs active" id="tab01">
+                            <h6 class="font-weight-bold">닉네임 변경</h6>
+                        </div>
+                        <div class="tabs" id="tab02">
+                            <h6 class="text-muted">비밀번호 변경</h6>
+                        </div>
+                        <div class="tabs" id="tab03">
+                            <h6 class="text-muted">회원 탈퇴</h6>
+                        </div>
+                    </div>
+                    <div class="line"></div>
+                    <fieldset class="show" id="tab011">
+                        <div>
+                            <form name="nicknameForm">
+                                <div class="form-group pb-2 px-3">
+                                    <input type="text" name="nickname" placeholder="변경하실 닉네임을 입력하세요" class="form-control">
+                                    <button type="button" class="btn btn-primary" onclick="checkNickname();">중복확인</button>
+                                </div>
+                                <div class="modal-footer form-group pb-2 justify-content-center">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                    <button type="button" class="btn btn-primary" onclick="updateMypageNickname()">저장</button>
+                                </div>
+                            </form>
+                        </div>
+                    </fieldset>
+                    <fieldset id="tab021">
+                        <div>
+                            <form name="passwordForm">
+                                <div class="form-group pb-2 px-3">
+                                    <input 
+                                    type="password" 
+                                    id="password" 
+                                    name="password" 
+                                    placeholder="새로운 비밀번호를 입력하세요" 
+                                    class="form-control" 
+                                    pattern="(?=.*[a-z])(?=.*[\W]).{6,}" 
+                                    required
+                                    oninput="validatePassword();">
+                                </div>
+                                <span id="passwordError"></span>
+                                <div class="form-group pb-2 px-3">
+                                    <input 
+                                    type="password" 
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    placeholder="비밀번호를 다시 입력하세요" 
+                                    oninput="checkPasswordMatch();"
+                                    required
+                                    class="form-control" >
+                                    <span id="checkPasswordMatch"></span>
+                                </div>
+                                <div class="modal-footer form-group pb-2 justify-content-center">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                    <button type="button" class="btn btn-primary" onclick="updateMypagePassword()">저장</button>
+                                </div>
+                            </form>
+                        </div>
+                    </fieldset>
+                    <fieldset id="tab031">
+                        <div>
+                            <form name="deleteAccountForm">
+                                <div class="form-group pb-2 px-3">
+                                    <input type="password" id="accountDeletePassword" placeholder="탈퇴를 위해 비밀번호를 다시 입력해주세요." class="form-control">
+                                </div>
+                                <div class="modal-footer form-group pb-2 justify-content-center">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteAccount()">탈퇴</button>
+                                </div>
+                            </form>
+                        </div>
+                    </fieldset>
+                </div>
+            </div> 
+        </div>
                                         
              
         </main>
