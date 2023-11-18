@@ -9,6 +9,11 @@
       <link href="../static/css/user.css" rel="stylesheet" />
       <title>로그인</title>
     <body class="d-flex h-100 text-center text-bg-white">
+         <!-- 헤더 : 상단 메뉴바  -->
+   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="container">
+      <div><%- include('../components/header.ejs') %></div>
+    </header>
     <script>
       function login() {
         const form = document.forms["form-login"];
@@ -37,11 +42,7 @@
       }
     </script>
   </head>
-   <!-- 헤더 : 상단 메뉴바  -->
-   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    <header class="container">
-      <div><%- include('../components/header.ejs') %></div>
-    </header>
+
   <body>
     <div class="flex">
       <div class="login-box flex">

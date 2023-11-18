@@ -2,23 +2,6 @@
  * Globals
  */
 
-/* Custom default button */
-.btn-light,
-.btn-light:hover,
-.btn-light:focus {
-  color: #333;
-  text-shadow: none; /* Prevent inheritance from `body` */
-}
-
-/*
- * Base structure
- */
-
-/* 홈페이지 좌우 여백 조절하는 곳 */
-.cover-container {
-  max-width: 72em;
-}
-
 /* 메인 지도 */
 .map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap {position:relative;width:100%;height:350px;}
