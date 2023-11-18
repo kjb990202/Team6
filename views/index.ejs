@@ -26,6 +26,24 @@
       </main>
     </div>
   </body>
+  <style>
+    /* 
+스크롤바 설정 : 콘텐츠 안에 스크롤바가 들어가게 설정 , 메인만 스크롤바가 배경색과 동힐하게해 안보이게 설정
+*/
+    /* 스크롤바 스타일링 */
+    ::-webkit-scrollbar {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* 스크롤바 막대 스타일링 */
+    ::-webkit-scrollbar-thumb {
+      outline: none;
+      border-radius: 10px;
+      border: 4px solid transparent;
+      box-shadow: inset 6px 6px 0 rgba(254, 255, 247, 0.1);
+    }
+  </style>
   <script>
     const confettiColors = ["#f2d74e", "#95c3de", "#ff9a91", "#add"];
     const max = 60;
@@ -90,5 +108,12 @@
     }
 
     $("#activeball").click(startAnimation);
+
+    // 스크롤 고정 함수
+    $("#element").on("scroll touchmove mousewheel", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    });
   </script>
 </html>
