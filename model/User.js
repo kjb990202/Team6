@@ -15,10 +15,10 @@ function User(Sequelize, DataTypes) {
             },
             password: {
                     type : DataTypes.STRING(255),
-
+                    allowNull: false,
             },
             salt: {
-                    type: DataTypes.STRING(100),
+                    type : DataTypes.STRING(100),
                     allowNull: false,
             },    
             email: {
@@ -27,6 +27,10 @@ function User(Sequelize, DataTypes) {
             },
             nickname: {
                     type : DataTypes.STRING(20),
+            },
+            image: {
+                    type : DataTypes.STRING(500),
+                    defaultValue: null,
             }   
         }, 
         {

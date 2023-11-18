@@ -5,11 +5,7 @@ const Cmap_Database = require("../controller/Cmap_Database");
 const Cmap_Information = require("../controller/Cmap_Information");
 const user = require("../controller/Cuser");
 const Ccomment = require("../controller/Ccomment")
-
-
 const board = require("../controller/Cboard");
-
-// const comment = require("../controller/Ccomment");
 
 // 메인 페이지
 router.get("/", controller.index);
@@ -65,27 +61,10 @@ router.get("/boardMain", controller.boardMain);
 router.get("/boardEdit", controller.boardEdit);
 
 // 게시판 작성 화면 -> 게시글 등록
-router.post("/boardSubmit", async (req, res) => {
-  try {
-    const { boardID, id, title, category, content } = req.body;
-    // 게시글 저장 로직
-    const newSubmit = await dbSubmit.create({
-      boardID: boardID,
-      id: id,
-      title: title,
-      category: category,
-      content: content,
-    });
-    res.status(201).json(newSubmit);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "에러가 발생했습니다." });
-  }
-});
-
+router.post("/boardSubmit", board.boardSubmit);
 
 //데이터 가져오기 테스트
-router.get("/getBoard",board.getBoard);
+router.get("/getBoard", board.getBoard);
 
 // 로그인 페이지
 router.get("/signin", controller.signin);
@@ -135,9 +114,11 @@ router.get("/logout", (req, res) => {
 // 마이페이지
 router.get("/mypage", user.mypage);
 
-// 프로필 수정
-router.post('/updateProfile', user.updateProfile);
-// 회원 탈퇴
+// 마이페이지 닉네임수정
+router.post("/updateMypageNickname", user.updateMypageNickname);
+// 마이페이지 비밀번호 수정
+router.post("/updateMypagePassword", user.updateMypagePassword);
+// 마이페이지 회원 탈퇴
 router.post("/deleteAccount", user.deleteAccount);
 
 

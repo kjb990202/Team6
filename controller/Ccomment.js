@@ -11,8 +11,10 @@ exports.comment = (req, res) => {
   Comment.findAll().then((result) => {
     console.log("findAll result: ", result);
     console.log("0 index의 id", result.id);
+
     // res.render("./comment/comment", { data: result  });
     res.render("./comment/comment", {user: req.session.user, data: result});
+
   });
 };
  

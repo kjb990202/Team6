@@ -1,13 +1,15 @@
 const { Op } = require('sequelize');
+const { User } = require("../model");
 // 게시판 작성 화면 -> 게시글 등록
 const { Board } = require("../model"); // Board 모델 가져오기
+Board.belongsTo(User, { foreignKey: 'id' });
 exports.boardSubmit = async (req, res) => {
   try {
-    const { boardID, title, category, content } = req.body;
+    const { id, title, category, content } = req.body;
 
     // Board 모델을 사용하여 데이터베이스에 저장
     await Board.create({
-      boardID,
+      id,
       title,
       category,
       content,
@@ -37,6 +39,7 @@ exports.getBoard = async (req, res) => {
           [Op.lt]: cursor,
         },
       },
+      include: [{ model: User, attributes: ['nickname'] }],
       order: [['boardID', 'DESC']],
       limit: 12,
     });

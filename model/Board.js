@@ -23,12 +23,12 @@ function Board(Sequelize, DataTypes) {
         allowNull: true,
       },
       category: {
-        type: DataTypes.TEXT,
-        allowNull: true,
+        type: DataTypes.STRING(20),
+        allowNull: false,
       },
       content: {
-        type: DataTypes.STRING(20),
-        allowNull: true,
+        type: DataTypes.TEXT,
+        allowNull: false,
       },
       views: {
         type: DataTypes.INTEGER,
@@ -36,15 +36,15 @@ function Board(Sequelize, DataTypes) {
       },
       createBoard: {
         type: DataTypes.DATE,
-        allowNull: true,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       modifiedBoard: {
         type: DataTypes.DATE,
-        allowNull: true,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       id: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
       },
     },
     {

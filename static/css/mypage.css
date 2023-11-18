@@ -1,3 +1,62 @@
 body {
   position: relative;
 }
+
+fieldset {
+  display: none;
+}
+
+fieldset.show {
+  display: block;
+}
+
+.tabs {
+  margin: 2px 5px 0px 5px;
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+
+form {
+  margin-top: 24px;
+  background-color: transparent;
+}
+
+/* 클릭시 선택 */
+.tabs:hover,
+.tabs.active {
+  border-bottom: 1px solid #2196f3;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #1565c0;
+}
+
+/* 모달 */
+
+.modal-content {
+  width: 400px;
+  height: 400px;
+}
+
+.box {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* .modal-backdrop {
+  background-color: #64b5f6;
+} */
+
+.line {
+  background-color: #cfd8dc;
+  height: 1px;
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .tabs h6 {
+    font-size: 12px;
+  }
+}
