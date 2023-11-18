@@ -1,103 +1,111 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="h-100" data-bs-theme="auto">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CDN들 불러오기 -->
+    <%- include('../views/components/cdn.ejs') %>
+    <!-- CSS 연결 -->
     <link href="../static/css/404.css" rel="stylesheet" />
-    <title>404 Error Page</title>
+    <title>SeSAC-it</title>
   </head>
-  <body>
-    <main class="container">
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">4</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-      <span class="particle">0</span>
-
-      <div class="wrapper-squares">
-        <div
-          class="square square1 square-brand square-pulse square-center"
-          id="activeball"
-        >
-          페이지를 찾을 수 없습니다!
+  <!-- 각 ejs 파일별로 body, div 태그가 나란히 배치해야 헤더 간격이 일정함!-->
+  <body class="d-flex h-100 text-center text-bg-white">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <!-- 헤더 -->
+      <header class="container">
+        <div><%- include('../views/components/header.ejs') %></div>
+      </header>
+      <main>
+        <div class="container"></div>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">4</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <span class="particle">0</span>
+        <div class="wrapper-squares">
+          <div
+            class="square square1 square-brand square-pulse square-center"
+            id="activeball"
+          >
+            페이지를 찾을 수 없습니다!
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </body>
   <script>
     const particleColor = ["#f2d74e", "#95c3de", "#ff9a91"]; // 세 가지 색상 지정
