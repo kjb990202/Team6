@@ -4,13 +4,12 @@ const router = express.Router();
 const Cmap_Database = require("../controller/Cmap_Database");
 const Cmap_Information = require("../controller/Cmap_Information");
 const user = require("../controller/Cuser");
-
 const Ccomment = require("../controller/Ccomment")
 
 
 const board = require("../controller/Cboard");
 
-const comment = require("../controller/Ccomment");
+// const comment = require("../controller/Ccomment");
 
 // 메인 페이지
 router.get("/", controller.index);
@@ -35,13 +34,18 @@ router.post("/uplodeReview", Cmap_Database.uplodeReview);
 
 router.get("/comment",Ccomment.comment);
 // 댓글 등록
-// router.post("/comment", Ccomment.postComment);
-// // 댓글 수정
-// router.patch("/comment", Ccomment.patchComment);
-// // 댓글 하나 조회
-// router.get("/comment/:commentID", Ccomment.getCommentById);
-// // 댓글 삭제
-// router.delete("/comment/:commentID", Ccomment.deleteComment);
+router.post("/comment", Ccomment.postComment);
+//  댓글 수정
+router.patch("/comment", Ccomment.patchComment);
+// /댓글 하나 조회
+router.get("/comment/:commentID", Ccomment.getCommentById);
+//  댓글 삭제
+router.delete("/comment/:commentID", Ccomment.deleteComment);
+
+// GET /comments/:boardID => 해당 게시판 댓글 전체 조회
+// router.get('/comments/:boardID', Ccomment.getCommentsByBoardID);
+
+module.exports = router;
 
 // 맛집 지도 메인 페이지
 router.get("/mapMain", controller.mapMain);

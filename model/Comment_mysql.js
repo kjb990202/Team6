@@ -22,8 +22,7 @@ exports.getComments = (cb) => {
 };
 
 exports.insertComment = (data, cb) => {
-  // insert into comment (username, comment) values ('????', '?????')
-  const sql = `insert into comment (commentID, boardID, id, Field, createComment) values ('${data.username}', '${data.comment}')`;
+  const sql = `insert into comment (commentID, boardID, id, Field, createComment) values ('${data.commentID}', '${data.Field}')`;
 
   conn.query(sql, (err, result) => {
     // err 변수가 빈 값이 아니라면, err가 발생했다는 것.
