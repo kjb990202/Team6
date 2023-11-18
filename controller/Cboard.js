@@ -5,11 +5,11 @@ const { Board } = require("../model"); // Board 모델 가져오기
 Board.belongsTo(User, { foreignKey: 'id' });
 exports.boardSubmit = async (req, res) => {
   try {
-    const { boardID, title, category, content } = req.body;
+    const { id, title, category, content } = req.body;
 
     // Board 모델을 사용하여 데이터베이스에 저장
     await Board.create({
-      boardID,
+      id,
       title,
       category,
       content,

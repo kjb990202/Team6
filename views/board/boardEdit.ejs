@@ -98,7 +98,7 @@ document.getElementById('submitButton').addEventListener('click', function(event
     const boardID = '사용자닉네임'; // 로그인한 사용자의 닉네임 JW:이거 닉네임이아니라 보드 구분하는 키인것같아요
     const thisUserID ="<%= user ? user.id : '' %>"
     
-    console.log("<%= user ? user.id : '' %>");
+  
     axios.post('/boardSubmit', {
       id:thisUserID,
       boardID: boardID,
