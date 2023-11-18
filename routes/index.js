@@ -41,8 +41,6 @@ router.delete("/comment/:commentID", Ccomment.deleteComment);
 // GET /comments/:boardID => 해당 게시판 댓글 전체 조회
 // router.get('/comments/:boardID', Ccomment.getCommentsByBoardID);
 
-module.exports = router;
-
 // 맛집 지도 메인 페이지
 router.get("/mapMain", controller.mapMain);
 
