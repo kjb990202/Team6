@@ -1,4 +1,4 @@
-const { Comment } = require("../model/index");
+const { Comment, User } = require("../model/index");
 
 exports.home = (req, res) => {
   res.render("index");
@@ -8,9 +8,15 @@ exports.home = (req, res) => {
 exports.comment = (req, res) => {
   // select * from comment;
   console.log("user: ", req.session.user);
-  Comment.findAll().then((result) => {
+  Comment.findAll({
+    where: {
+      id: req.session.user.id
+    },
+    include: [{model: User, attributes: ["nickname"]}]
+  }).then((result) => {
     console.log("findAll result: ", result);
     console.log("0 index의 id", result.id);
+    console.log("0 index의 user", result.User);
 
     // res.render("./comment/comment", { data: result  });
     res.render("./comment/comment", {user: req.session.user, data: result});
