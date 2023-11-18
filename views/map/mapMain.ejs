@@ -8,6 +8,10 @@
       <!-- CSS 연결 -->
       <link href="../static/css/map.css" rel="stylesheet" />
       <title>맛집 지도</title>
+      <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a54c1412f5e82ee9e5256c32dc403b24&libraries=services"
+    ></script>
     </head>
     <body class="d-flex h-100 text-center text-bg-white">
       <!-- 헤더 : 상단 메뉴바  -->
@@ -52,36 +56,12 @@
             </ul>
           </div>
 
+
           <!-- SB: 리뷰작성 버튼을 보여주는 div입니다. -->
           <div id="messageDiv" style="background-color: pink"></div>
           <!-- SB: 리뷰작성 버튼을 누르면 작성칸을 보여주는 div입니다.-->
           <form name="reviewForm">
-            <div id="postReviewDiv" style="background-color: black">
-              <button>
-                <img src="../../static/img/yellow_stars_empty.jpg" style="width: 25px;" alt="내 버튼" />
-              </button>
-              <div class="rating">
-                <label class="rating_star" for="star1">
-                  <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-                  <span class="star-icon"></span>
-                </label>
-                <label class="rating__label rating__label--full" for="star1">
-                  <input type="radio" id="star1" class="rating__input" name="rating" value="">
-                  <span class="star-icon"></span>
-                </label>
-                <label class="rating__label rating__label--full" for="star1">
-                  <input type="radio" id="star1" class="rating__input" name="rating" value="">
-                  <span class="star-icon"></span>
-                </label>
-                <label class="rating__label rating__label--full" for="star1">
-                  <input type="radio" id="star1" class="rating__input" name="rating" value="">
-                  <span class="star-icon"></span>
-                </label>
-                <label class="rating__label rating__label--full" for="star1">
-                  <input type="radio" id="star1" class="rating__input" name="rating" value="">
-                  <span class="star-icon"></span>
-                </label>
-              </div>
+            <div id="postReviewDiv">
             </div>
           </form>
           <!-- SB: 리뷰수정 버튼을 누르면 수정칸을 보여주는 div입니다.-->
@@ -91,13 +71,8 @@
           <!-- SB: 작성된 리뷰를 보여주는 div입니다. -->
           <div id="getReviewDiv" style="background-color: skyblue"></div>
 
-          <script
-            type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a54c1412f5e82ee9e5256c32dc403b24&libraries=services"
-          ></script>
-          <script>
-            
 
+          <script>
             // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
             var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
               contentNode = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
@@ -181,15 +156,44 @@
               }
             }
 
+
+
+
+            function emptyStar() {
+              for (let i = 1; i <= 5; i++) {
+                // SB: 별별별
+                document.getElementById(`star${i}`).innerHTML = "☆"
+              };
+            };
+
+            // SB: 별점 별에 걸려있는 함수입니다.
+            function starRating(starNumber, divName) {
+              emptyStar();
+
+              for (let i = 1; i <= starNumber; i++) {
+                // SB: 별별별
+                document.getElementById(`star${i}`).innerHTML = "★"
+              };
+
+              $(`#${divName}`).append(`<div id="starResultDiv"></div>`);
+
+              document.getElementById("starResultDiv").innerHTML = `<input type="text" name="rating" title="별점을 입력해주세요" value="${starNumber}" style="display:none;" required>`;
+            };
+
             // SB: 리뷰 작성 버튼에 걸려있는 함수입니다. input 태그들을 보여줍니다.
             function postReview(placeName, placeAddress) {
               fixDiv.innerHTML = ""
 
               const postReviewDiv = document.getElementById("postReviewDiv");
+              // SB: 별별별
               const reviewContent = `
-              별점 <input type="text" name="rating" title="1~5 사이에 숫자를 입력하세요" pattern="^[1-5]{0,1}" required>
+              <button type="button" id="star1" class="buttonStar" value="1" style="color: red;" onclick="starRating(1, 'postReviewDiv')">☆</button>
+              <button type="button" id="star2" class="buttonStar" value="2" style="color: red;" onclick="starRating(2, 'postReviewDiv')">☆</button>
+              <button type="button" id="star3" class="buttonStar" value="3" style="color: red;" onclick="starRating(3, 'postReviewDiv')">☆</button>
+              <button type="button" id="star4" class="buttonStar" value="4" style="color: red;" onclick="starRating(4, 'postReviewDiv')">☆</button>
+              <button type="button" id="star5" class="buttonStar" value="5" style="color: red;" onclick="starRating(5, 'postReviewDiv')">☆</button>
               <br />
-              <input type="text" name="reviewComment" placeholder="리뷰를 작성해주세요!" required >
+              <input type="text" name="reviewComment" placeholder="리뷰를 작성해주세요!" required>
               <br />
               <button type="button" onclick="uplodeReview('${placeName}', '${placeAddress}')">제출하기!</button>`;
 
@@ -204,6 +208,7 @@
               
                   return false;
               }
+
               let thisUserId = "<%= user ? user.id : '' %>"
               const data = {
                 id: thisUserId,
@@ -217,12 +222,13 @@
                 data: data
               }).then((res)=> {
                 alert("리뷰 작성이 완료되었습니다.")
+                // SB: 별별별
                 $('#getReviewDiv').append(
                   `<div id="${res.data.reviewNumber}">
                     <div>작성일 : ${res.data.createdAt}</div>
                     <div>수정일 : ${res.data.updatedAt}</div>
                     <div>작성자 : ${res.data.user.nickname}</div>
-                    <div id="ratingDiv">별점 : ${res.data.rating}</div>
+                    <div id="ratingDiv">별점 : ${"★".repeat(Number(res.data.rating))+"☆".repeat(5-Number(res.data.rating))} </div>
                     <div id="reviewCommentDiv">내용 : ${res.data.reviewComment}</div>
                     <button type="button" onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}')">리뷰 수정</button>
                     <button type="button" onclick="reviewDelete('${res.data.reviewNumber}')">리뷰 삭제</button>
@@ -234,18 +240,25 @@
 
             // SB: 리뷰 수정 버튼에 걸려있는 함수입니다.
             function reviewFix(reviewNumber, rating, reviewComment) {
-              postReviewDiv.innerHTML = ""
-              fixDiv.innerHTML = ""
+              postReviewDiv.innerHTML = "";
+              fixDiv.innerHTML = "";
 
+              // SB: 별별별
               $('#fixDiv').append(
                 `<div>
-                    별점 <input type="text" name="rating" title="1~5 사이에 숫자를 입력하세요" pattern="^[1-5]{0,1}" required value="${rating}">
+                    <button type="button" id="star1" class="buttonStar" value="1" style="color: red;" onclick="starRating(1, 'fixDiv')">☆</button>
+                    <button type="button" id="star2" class="buttonStar" value="2" style="color: red;" onclick="starRating(2, 'fixDiv')">☆</button>
+                    <button type="button" id="star3" class="buttonStar" value="3" style="color: red;" onclick="starRating(3, 'fixDiv')">☆</button>
+                    <button type="button" id="star4" class="buttonStar" value="4" style="color: red;" onclick="starRating(4, 'fixDiv')">☆</button>
+                    <button type="button" id="star5" class="buttonStar" value="5" style="color: red;" onclick="starRating(5, 'fixDiv')">☆</button>
                     <br />
                     원하시는대로 수정하시면 됩니다ㅋ <input type="text" name="reviewComment" required value="${reviewComment}">
                     <br />
                     <button type="button" onclick="updateReview('${reviewNumber}')">수정하기!</button>
                 </div>`
-              )
+              );
+
+              starRating(rating);
             }
 
             // SB: 수정하기 버튼에 걸려있는 함수입니다.
@@ -270,12 +283,13 @@
               }).then((res)=> {
                 if (res.data) {
                   alert("리뷰 수정이 완료되었습니다.")
+                  // SB: 별별별
                   $(`#${res.data.reviewNumber}`).empty();
                   $(`#${res.data.reviewNumber}`).append(
                     `<div>작성일 : ${res.data.createdAt}</div>
                       <div>수정일 : ${res.data.updatedAt}</div>
                       <div>작성자 : ${res.data.user.nickname}</div>
-                      <div id="ratingDiv">별점 : ${res.data.rating}</div>
+                      <div id="ratingDiv">별점 : ${"★".repeat(Number(res.data.rating))+"☆".repeat(5-Number(res.data.rating))} </div>
                       <div id="reviewCommentDiv">내용 : ${res.data.reviewComment}</div>
                       <button type="button" onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}')">리뷰 수정</button>
                       <button type="button" onclick="reviewDelete('${res.data.reviewNumber}')">리뷰 삭제</button>`
@@ -361,13 +375,14 @@
                             `<div>${place.place_name}</div>
                             <div>로그인 후에 리뷰를 작성하실 수 있습니다.</div>`;
 
+                            // SB: 별별별
                           for (let i = 0; i < res.data.length; i++) {
                             $("#getReviewDiv").append(`
                             <div id="${res.data[i].reviewNumber}">
                             <div>작성일 : ${res.data[i].createdAt}</div>
                             <div>수정일 : ${res.data[i].updatedAt}</div>
                             <div>작성자 : ${res.data[i].nickname}</div>
-                            <div id="ratingDiv">별점 : ${res.data[i].rating}</div>
+                            <div id="ratingDiv">별점 : ${"★".repeat(Number(res.data[i].rating))+"☆".repeat(5-Number(res.data[i].rating))} </div>
                             <div id="reviewCommentDiv">내용 : ${res.data[i].reviewComment}</div>
                             `)
                           };
@@ -396,13 +411,14 @@
                             
                           for (let i = 0; i < res.data.length; i++) {
                             let thisUserId = "<%= user ? user.id : '' %>"
-                            
+
                             // SB: 작성할 HTML을 미리 정의해 놨습니다.
+                            // SB: 별별별
                             let html = `<div id="${res.data[i].reviewNumber}">
                               <div>작성일 : ${res.data[i].createdAt}</div>
                               <div>수정일 : ${res.data[i].updatedAt}</div>
                               <div>작성자 : ${res.data[i].nickname}</div>
-                              <div id="ratingDiv">별점 : ${res.data[i].rating}</div>
+                              <div id="ratingDiv">별점 : ${"★".repeat(Number(res.data[i].rating))+"☆".repeat(5-Number(res.data[i].rating))} </div>
                               <div id="reviewCommentDiv">내용 : ${res.data[i].reviewComment}</div>`;
 
                             if (thisUserId == res.data[i].id) {

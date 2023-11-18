@@ -47,14 +47,12 @@
 .placeinfo .tel {color:#0f7833;}
 .placeinfo .jibun {color:#999;font-size:11px;margin-top:0;}
 
-.rating__input {
-	display: none; /* 라디오버튼 hide */
-}
 
-.rating__label .star-icon {
-	width: 24px;
-	height: 24px;
-	display: block;
-	background-image: url("../img/yellow_stars_empty.jpg");
-	background-repeat: no-repeat;
+.buttonStar{
+  background-color: rgba( 255, 255, 255, 0 );
+  color: black;
+  border:none;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
 }
