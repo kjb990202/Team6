@@ -19,14 +19,22 @@
             <!-- css 구현할때 인라인style요소 삭제해야함-->
             <!-- 여기에 내용이 들어감 -->
             <!-- ejs 사용 -->
-            
+            <h2>제목:<%= title %></h2>
+           <div>작성자: <%= nickname %></div>
+           <div>카테고리: <%= category %></div> 
+            <div><%= content %></div>
+            <hr />
+           <div>작성일: <%= createBoard %></div>
+           <div>수정일: <%= modifiedBoard %></div>
+           <div>조회수: <%= views %></div>
+     
         </div>
+
+        <!--  여기 아래에 댓글기능을 붙이면 될 것 같습니다~! -->
       </main>
     
       <script>
-        function addInner(){
-            axios.post("/boardDetail")
-        }
+     
 
       </script>
 

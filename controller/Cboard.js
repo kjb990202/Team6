@@ -50,48 +50,26 @@ exports.getBoard = async (req, res) => {
   }
 };
 
-// 게시판 상세페이지
-// exports.boardDetail =  async(req, res) => {
-//   const checkBoardID = req.params.boardID;
-//  // res.render("board/boardDetail/:boardID");
-//   await Board.findOne(
-//     {
-//       where:{
-//         boardID:boardID,
-//       }, 
-//       include: [{ model: User, attributes: ['nickname'] }],
-//     }
-//   ).then((result)=>{
-//     //보내고싶은거
-
-//     let data = {
-//       boardID : result
-//     }
-//     res.render('board/boardDetail');
-//     res.send(result);
-//     console.log(result);
-//   })
- 
-  
-// };
-
 exports.boardDetail = async (req, res) => {
-  const checkBoardID = req.params.boardID;
-  console.log("보드 아이디 값",checkBoardID)//잘넘어옴
+  const boardID =  parseInt(req.params.boardID, 10);//문자열로 넘어갔기때문에 int형으로 변환해줘야함(트러블 슈팅에 추가예정)
+  console.log("보드 아이디 값",boardID)//잘넘어옴
   try {
     const result = await Board.findOne({
-      where: { boardID:checkBoardID },
+      where: { boardID : boardID },
       include: [{ model: User, attributes: ['nickname'] }],
     });
     console.log("result 값:",result);
      if (result) {
       // 데이터가 존재할 때 템플릿에 전달
-      const { title, content } = result;
+      console.log("result 값:",result);
+      const { title, content ,user,createBoard,modifiedBoard,views,category, } = result;
+      const{ nickname } =user;
       
-      res.render('board/boardDetail', { boardID, title, content });
+      res.render('board/boardDetail', {title, content ,nickname,createBoard,modifiedBoard,views,category });
+      console.log("닉네임:",nickname);
     } else {
       // 데이터가 존재하지 않을 때 처리
-      res.status(404).send('게시물을 찾을 수 없습니다.');
+      res.status(404).render("404");
     }
   } catch (error) {
     console.error(error);
