@@ -2,7 +2,6 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
 body {
-  overflow: hidden;
   touch-action: none;
   font-family: "Pretendard";
   font-weight: 900;

@@ -15,9 +15,9 @@
  * Base structure
  */
 body {
-  overflow: hidden;
   touch-action: none;
 }
+
 /* 홈페이지 좌우 여백 조절하는 곳 */
 .cover-container {
   max-width: 72em;
