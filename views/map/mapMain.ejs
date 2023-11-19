@@ -365,6 +365,8 @@
                       postReviewDiv.innerHTML = "";
                     }
 
+                    document.getElementById("noReviewDiv").innerHTML = "";
+
                     // SB: 마커를 클릭하면 가게 정보를 DB에 올리는 함수입니다.
                     let storeData = {
                       storeID: `${place.place_name}_${place.address_name}`,
