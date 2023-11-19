@@ -27,27 +27,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/check-session", function (req, res) {
-  if (req.session.user) {
-    // 세션이 유효한 경우
-    res.status(200).send("Session active");
-  } else {
-    // 세션 만료 또는 존재하지 않는 경우
-    res.status(401).send("Session expired");
-  }
-});
-
-// 세션 확인 후 로그아웃되었을 시 로그인 메시지 출력
-app.get("/check-session", function (req, res) {
-  if (req.session.user) {
-    // 세션이 유효한 경우
-    res.status(200).send("Session active");
-  } else {
-    // 세션 만료 또는 존재하지 않는 경우
-    res.status(401).send("Session expired");
-  }
-});
-
 const router = require("./routes");
 app.use("/", router);
 

@@ -172,9 +172,9 @@
           >게시판</a
         >
         <!-- <a class="nav-link fw-normal py-1 px-0 float" href="/comment"
-          >댓글</a
+          >댓글</a>
         > -->
-        <div class="nav-link fw-normal py-1 px-0 dropdown">
+        <div class="nav-link fw-normal py-1 px-0 dropdown float">
           <button
             class="btn btnHeader"
             type="button"
@@ -220,14 +220,3 @@
     </div>
   </header>
 </div>
-<script>
-    <!--  세션 확인 후 로그아웃되었을 시 로그인 메시지 출력 -->
-    setInterval(function() {
-    fetch('/check-session').then(response => {
-      if (response.status === 401) { // 401 상태 코드는 권한 없음을 의미
-        alert("세션이 만료되었습니다. 다시 로그인해주세요.");
-        window.location.href = '/login'; // 로그인 페이지로 리디렉션
-      }
-    });
-  }, 60000); // 60초마다 확인
-</script>

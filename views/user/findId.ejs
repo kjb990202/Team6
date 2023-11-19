@@ -6,7 +6,7 @@
       <!-- CDN들 불러오기 -->
       <%- include('../components/cdn.ejs') %>
       <!-- CSS 연결 -->
-      <link href="../static/css/user.css" rel="stylesheet" />
+      <link href="../static/css/signin.css" rel="stylesheet" />
       <title>아이디 찾기</title>
     </head>
     <body class="d-flex h-100 text-center text-bg-white">
@@ -16,16 +16,23 @@
           <div><%- include('../components/header.ejs') %></div>
         </header>
 <body>
-    <div class="flex">
-        <div class="login-box flex" id="content-div">
+    <div class="login-root">
+ <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh; flex-grow: 1;">
+      <div class="formbg-outer">
+        <div class="formbg">
+          <div class="login-box formbg-inner padding-horizontal--48">
             <form action="" name="form-register">
-                <div><input type="text" class="login-input" placeholder="이메일" name="email" required></div>
-                <br />
-                <button class="login-button" type="button" id="find-button" onclick="findId();"><span>아이디 찾기</span></button>
-            </form>
-        </div>
-    </div>
-    
+              <div class="field padding-bottom--24">
+                <label class="d-flex justify-content-start" for="userEmail">이메일</label>
+                <input type="text" class="login-input" name="email" required
+                required 
+              />
+              </div>
+              <div class="field padding-bottom--10">
+                <input class="login-button" type="button" id="find-button" onclick="findId();" value="아이디 찾기">
+              </div>
+              <div class="field padding-bottom--10 login" id="content-div" ></div>
+        </form>
     <script>
         function findId() {
             let email = document.forms["form-register"].email.value;
@@ -33,7 +40,6 @@
                 alert("이메일을 입력해주세요.");
                 return;
             }
-    
             axios({
                 method: 'post',
                 url: '/findId',
@@ -41,38 +47,47 @@
             }).then((res) => {
                 if (res.data.userid) {
                     // 버튼을 숨기고 아이디 정보를 표시합니다.
-                    document.getElementById('find-button').style.display = 'none';
-                    let message = document.createElement('p');
+                    document.getElementById("find-button").style.display = "none";
+                    let message = document.createElement("p");
+                    message.className = "padding-bottom--24"
                     message.innerText = "당신의 아이디는 " + res.data.userid + " 입니다.";
-                    document.getElementById('content-div').appendChild(message);
+                    message.style.color = "#7f7979";
+                    message.style.fontSize = "18px";
+                    message.style.textAlign = "start";
+                    document.getElementById("content-div").appendChild(message);
 
-                    // '로그인 페이지로 가기' 버튼을 생성합니다.
-                    let loginButton = document.createElement('button');
-                    loginButton.innerText = '로그인 페이지';
-                    loginButton.onclick = function() {
-                        location.href = '/signin';  
-                    };
-                    loginButton.style.backgroundColor = "rgb(43, 43, 43)";
-                    loginButton.style.color = "white";
-                    loginButton.style.width = "400px";
-                    loginButton.style.height = "50px";
-                    loginButton.style.margin = "8px";
-                    loginButton.style.cursor = "pointer";
-                    document.getElementById('content-div').appendChild(loginButton);
+                    // "로그인"&"비밀번호 찾기" 버튼을 생성합니다.
+                    createLoginButton();
 
-                    // '비밀번호 찾기' 버튼을 생성합니다.
-                    let passwordButton = document.createElement('button');
-                    passwordButton.innerText = '비밀번호 찾기';
-                    passwordButton.onclick = function() {
-                        location.href = '/findPassword'; 
-                    };
-                    passwordButton.style.backgroundColor = "rgb(43, 43, 43)";
-                    passwordButton.style.color = "white";
-                    passwordButton.style.width = "400px";
-                    passwordButton.style.height = "50px";
-                    passwordButton.style.margin = "8px";
-                    passwordButton.style.cursor = "pointer";
-                    document.getElementById('content-div').appendChild(passwordButton);
+                function createLoginButton() {
+                    // div 요소 생성
+                    let div = document.createElement("div");
+                    div.className = "d-flex padding-bottom--10";
+
+                    // input 로그인 버튼 요소 생성
+                    let input1 = document.createElement("input");
+                    input1.type = "button";
+                    input1.name = "submit flex-grow-1";
+                    input1.value = "로그인";
+                    input1.onclick = function() {
+                    location.href = "/signin"}; // login 함수와 연결
+                
+                        // input 로그인 버튼 요소 생성
+                    let input2 = document.createElement("input");
+                    input2.type = "button";
+                    input2.name = "submit";
+                    input2.value = "비밀번호 찾기";
+                    input2.onclick = function() {
+                    location.href = "/findPassword"}; // login 함수와 연결
+
+
+                    // div에 input 추가
+                    div.appendChild(input1);
+                    div.appendChild(input2);
+
+                    // 생성된 div를 문서의 특정 위치에 추가
+                    document.getElementById("content-div").appendChild(div);
+                };
                 } else {
                     alert("해당 이메일로 등록된 아이디가 없습니다.");
                 }
