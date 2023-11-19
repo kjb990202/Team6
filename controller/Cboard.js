@@ -80,7 +80,7 @@ exports.boardDetail = async (req, res) => {
 
 //게시글 삭제
 exports.boardDelete = (req,res) => {
-  // const boardID =req.params.boardID;
+  
   console.log("없앨보드의 숫자",req.params.boardID);
   Board.destroy({
     where:{
