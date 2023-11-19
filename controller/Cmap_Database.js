@@ -1,4 +1,4 @@
-const { Map_Database, User } = require("../model");
+const { Map_Database, User, Map_Information } = require("../model");
 
 // 리뷰 조회
 exports.getReview = (req, res) => {
@@ -69,14 +69,14 @@ exports.updateReview = (req, res) => {
   Map_Database.update(data, {
     where: {
       reviewNumber: req.body.reviewNumber
-    },
+    }
   }).then((result) => {
     if (result == 1) {
       Map_Database.findOne({
         where: {
           reviewNumber: req.body.reviewNumber
       },
-      include: [{model: User, attributes: ["nickname"]}]
+      include: [{model: User, attributes: ["nickname"]}, {model: Map_Information, attributes: ["placeName"]}, {model: Map_Information, attributes: ["address"]}]
       }).then((results) => {
         res.send(results.dataValues);
       })
