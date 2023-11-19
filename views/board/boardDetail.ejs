@@ -4,6 +4,8 @@
     <%- include('../components/cdn.ejs') %>
     <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- CSS 연결 -->
     <link href="../static/css/board.css" rel="stylesheet" />
     <title>게시판</title>
@@ -27,6 +29,16 @@
            <div>작성일: <%= createBoard %></div>
            <div>수정일: <%= modifiedBoard %></div>
            <div>조회수: <%= views %></div>
+           
+           <!-- 작성자와 로그인된 유저가 일치할때 삭제, 수정 버튼이 생김 -->
+           <div class="DBoard-button">
+              <% if (user && user.id && user.id == id) { %>
+                <button type="button" onclick="delBoard()">삭제</button>
+                <button type="button" onclick="changeBoard()">수정</button>
+              <% } %>
+            
+            
+           </div>
      
         </div>
 
@@ -34,8 +46,24 @@
       </main>
     
       <script>
-     
 
+
+        //삭제 axios
+        function delBoard(){
+          const boardID = "<%= boardID %>";
+          axios({
+                method: "delete",
+                url: `/deleteBoard/${boardID}`,
+              }).then((res) => {
+                      
+                alert(res.data);//리뷰가 삭제됐다고 알림
+                window.location.href = '/boardMain';//게시판으로 리다이렉트
+              });
+        }
+        //수정 axios
+        function changeBoard(){
+
+        }
       </script>
 
     </div>
