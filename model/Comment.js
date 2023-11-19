@@ -33,7 +33,5 @@ function Comment(Sequelize, DataTypes) {
         });
 };
 
-// Map_Information.hasMany(Map_Database, {foreignKey: 'storeID'});
-// Map_Database.belongsTo(Map_Information, { foreignKey: 'storeID' });
 
 module.exports = Comment;

@@ -6,6 +6,9 @@ const Cmap_Information = require("../controller/Cmap_Information");
 const user = require("../controller/Cuser");
 const Ccomment = require("../controller/Ccomment")
 const board = require("../controller/Cboard");
+const { upload } = require("../multer/multerConfig"); // Multer 설정 파일 import
+
+
 
 // 메인 페이지
 router.get("/", controller.index);
@@ -41,8 +44,6 @@ router.delete("/comment/:commentID", Ccomment.deleteComment);
 // GET /comments/:boardID => 해당 게시판 댓글 전체 조회
 // router.get('/comments/:boardID', Ccomment.getCommentsByBoardID);
 
-module.exports = router;
-
 // 맛집 지도 메인 페이지
 router.get("/mapMain", controller.mapMain);
 
@@ -62,6 +63,9 @@ router.get("/boardEdit", controller.boardEdit);
 
 // 게시판 작성 화면 -> 게시글 등록
 router.post("/boardSubmit", board.boardSubmit);
+
+// 게시판 상세페이지 (댓글창도 합칠예정)
+router.get("/boardDetail/:boardID", board.boardDetail);
 
 //데이터 가져오기 테스트
 router.get("/getBoard", board.getBoard);
@@ -121,8 +125,12 @@ router.post("/updateMypagePassword", user.updateMypagePassword);
 // 마이페이지 회원 탈퇴
 router.post("/deleteAccount", user.deleteAccount);
 
-
-// router.post("/user/profile", user.profile)
-// router.patch("/user/profile/edit/:id", user.profile_edit)
-// router.delete("/user/profile/delete/:id", user.profile_delete)
+router.post("/upload", upload.single("image"), user.uploadImage, (error, req, res, next) => {
+  if (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  } else {
+    next();
+  }
+});
 module.exports = router;
