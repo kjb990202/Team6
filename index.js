@@ -23,7 +23,7 @@ app.use(
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isAuthenticated;
   res.locals.user = req.session.user;
-  console.log(res.locals.user)
+  console.log(res.locals.user);
   next();
 });
 
@@ -37,5 +37,3 @@ app.get("*", function (req, res) {
 app.listen(PORT, () => {
   console.log("Server Port : ", PORT);
 });
-
-

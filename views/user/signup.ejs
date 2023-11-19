@@ -4,7 +4,7 @@
       <!-- CDN들 불러오기 -->
       <%- include('../components/cdn.ejs') %>
       <!-- CSS 연결 -->
-      <link href="../static/css/user.css" rel="stylesheet" />
+      <link href="../static/css/signup.css" rel="stylesheet" />
       <title>회원 가입</title>
     </head>
     <body class="d-flex h-100 text-center text-bg-white">
@@ -17,14 +17,12 @@
     <script>
         let idChecked = false;
         let nicknameChecked = false;
-
         function checkId() {
            let userid = document.forms["form-register"].userid.value;
            if (!userid) {
                 alert("아이디를 입력해주세요.");
                 return;
             }
-
         axios({
             method: "post",
             url: "/checkid",
@@ -120,7 +118,9 @@
           if (password === confirmPassword) {
             checkPasswordMatch.style.display = 'none';
           } else {
-            checkPasswordMatch.style.color = 'red';
+            checkPasswordMatch.style.color = '#ff8c8c';
+            checkPasswordMatch.style.fontSize = '14px';
+            checkPasswordMatch.style.textAlign = 'start';
             checkPasswordMatch.style.display = 'block';
             checkPasswordMatch.innerHTML = '비밀번호가 일치하지 않습니다.';
           }
@@ -131,7 +131,9 @@
           var passwordError = document.getElementById("passwordError");
 
           if (password.validity.patternMismatch) {
-              passwordError.style.color = 'red';
+              passwordError.style.color = '#ff8c8c';
+              passwordError.style.fontSize = '14px';
+              passwordError.style.textAlign = 'start';
               passwordError.innerText = "특수문자를 포함한 6자 이상의 비밀번호를 입력해주세요.";
               passwordError.style.display = 'block';
           } else {
@@ -145,7 +147,9 @@
           var emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
           if (!emailPattern.test(email.value)) {
-              emailError.style.color = 'red';
+              emailError.style.color = '#ff8c8c';
+              emailError.style.fontSize = '14px';
+              emailError.style.textAlign = 'start';
               emailError.innerText = "올바른 이메일 형식으로 입력해주세요.";
               emailError.style.display = 'block';
           } else {
@@ -155,6 +159,62 @@
       </script>
 </head>
 <body>
+  <div class="login-root">
+<div class="box-root flex-flex flex-direction--column" style="min-height: 100vh; flex-grow: 1;">
+  <div class="formbg-outer">
+    <div class="form-register formbg">
+      <div class="formbg-inner padding-horizontal--48">
+        <form name="form-register">
+          <label class="d-flex justify-content-start" for="userId">아이디</label>
+          <div class="d-flex field padding-bottom--24">
+            <input type="text" class="login-input" placeholder="아이디" name="userid" required />
+            <input type="button" class="doubleCheck" name="submit" value="중복확인" onclick="checkId();">
+          </div>
+          <div class="field padding-bottom--24">
+            <div class="grid--50-50">
+              <label class="d-flex justify-content-start" for="userPassword">비밀번호</label>
+            </div>
+            <input type="password" class="login-input" id="password" placeholder="패스워드" name="password" 
+            pattern="(?=.*[a-z])(?=.*[\W]).{6,}" 
+            required oninput="validatePassword();" />
+            <span id="passwordError"></span>
+            </div>
+            <div class="field padding-bottom--24">
+            <div class="grid--50-50">
+              <label class="d-flex justify-content-start" for="checkPassword">비밀번호 확인</label>
+            </div>
+            <input type="password" class="login-input" id="confirmPassword" placeholder="패스워드 확인" 
+            name="confirmPassword" required oninput="checkPasswordMatch();">
+            <span id="checkPasswordMatch"></span>
+          </div>
+          <div class="field padding-bottom--24">
+            <div class="grid--50-50">
+              <label class="d-flex justify-content-start" for="useEmail">이메일</label>
+            </div>
+            <input type="email" class="login-input" placeholder="이메일" id="email" name="email"
+            required oninput="validateEmail();">
+            <span id="emailError"></span>
+            </div>
+            <div class="field padding-bottom--24">
+            <div class="grid--50-50">
+              <label class="d-flex justify-content-start" for="userNickname">닉네임</label>
+            </div>
+            <div class="d-flex  padding-bottom--10">
+            <input type="text" class="flex-grow-1 login-input" placeholder="닉네임" name="nickname" required>
+            <input type="button" class="doubleCheck" name="submit" value="중복확인" onclick="checkNickname();">
+            </div>
+          </div>
+          <div class="field padding-bottom--10">
+            <input type="button" name="submit2" value="회원가입" onclick="register();">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</body>
+<!-- <body>
   <div class="flex">
     <div class="login-box flex">
         <form name="form-register">
@@ -172,10 +232,12 @@
             <span id="emailError"></span>
             <input type="text" class="login-input" placeholder="닉네임" name="nickname" required>
             <button type="button" onclick="checkNickname();">중복확인</button>
-            <br />
             <button class="login-button" type="button" onclick="register();"><span>회원가입</span></button>
+            <br />
+        
         </form>
     </div>
 </div>
-</body>
+</body> -->
+
 </html>
