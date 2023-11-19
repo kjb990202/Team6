@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 const { User } = require("../model");
 // 게시판 작성 화면 -> 게시글 등록
 const { Board } = require("../model"); // Board 모델 가져오기
@@ -92,6 +92,51 @@ exports.boardDelete = (req,res) => {
   })
 }
 
+//게시글 수정페이지 이동 
+exports.boardModify = (req, res) => {
+  const boardID = parseInt(req.params.boardID, 10);
+  Board.findOne({
+    where: { boardID : boardID },
+    include: [{ model: User, attributes: ['nickname'] }],
+  }).then((result)=>{
+    const { boardID,title, content ,user,createBoard,modifiedBoard,views,category, } = result;
+    const{ nickname,id } =user;
+
+
+
+    res.render("board/boardModify", { boardID, title, content ,nickname,createBoard,modifiedBoard,views,category,id:result.id});//랜더
+  })
+};
 
 //게시글 수정
-//하... 수정버튼누르면 특정한 쿼리이름을 가진 보드에딧으로 넘긴다음 그 보드에딧에 value값들을 불러오고(등록버튼도 수정버튼으로 바꿔야함...)그값들을 수정데이터로 보내야함 귀찮다증말로,,,,
+exports.updateBoard = async (req, res) => {
+  const boardID = parseInt(req.params.boardID, 10);
+  const { category, title, content } = req.body;
+
+  try {
+    // 게시글 존재 여부 확인
+    const existingBoard = await Board.findByPk(boardID);
+    if (!existingBoard) {
+      return res.status(404).send("게시글을 찾을 수 없습니다.");
+    }
+
+    // 게시글 수정
+    await Board.update(
+      {
+        category: category,
+        title: title,
+        content: content,
+      },
+      {
+        where: {
+          boardID: boardID,
+        },
+      }
+    );
+
+    res.send("게시글이 성공적으로 수정되었습니다.");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("게시글 수정 중에 오류가 발생했습니다.");
+  }
+};

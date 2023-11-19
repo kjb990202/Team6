@@ -34,7 +34,7 @@
            <div class="DBoard-button">
               <% if (user && user.id && user.id == id) { %>
                 <button type="button" onclick="delBoard()">삭제</button>
-                <button type="button" onclick="changeBoard()">수정</button>
+                <button type="button" onclick="changeBoard('<%=boardID%>')">수정</button>
               <% } %>
             
             
@@ -50,6 +50,7 @@
 
         //삭제 axios
         function delBoard(){
+          const formData = new FormData(document.getElementById('editForm'));
           const boardID = "<%= boardID %>";
           axios({
                 method: "delete",
@@ -60,9 +61,11 @@
                 window.location.href = '/boardMain';//게시판으로 리다이렉트
               });
         }
-        //수정 axios
-        function changeBoard(){
 
+        
+        function changeBoard(boardID){
+          //쿼리에 보드아이디 정보를 담아서 수정페이지로 리다이렉션 
+          window.location.href = `/boardModify/${boardID}`;//잘넘어감
         }
       </script>
 

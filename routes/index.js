@@ -66,6 +66,10 @@ router.get("/boardDetail/:boardID", board.boardDetail);
 
 // 게시글 삭제 
 router.delete("/deleteBoard/:boardID",board.boardDelete);
+// 게시글 수정
+router.get("/boardModify/:boardID",board.boardModify);
+router.patch("/updateBoard/:boardID",board.updateBoard);
+
 
 //데이터 가져오기 테스트
 router.get("/getBoard", board.getBoard);
