@@ -83,7 +83,7 @@
 <script>
     //수정 axios patch
     function modifyBoard(){
-        
+        event.preventDefault();
         const category = document.getElementById('validationCustom04').value;
         const title = document.getElementById('validationCustom01').value;
         const content = editor.getMarkdown(); // TOAST TUI Editor에서 markdown 형식의 내용을 가져오기
@@ -94,6 +94,7 @@
             title: title,
             content: content,
         }).then((res) => {
+            
             window.location.href = `/boardDetail/${boardID}`;
         })
     }
