@@ -23,19 +23,20 @@
                             <div class="shadow col col-lg-9 col-xl-7">
                                 <div class="text-white d-flex flex-row" style="background-color: #fed503; height:200px;">
                                   <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                                      alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
-                                      style="width: 150px; z-index: 1">
-                                    <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
-                                    data-toggle="modal" data-target="#profileModal" style="z-index: 1;">
+                                    <% if (user.image) { %>
+                                      <img src="<%= user.image %>" alt="User Profile Image" class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
+                                    <% } else { %>
+                                      <img src="/static/img/bagicimg.jpeg" alt="Default Image" class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
+                                    <% } %>
+                                    <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" data-toggle="modal" data-target="#profileModal" style="z-index: 1;">
                                       프로필 수정
                                     </button>
-                                    <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
-                                     >
+                                    <input type="file" id="file" name="image" style="display: none">
+                                    <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" onclick="document.getElementById('file').click()">
                                       대표이미지
                                     </button>
-                                    </div>
-                                  <div class="ms-3" style="margin-top: 130px;">
+                                  </div>                                  
+                                <div class="ms-3" style="margin-top: 130px;">
                                     <!-- 로그인 시 nickname 값을 가져와서 표시 -->
                                     <% if (isAuthenticated) { %>
                                         <h5 class="name"><%= user.nickname %>님</h5>
@@ -190,6 +191,26 @@
       </div>
     </body>
     <script>
+document.getElementById('file').addEventListener('change', function() {
+    const formData = new FormData();
+    formData.append('image', this.files[0]);
+
+    fetch('/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('파일 업로드에 실패했습니다.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
 
         function checkNickname() {
                   let nickname = document.forms["nicknameForm"].nickname.value;
