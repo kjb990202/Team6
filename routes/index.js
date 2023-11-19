@@ -6,6 +6,9 @@ const Cmap_Information = require("../controller/Cmap_Information");
 const user = require("../controller/Cuser");
 const Ccomment = require("../controller/Ccomment")
 const board = require("../controller/Cboard");
+const { upload } = require("../multer/multerConfig"); // Multer 설정 파일 import
+
+
 
 // 메인 페이지
 router.get("/", controller.index);
@@ -122,8 +125,12 @@ router.post("/updateMypagePassword", user.updateMypagePassword);
 // 마이페이지 회원 탈퇴
 router.post("/deleteAccount", user.deleteAccount);
 
-
-// router.post("/user/profile", user.profile)
-// router.patch("/user/profile/edit/:id", user.profile_edit)
-// router.delete("/user/profile/delete/:id", user.profile_delete)
+router.post("/upload", upload.single("image"), user.uploadImage, (error, req, res, next) => {
+  if (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  } else {
+    next();
+  }
+});
 module.exports = router;

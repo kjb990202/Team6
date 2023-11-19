@@ -249,3 +249,36 @@ exports.updateMypagePassword = async (req, res) => {
     res.send({ result: false, message: '비밀번호가 일치하지 않습니다.' });
   }
 };
+
+exports.uploadImage = async (req, res) => {
+  console.log(req.file);
+  try {
+    // 세션에서 사용자 ID를 가져옵니다.
+    const userId = req.session.user.id;
+
+    // 사용자를 찾습니다.
+    const user = await User.findOne({ where: { id: userId } });
+    if (!user) throw new Error('User not found');
+
+    // 이미지 경로를 설정합니다.
+    user.image = req.file.path; 
+
+    // 변경 사항을 저장합니다.
+    await user.save(); 
+
+    // 세션에 있는 사용자 정보도 업데이트
+    req.session.user = user.dataValues;
+    req.session.save(err => {
+      if (err) {
+        // 에러 처리
+        res.send({ success: false, message: '세션 업데이트에 실패하였습니다.' });
+      } else {
+        res.send({ success: true, message: '이미지가 성공적으로 업로드되었습니다.', image: req.file.path });
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({success: false, message: error.message });
+  
+  }
+};
