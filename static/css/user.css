@@ -146,3 +146,16 @@ input[type="button"] {
   color: #697386;
   margin: 0 10px;
 }
+
+/* 호버 */
+.float {
+  display: inline-block;
+  transition-duration: 0.2s;
+  transition-property: transform;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+}
+.float:hover {
+  transform: translateY(-3px);
+}
