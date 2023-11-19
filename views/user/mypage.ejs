@@ -13,7 +13,7 @@
           <header class="container">
             <div><%- include('../components/header.ejs') %></div>
           </header>
-        <main class="">
+        <main>
             <!-- 사용자 프로필 -->
             <div class="container">
                       <div class="h-100 gradient-custom-2">
@@ -103,11 +103,11 @@
          <!-- 모달 -->
          <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true" >
           <div class="modal-dialog" role="document">
-            <div class="modal-dialog modal-dialog-centered modal-content p-0 ">
+            <div class="modal-content modal-dialog">
                     <div class="modal-header"> 
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                           <span aria-hidden="true">&times;</span>
+                        </button> 
                     </div>
                     <div class="modal-header mx-1 mx-sm-3 mb-0 pb-0 border-0">
                         <div class="tabs active" id="tab01">
@@ -126,11 +126,11 @@
                             <form name="nicknameForm">
                                 <div class="form-group pb-2 px-3">
                                     <input type="text" name="nickname" placeholder="변경하실 닉네임을 입력하세요" class="form-control">
-                                    <button type="button" class="btn btn-primary" onclick="checkNickname();">중복확인</button>
                                 </div>
-                                <div class="modal-footer form-group pb-2 justify-content-center">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                                    <button type="button" class="btn btn-primary" onclick="updateMypageNickname()">저장</button>
+                                <div class="modal-footer form-group pb-2 justify-content-center b-5">
+                                  <button type="button" class="btn btn-red" data-dismiss="modal">취소</button>
+                                  <button type="button" class="btn btn-blue" onclick="checkNickname();">중복확인</button>
+                                  <button type="button" class="btn btn-blue" onclick="updateMypageNickname()">저장</button>
                                 </div>
                             </form>
                         </div>
@@ -162,8 +162,8 @@
                                     <span id="checkPasswordMatch"></span>
                                 </div>
                                 <div class="modal-footer form-group pb-2 justify-content-center">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                                    <button type="button" class="btn btn-primary" onclick="updateMypagePassword()">저장</button>
+                                    <button type="button" class="btn btn-red" data-dismiss="modal">취소</button>
+                                    <button type="button" class="btn btn-blue" onclick="updateMypagePassword()">저장</button>
                                 </div>
                             </form>
                         </div>
@@ -175,8 +175,8 @@
                                     <input type="password" id="accountDeletePassword" placeholder="탈퇴를 위해 비밀번호를 다시 입력해주세요." class="form-control">
                                 </div>
                                 <div class="modal-footer form-group pb-2 justify-content-center">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteAccount()">탈퇴</button>
+                                    <button type="button" class="btn btn-red" data-dismiss="modal">취소</button>
+                                    <button type="button" class="btn btn-blue" data-dismiss="modal" onclick="deleteAccount()">탈퇴</button>
                                 </div>
                             </form>
                         </div>
@@ -193,7 +193,6 @@
       </div>
     </body>
     <script>
-
         function checkNickname() {
                   let nickname = document.forms["nicknameForm"].nickname.value;
                   if (!nickname) {
@@ -395,7 +394,6 @@ $(".tabs").click(function(){
     });
 });
 });
-
     </script>
   </html>
 
