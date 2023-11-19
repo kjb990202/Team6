@@ -1,3 +1,35 @@
+/* 
+부트스트랩 버튼 색상 변경
+ */
+
+#tab011 {
+  width: 100%; /* 너비를 모달의 전체 너비로 설정 */
+  min-height: 200px; /* 최소 높이 설정 */
+  /* 필요에 따라 여기에 추가적인 스타일을 적용할 수 있습니다 */
+}
+
+/* 공통 적용 CSS */
+.btn-red {
+  background-color: #ff8c8c; /* 사용자 정의 색상 */
+  border-color: #ff8c8c; /* 사용자 정의 색상 */
+}
+
+.btn-blue {
+  background-color: #95c3de; /* 사용자 정의 색상 */
+  border-color: #95c3de; /* 사용자 정의 색상 */
+}
+
+.btn-gray-500 {
+  background-color: #7f7979; /* 사용자 정의 색상 */
+  border-color: #7f7979; /* 사용자 정의 색상 */
+}
+
+.btn-Warning {
+  background-color: #ffeb81; /* 사용자 정의 색상 */
+  border-color: #7f7979; /* 사용자 정의 색상 */
+}
+
+/* 마이페이지 */
 body {
   position: relative;
 }
@@ -32,27 +64,29 @@ a:hover {
   color: #1565c0;
 }
 
-/* 모달 */
+/* 
+모달 디자인
+ */
+
+/* 모달 내부 외곽선 제거 */
+.modal-header {
+  border-bottom: 0 none;
+}
+.modal-footer {
+  border-top: 0 none;
+}
 
 .modal-content {
+  border-top: 0 none;
   width: 400px;
   height: 400px;
+  background-color: #f2d74e;
 }
 
 .box {
   margin-bottom: 10px;
   border-radius: 5px;
   padding: 10px;
-}
-
-/* .modal-backdrop {
-  background-color: #64b5f6;
-} */
-
-.line {
-  background-color: #cfd8dc;
-  height: 1px;
-  width: 100%;
 }
 
 @media screen and (max-width: 768px) {
