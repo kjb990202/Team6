@@ -37,7 +37,6 @@ exports.boardEdit = (req, res) => {
 };
 
 
-
 // 댓글 관련
 const Comment = require("../model/index");
 

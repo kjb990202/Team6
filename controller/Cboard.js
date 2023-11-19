@@ -1,4 +1,4 @@
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 const { User } = require("../model");
 // 게시판 작성 화면 -> 게시글 등록
 const { Board } = require("../model"); // Board 모델 가져오기
@@ -24,7 +24,7 @@ exports.boardSubmit = async (req, res) => {
 
 
 
-
+//게시글 커서기반 페이지네이션
 exports.getBoard = async (req, res) => {
   try {
     // 현재 가장 큰 boardID 값 가져오기
@@ -50,6 +50,7 @@ exports.getBoard = async (req, res) => {
   }
 };
 
+//상세페이지 이동
 exports.boardDetail = async (req, res) => {
   const boardID =  parseInt(req.params.boardID, 10);//문자열로 넘어갔기때문에 int형으로 변환해줘야함(트러블 슈팅에 추가예정)
   console.log("보드 아이디 값",boardID)//잘넘어옴
@@ -58,15 +59,15 @@ exports.boardDetail = async (req, res) => {
       where: { boardID : boardID },
       include: [{ model: User, attributes: ['nickname'] }],
     });
-    console.log("result 값:",result);
+   
      if (result) {
       // 데이터가 존재할 때 템플릿에 전달
-      console.log("result 값:",result);
-      const { title, content ,user,createBoard,modifiedBoard,views,category, } = result;
-      const{ nickname } =user;
       
-      res.render('board/boardDetail', {title, content ,nickname,createBoard,modifiedBoard,views,category });
-      console.log("닉네임:",nickname);
+      const { boardID,title, content ,user,createBoard,modifiedBoard,views,category, } = result;
+      const{ nickname,id } =user;
+      console.log(result.id);
+      res.render('board/boardDetail', { boardID, title, content ,nickname,createBoard,modifiedBoard,views,category,id:result.id });
+      //JW:여기서 궁금한점:여기서 닉네임값은 result.nickname 으로 안넘겨도 넘어가는데 왜 유저id값은 result.id로 보내야 하는가... 누가 알려주세요
     } else {
       // 데이터가 존재하지 않을 때 처리
       res.status(404).render("404");
@@ -74,5 +75,68 @@ exports.boardDetail = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send('서버 에러');
+  }
+};
+
+//게시글 삭제
+exports.boardDelete = (req,res) => {
+  
+  console.log("없앨보드의 숫자",req.params.boardID);
+  Board.destroy({
+    where:{
+      boardID:req.params.boardID,
+    },
+  }).then((result) => {
+      res.send("리뷰가 삭제 되었습니다");
+    
+  })
+}
+
+//게시글 수정페이지 이동 
+exports.boardModify = (req, res) => {
+  const boardID = parseInt(req.params.boardID, 10);
+  Board.findOne({
+    where: { boardID : boardID },
+    include: [{ model: User, attributes: ['nickname'] }],
+  }).then((result)=>{
+    const { boardID,title, content ,user,createBoard,modifiedBoard,views,category, } = result;
+    const{ nickname,id } =user;
+
+
+
+    res.render("board/boardModify", { boardID, title, content ,nickname,createBoard,modifiedBoard,views,category,id:result.id});//랜더
+  })
+};
+
+//게시글 수정
+exports.updateBoard = async (req, res) => {
+  const boardID = parseInt(req.params.boardID, 10);
+  const { category, title, content } = req.body;
+
+  try {
+    // 게시글 존재 여부 확인
+    const existingBoard = await Board.findByPk(boardID);
+    if (!existingBoard) {
+      return res.status(404).send("게시글을 찾을 수 없습니다.");
+    }
+
+    // 게시글 수정
+    await Board.update(
+      {
+        category: category,
+        title: title,
+        content: content,
+      },
+      {
+        where: {
+          boardID: boardID,
+        },
+      }
+    );
+
+    res.send("게시글이 성공적으로 수정되었습니다.");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("게시글 수정 중에 오류가 발생했습니다.");
   }
 };

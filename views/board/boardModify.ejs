@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko" class="h-100" data-bs-theme="auto">
+  <head>
+    <!-- CDN들 불러오기 -->
+    <%- include('../components/cdn.ejs') %>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- CSS 연결 -->
+    <link href="../static/css/borad.css" rel="stylesheet" />
+    <title>회원 가입</title>
+  </head>
+  <body class="d-flex h-100 text-center text-bg-white">
+    <!-- 헤더 : 상단 메뉴바  -->
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="container">
+        <div><%- include('../components/header.ejs') %></div>
+      </header>
+  <!-- TOAST TUI 에디터 CSS CDN -->
+  <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+</head>
+<body class="d-flex h-100 text-center text-bg-white">
+    <main class="px-3">
+<!-- 카테고리, 제목 선택창 -->
+<!-- pe-none : 마우스 호버시 마우스변경 방지 -->
+<form class="row g-3 needs-validation" novalidate>
+<div class="col-md-100">
+  <div class="d-flex align-items-end" pe-none" id="editTitle">카테고리<a style="color: red;">&nbsp;*</a></div>
+  <select class="form-select" id="validationCustom04" required>
+    <option selected disabled value="">카테고리를 선택해 주세요.</option>
+    <option value="1">잡담</option>
+    <option value="2">Q&A</option>
+  </select>
+  <div class="pe-none invalid-feedback">
+    필수 선택 항목입니다.
+  </div>
+</div>
+<div class="col-md-100">
+  <div id="editTitle" class="d-flex align-items-end" pe-none">제목<a style="color: red;">&nbsp;*</a></div>
+  <input type="text" class="form-control" id="validationCustom01" placeholder="제목을 입력해 주세요." required value="<%= title %>">
+  <div class="pe-none invalid-feedback">
+    필수 입력 항목입니다.
+  </div>
+</div>
+      <div id="editTitle" class="d-flex align-items-end" pe-none">내용<a style="color: red;">&nbsp;*</a></div>
+      
+      <!-- 에디터를 적용할 요소 (컨테이너) -->
+      <div id="content"><%= content %></div>
+      <!-- TOAST TUI 에디터 JS CDN -->
+      <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+      <script>
+        const editor = new toastui.Editor({
+          el: document.querySelector('#content'), // 에디터를 적용할 요소 (컨테이너)
+          height: '500px', // 에디터 영역의 높이 값 (OOOpx || auto)
+          initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+          previewStyle: 'vertical', // 마크다운 프리뷰 스타일 (tab || vertical)
+          toolbarItems: [
+            ['heading', 'bold', 'italic', 'strike'],
+            ['hr', 'quote'],
+            ['ul', 'ol', 'task', 'indent', 'outdent'],
+            ['table', 'image', 'link'], //게시판 내에 이미지, 표 안쓰려면 'table', 'image' 주석처리 필요
+            ['code', 'codeblock'],
+            ['scrollSync'],
+           ],
+        });
+        
+
+      </script>
+      <br />
+      <!-- 취소&등록 버튼 -->
+        <div class="d-flex gap-2" >
+            <!-- 취소버튼 누를시 이전페이지로 이동 -->
+        <button type="button" class="btn btn-secondary editorButton" id="cancelButton" onclick="location.href=`/boardDetail/${'<%=boardID%>'}`">취소</button>
+        <button type="submit" class="btn btn-primary editorButton" id="submitButton" onclick="modifyBoard()">수정</button>
+      </div>      
+      </form>
+      
+</html>
+</main>
+
+<footer class="mt-auto text-white-50">
+<p>SeSAC 용산2기 풀스텍 웹개발자 양성과정 @내 통장에 6조</p>
+</footer>
+</div>
+<script>
+    //수정 axios patch
+    function modifyBoard(){
+        
+        const category = document.getElementById('validationCustom04').value;
+        const title = document.getElementById('validationCustom01').value;
+        const content = editor.getMarkdown(); // TOAST TUI Editor에서 markdown 형식의 내용을 가져오기
+
+        const boardID = "<%= boardID %>";
+        axios.patch(`/updateBoard/${boardID}`,{
+            category: category,
+            title: title,
+            content: content,
+        }).then((res) => {
+            window.location.href = `/boardDetail/${boardID}`;
+        })
+    }
+</script>
+</body>
+</html>

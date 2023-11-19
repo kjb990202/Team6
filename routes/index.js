@@ -61,11 +61,18 @@ router.get("/boardMain", controller.boardMain);
 // 게시판 작성 페이지
 router.get("/boardEdit", controller.boardEdit);
 
-// 게시판 작성 화면 -> 게시글 등록
+// 게시글 작성 화면 -> 게시글 등록
 router.post("/boardSubmit", board.boardSubmit);
 
 // 게시판 상세페이지 (댓글창도 합칠예정)
 router.get("/boardDetail/:boardID", board.boardDetail);
+
+// 게시글 삭제 
+router.delete("/deleteBoard/:boardID",board.boardDelete);
+// 게시글 수정
+router.get("/boardModify/:boardID",board.boardModify);
+router.patch("/updateBoard/:boardID",board.updateBoard);
+
 
 //데이터 가져오기 테스트
 router.get("/getBoard", board.getBoard);
