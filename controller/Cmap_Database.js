@@ -17,7 +17,7 @@ exports.getReview = (req, res) => {
           rating: result.dataValues.rating,
           createdAt: result.dataValues.createdAt,
           updatedAt: result.dataValues.updatedAt,
-          nickname: result.dataValues.user.nickname
+          nickname: result.dataValues.User.nickname
         }));
         res.send(data);
       } else {

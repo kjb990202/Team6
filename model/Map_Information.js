@@ -9,11 +9,11 @@ function Map_Information(Sequelize, DataTypes) {
                 primaryKey: true
             },
             placeName: {
-                type: DataTypes.STRING(20),
+                type: DataTypes.STRING(30),
                 allowNull: false,
             },
             address: {
-                type: DataTypes.STRING(20),
+                type: DataTypes.STRING(30),
                 allowNull: false
             }
         },

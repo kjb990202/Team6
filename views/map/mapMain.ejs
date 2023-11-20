@@ -8,11 +8,13 @@
       <!-- CSS 연결 -->
       <link href="../static/css/map.css" rel="stylesheet" />
       <title>맛집 지도</title>
+    <!-- SB: 로컬 서버용 -->
       <script
       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a54c1412f5e82ee9e5256c32dc403b24&libraries=services"
     ></script>
-      <!-- <script
+    <!-- SB: 클라우드 서버용 -->
+    <!-- <script
       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b57e8eb48f3c5019d2677ba17488c4ed&libraries=services"
     ></script> -->
@@ -74,10 +76,13 @@
             <div id="getReviewDiv" class="getReviewDiv"></div>
           </div>
 
+          <!-- SB: 로컬 서버용 -->
             <script
             type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a54c1412f5e82ee9e5256c32dc403b24&libraries=services"
           ></script>
+
+          <!-- SB: 클라우드 서버용 -->
           <!-- <script
             type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b57e8eb48f3c5019d2677ba17488c4ed&libraries=services"
@@ -240,7 +245,7 @@
                   `<div id="${res.data.reviewNumber}" class="reveiwBox">
                     <div>작성일 : ${res.data.createdAt}</div>
                     <div>수정일 : ${res.data.updatedAt}</div>
-                    <div>작성자 : ${res.data.user.nickname}</div>
+                    <div>작성자 : ${res.data.User.nickname}</div>
                     <div id="ratingDiv">별점 : ${"★".repeat(Number(res.data.rating))+"☆".repeat(5-Number(res.data.rating))} </div>
                     <div id="reviewCommentDiv">내용 : ${res.data.reviewComment}</div>
                     <button type="button" onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}', '${placeName}',  '${placeAddress}')">리뷰 수정</button>
@@ -311,7 +316,7 @@
                   $(`#${res.data.reviewNumber}`).append(
                     `<div>작성일 : ${res.data.createdAt}</div>
                       <div>수정일 : ${res.data.updatedAt}</div>
-                      <div>작성자 : ${res.data.user.nickname}</div>
+                      <div>작성자 : ${res.data.User.nickname}</div>
                       <div id="ratingDiv">별점 : ${"★".repeat(Number(res.data.rating))+"☆".repeat(5-Number(res.data.rating))} </div>
                       <div id="reviewCommentDiv">내용 : ${res.data.reviewComment}</div>
                       <button type="button" onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}', '${res.data.Map_Information.placeName}',  '${res.data.Map_Information.address}')">리뷰 수정</button>

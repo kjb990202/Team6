@@ -49,7 +49,7 @@ function Board(Sequelize, DataTypes) {
     },
     {
       // 모델 옵션
-      tableName: "board",
+      tableName: "Board",
       frezzeTableName: true,
       timestamps: false, // createdAt과 updatedAt 컬럼을 사용하지 않음
       freezeTableName: true,
