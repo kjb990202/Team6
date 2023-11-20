@@ -7,10 +7,10 @@
         "dialect" : "mysql"
     },
     "production" : {
-        "host" : "",
-        "database" :"",
-        "username" :"",
-        "password" :"",
+        "host" : "localhost",
+        "database" :"projectTeamSix",
+        "username" :"productionteamsix",
+        "password" :"teamsixqlalfqjsgh!",
         "dialect" : "mysql"
     }
 }
