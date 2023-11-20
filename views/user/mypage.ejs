@@ -21,7 +21,7 @@
                           <div class="row d-flex justify-content-center align-items-center">
                             <!-- 그림자는 shadow 넣으면 생기고 빼면 없어짐! -->
                             <div class="shadow col col-lg-9 col-xl-7">
-                                <div class="text-white d-flex flex-row" style="background-color: #fed503; height:200px;">
+                                <div class="mypageHeader d-flex flex-row">
                                   <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
                                     <% if (user.image) { %>
                                       <img src="<%= user.image %>" alt="User Profile Image" class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
@@ -123,18 +123,28 @@
                     </div>
                     <div class="line"></div>
                     <fieldset class="show" id="tab011">
-                        <div>
-                            <form name="nicknameForm">
-                                <div class="form-group pb-2 px-3">
-                                    <input type="text" name="nickname" placeholder="변경하실 닉네임을 입력하세요" class="form-control">
+                            <div class="formbg-inner padding-right--32 padding-left--32 padding-top--24">
+                              <form name="nicknameForm">
+                                <div class="field padding-bottom--24">
+                                  <div class="grid--50-50">
+                                    <label class="d-flex justify-content-start" for="userNickname">닉네임</label>
+                                  </div>
+                                <div class="d-flex  padding-bottom--10">
+                                  <input type="text" class="flex-grow-1 login-input" name="nickname" required>
+                                  <input type="button" class="doubleCheck" name="submit" value="중복확인" onclick="checkNickname();">
+                                  </div>
                                 </div>
-                                <div class="modal-footer form-group pb-2 justify-content-center b-5">
-                                  <button type="button" class="btn btn-red" data-dismiss="modal">취소</button>
-                                  <button type="button" class="btn btn-blue" onclick="checkNickname();">중복확인</button>
-                                  <button type="button" class="btn btn-blue" onclick="updateMypageNickname()">저장</button>
+                                <div class="field padding-bottom--10">
+                                <div class="d-flex  padding-bottom--10">
+                                    <input type="button" name="delete" value="취소" data-dismiss="modal" onclick="login()">
+                                    <input type="button" name="save" value="저장" onclick="updateMypageNickname()">
+                                </div>
                                 </div>
                             </form>
                         </div>
+                    
+                    
+                  
                     </fieldset>
                     <fieldset id="tab021">
                         <div>
