@@ -1,6 +1,6 @@
 function User(Sequelize, DataTypes) {
     return Sequelize.define(
-        "user",
+        "User",
         {
             id : {
                 type:DataTypes.INTEGER,
@@ -34,7 +34,7 @@ function User(Sequelize, DataTypes) {
             }   
         }, 
         {
-            tableName : "user",
+            tableName : "User",
             frezzeTableName: true,
             timestamps : false,
             // insert, update 시에 그 시간을 자동으로 저장하겠다. (저장을 하는것이 기본값)

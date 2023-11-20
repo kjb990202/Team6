@@ -1,5 +1,7 @@
 const Sequelize = require("sequelize");
 const config = require("../config/config.json")["development"];
+// const config = require("../config/config.json")["production"];
+
 
 const db = {};
 // sequelize 객체 생성
