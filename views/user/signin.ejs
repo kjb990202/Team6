@@ -12,33 +12,6 @@
     <header class="container">
       <div><%- include('../components/header.ejs') %></div>
     </header>
-    <script>
-      function login() {
-        const form = document.forms["form-login"];
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          console.log("reportValidity");
-
-          return false;
-        }
-        let user = {
-          userid: form.userid.value,
-          password: form.password.value,
-        };
-
-        axios({
-          method: 'post',
-          url: '/signin',
-          data: user
-        }).then((res) => {
-          if (res.data.result == true) {
-            window.location.href = "/";
-          } else {
-            alert("로그인 실패");
-          }
-        });
-      }
-    </script>
   </head>
   <body>
     <div class="login-root">
@@ -53,7 +26,8 @@
               type="text"
               class="login-input"
               name="userid"
-              required 
+              id="userID"
+              required
             />
             </div>
             <div class="field padding-bottom--24">
@@ -76,7 +50,7 @@
     </div>
             </div>
             <div class="field padding-bottom--10">
-              <input type="button" name="submit" value="로그인" onclick="login()">
+              <input class="loginButton" type="button" name="submit" value="로그인" onclick="login()">
             </div>
           </form>
         </div>
@@ -88,4 +62,40 @@
   </div>
 </div>
   </body>
+  <script>
+    // 엔터쳤을 때 로그인 되도록 설정
+    $("#userID, #userPassword").on('keydown', function(e) {
+      if (e.key === 'Enter') {
+        $('.loginButton').click();
+      }
+    })
+
+    function login() {
+      const form = document.forms["form-login"];
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        console.log("reportValidity");
+
+        return false;
+      }
+      let user = {
+        userid: form.userid.value,
+        password: form.password.value,
+      };
+
+      axios({
+        method: 'post',
+        url: '/signin',
+        data: user
+      }).then((res) => {
+        if (res.data.result == true) {
+          window.location.href = "/";
+        } else {
+          alert("로그인 실패");
+          window.location.href = "/signin";
+        }
+      });
+    }
+
+  </script>
 </html>
