@@ -20,45 +20,50 @@
                         <div class="container pt-5 h-100">
                           <div class="row d-flex justify-content-center align-items-center">
                             <!-- 그림자는 shadow 넣으면 생기고 빼면 없어짐! -->
-                            <div class="shadow col col-lg-9 col-xl-7">
-                                <div class="mypageHeader d-flex flex-row">
-                                  <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+                            <div class="formbg col col-lg-9 col-xl-7"></div>
+                            <!-- <div class="shadow col col-lg-9 col-xl-7"> -->
+                                <div class="mypageHeader d-flex flex-row padding-horizontal--24">
+                                    <div class="imageBox">
                                     <% if (user.image) { %>
-                                      <img src="<%= user.image %>" alt="User Profile Image" class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
+                                      <img src="<%= user.image %>" alt="User Profile Image" class="img-fluid img-thumbnail" style="width: 100%; height: 100%; z-index: 1">
                                     <% } else { %>
-                                      <img src="/static/img/bagicimg.jpeg" alt="Default Image" class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
+                                      <img src="/static/img/bagicimg.jpeg" alt="Default Image" class="img-fluid img-thumbnail" style="width: 100%; height: 100%; z-index: 1">
                                     <% } %>
-                                    <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" data-toggle="modal" data-target="#profileModal" style="z-index: 1;">
-                                      프로필 수정
-                                    </button>
-                                    <input type="file" id="file" name="image" style="display: none">
-                                    <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" onclick="document.getElementById('file').click()">
-                                      대표이미지
-                                    </button>
-                                  </div>                                  
-                                <div class="ms-3" style="margin-top: 130px;">
-                                    <!-- 로그인 시 nickname 값을 가져와서 표시 -->
-                                    <% if (isAuthenticated) { %>
-                                        <h5 class="name"><%= user.nickname %>님</h5>
-                                <% } %>
+                                  </div>
+                                    <div class="d-flex justify-content-end text-center py-1">
+                                      <div>
+                                        <!-- 로그인 시 nickname 값을 가져와서 표시 -->
+                                        <% if (isAuthenticated) { %>
+                                            <h5 class="name"><%= user.nickname %>님</h5>
+                                    <% } %>
+                                      </div>
+                                      <!-- DB에서 아래 숫자 데이터 추출 필요 -->
+                                      <div>
+                                        <p class="mb-1 h5">253</p>
+                                        <p class="small text-muted mb-0">게시글수</p>
+                                      </div>
+                                      <div class="px-3">
+                                        <p class="mb-1 h5">1026</p>
+                                        <p class="small text-muted mb-0">댓글수</p>
+                                      </div>
+                                      <div>
+                                        <p class="mb-1 h5">478</p>
+                                        <p class="small text-muted mb-0">좋아요수</p>
+                                      </div>
+                                    </div>
+                                    
+                                  </div> 
+                                  <!-- 버튼들 들어있는 박스 -->
+                            <div class="p-3 text-black d-flex justify-content-start" style="background-color: #f8f9fa;">
+                              <div class="p-2 field padding-bottom--10">
+                                <input class="p-2 login-button" type="button" id="find-button" onclick="findId();" value="닉네임 변경" data-toggle="modal" data-target="#profileModal">
                               </div>
-                            </div>
-                            <!-- 게시글/댓글/좋아요 수 부분 박스 -->
-                            <div class="p-3 text-black" style="background-color: #f8f9fa;">
-                              <div class="d-flex justify-content-end text-center py-1">
-                                <!-- DB에서 아래 숫자 데이터 추출 필요 -->
-                                <div>
-                                  <p class="mb-1 h5">253</p>
-                                  <p class="small text-muted mb-0">게시글수</p>
-                                </div>
-                                <div class="px-3">
-                                  <p class="mb-1 h5">1026</p>
-                                  <p class="small text-muted mb-0">댓글수</p>
-                                </div>
-                                <div>
-                                  <p class="mb-1 h5">478</p>
-                                  <p class="small text-muted mb-0">좋아요수</p>
-                                </div>
+                              <div class="p-2 field padding-bottom--10">
+                                <input class="login-button" type="file" id="file" name="image" onclick="findId();" style="display: none">
+                                <input type="button" name="image" class="p-2 btn btn-outline-dark" value="사진 변경" onclick="document.getElementById('file').click()">
+                              </div>
+                              <div class="ms-auto p-2 field padding-bottom--10">
+                                <input class="login-button" name="delete" type="button" id="find-button" value="회원 탈퇴" data-toggle="modal" data-target="#profileModal">
                               </div>
                             </div>
                             <div class="card-body p-4 text-black">
@@ -122,6 +127,7 @@
                         </div>
                     </div>
                     <div class="line"></div>
+                    <!-- 모달 : 닉네임 변경 창 -->
                     <fieldset class="show" id="tab011">
                             <div class="formbg-inner padding-right--32 padding-left--32 padding-top--24">
                               <form name="nicknameForm">
@@ -141,13 +147,11 @@
                                 </div>
                                 </div>
                             </form>
-                        </div>
-                    
-                    
-                  
+                          </div>
                     </fieldset>
-                    <fieldset id="tab021">
-                        <div>
+                    <!-- 모달 : 비밀버호 변경 창 -->
+                    <!-- <fieldset id="tab021">
+                      <div class="formbg-inner padding-right--32 padding-left--32 padding-top--24">
                             <form name="passwordForm">
                                 <div class="form-group pb-2 px-3">
                                     <input 
@@ -178,7 +182,7 @@
                                 </div>
                             </form>
                         </div>
-                    </fieldset>
+                    </fieldset> -->
                     <fieldset id="tab031">
                         <div>
                             <form name="deleteAccountForm">
@@ -247,37 +251,37 @@ document.getElementById('file').addEventListener('change', function() {
                     }
                 });
             }
-        function checkPasswordMatch() {
-          let password = document.getElementById('password').value;
-          let confirmPassword = document.getElementById('confirmPassword').value;
-          let checkPasswordMatch = document.getElementById('checkPasswordMatch');
+      //   function checkPasswordMatch() {
+      //     let password = document.getElementById('password').value;
+      //     let confirmPassword = document.getElementById('confirmPassword').value;
+      //     let checkPasswordMatch = document.getElementById('checkPasswordMatch');
 
-          if (!password || !confirmPassword) {
-            checkPasswordMatch.style.display = 'none';
-            return;
-      }
+      //     if (!password || !confirmPassword) {
+      //       checkPasswordMatch.style.display = 'none';
+      //       return;
+      // }
 
-          if (password === confirmPassword) {
-            checkPasswordMatch.style.display = 'none';
-          } else {
-            checkPasswordMatch.style.color = 'red';
-            checkPasswordMatch.style.display = 'block';
-            checkPasswordMatch.innerHTML = '비밀번호가 일치하지 않습니다.';
-          }
-        }
+      //     if (password === confirmPassword) {
+      //       checkPasswordMatch.style.display = 'none';
+      //     } else {
+      //       checkPasswordMatch.style.color = 'red';
+      //       checkPasswordMatch.style.display = 'block';
+      //       checkPasswordMatch.innerHTML = '비밀번호가 일치하지 않습니다.';
+      //     }
+      //   }
 
-        function validatePassword() {
-          var password = document.getElementById("password");
-          var passwordError = document.getElementById("passwordError");
+      //   function validatePassword() {
+      //     var password = document.getElementById("password");
+      //     var passwordError = document.getElementById("passwordError");
 
-          if (password.validity.patternMismatch) {
-              passwordError.style.color = 'red';
-              passwordError.innerText = "특수문자를 포함한 6자 이상의 비밀번호를 입력해주세요.";
-              passwordError.style.display = 'block';
-          } else {
-              passwordError.style.display = 'none';
-          }
-      }
+      //     if (password.validity.patternMismatch) {
+      //         passwordError.style.color = 'red';
+      //         passwordError.innerText = "특수문자를 포함한 6자 이상의 비밀번호를 입력해주세요.";
+      //         passwordError.style.display = 'block';
+      //     } else {
+      //         passwordError.style.display = 'none';
+      //     }
+      // }
       function updateMypageNickname() {
           const form = document.forms["nicknameForm"];
           const nickname = form.nickname.value;
