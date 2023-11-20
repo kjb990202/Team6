@@ -10,7 +10,7 @@ exports.comment = (req, res) => {
   console.log("user: ", req.session.user);
   Comment.findAll({
     where: {
-      id: req.session.user.id
+      id: req.session.id
     },
     include: [{model: User, attributes: ["nickname"]}]
   }).then((result) => {
@@ -19,7 +19,7 @@ exports.comment = (req, res) => {
     console.log("0 index의 user", result.User);
 
     // res.render("./comment/comment", { data: result  });
-    res.render("./comment/comment", {user: req.session.user, data: result});
+    res.render("./comment/comment", {user: req.session.id, data: result});
 
   });
 };
