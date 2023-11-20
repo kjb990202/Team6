@@ -14,12 +14,21 @@
         <div><%- include('../components/header.ejs') %></div>
       </header>
       <main class="px-3">
-        <button type="button" onclick="location.href='/boardEdit'">
-          작성하기
-        </button>
-        <ul class="board-list">
+        <div class="main-container">
+
           
-        </ul>
+          <div class="button-container">
+            <button class="board-button" type="button" onclick="location.href='/boardEdit'">
+              작성하기
+            </button>
+          </div>
+          <div class="board-container">
+            <ul class="board-list">
+            
+            </ul>
+          </div>
+          
+      </div>
       </main>
       <script>
         //요소 생성
@@ -37,6 +46,7 @@
             .then(function (res) {
               console.log("얻은데이터:", res.data);
               console.log("새로받은 데이터 개수:", res.data.length);
+              
 
               const boardList = document.querySelector(".board-list");
 
@@ -45,6 +55,7 @@
                 newBoard.className = "nowBox-list";
 
                 newBoard.innerHTML = `
+                <div class="board-color-${getCategoryColorClass(boardData.category)}">
                   <div onclick="moveBoardDetail(${boardData.boardID})" style="cursor:pointer">
                     <div class="title">제목: ${boardData.title}</div>
                     <div class="userId">작성자: ${boardData.user.nickname}</div>
@@ -54,6 +65,7 @@
                     <div class="createBoard">작성일: ${boardData.createBoard}</div>
                     <div class="modifiedBoard">수정일: ${boardData.modifiedBoard}</div>
                   </div>
+                </div>
                 `;
 
                 boardList.appendChild(newBoard);
@@ -100,7 +112,18 @@
             io.observe(lastBoard);
           }
         }
-
+        //보드색상 변경
+        function getCategoryColorClass(category) {
+          switch (category) {
+            case '1':
+              return 'red'; // 잡담인 경우
+            case '2':
+              return 'yellow'; // Q&A인 경우
+            default:
+              return 'blue'; // 기타 카테고리인 경우
+          }
+       }
+ 
         //-----------관찰하는 시점을 바꿔야함.(맨아래 보다 위로 올리기)
         //관찰자 객체 생성
         const io = new IntersectionObserver(callback, { threshold: 0.7 });
