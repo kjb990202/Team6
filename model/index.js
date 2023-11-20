@@ -1,5 +1,7 @@
 const Sequelize = require("sequelize");
+// SB: 로컬 서버용
 const config = require("../config/config.json")["development"];
+// SB: 클라우드 서버용
 // const config = require("../config/config.json")["production"];
 
 
