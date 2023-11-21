@@ -27,7 +27,7 @@
         </header>
         <!-- 메인 -->
         <main class="px-3">
-          <div class="margin-top--80">
+          <div class="container">
             <div class="map_wrap">
               <!-- 지도 나오는 부분 -->
               <div id="map"></div>
@@ -52,150 +52,143 @@
                 </li>
               </ul>
             </div>
-          </div>
-          <div class="mapContentsBox">
-            <!-- SB: 로그인 필요 안내 문구를 보여주는 div입니다. -->
-            <div id="messageDiv" class="messageDiv"></div>
-            <!-- SB: 리뷰 작성칸을 보여주는 div입니다.-->
-            <form name="reviewForm">
-              <div id="postReviewDiv" class="postReviewDiv"></div>
-            </form>
-            <!-- SB: 리뷰수정 버튼을 누르면 수정칸을 보여주는 div입니다.-->
-            <form name="reviewFixForm">
-              <div id="fixDiv" class="fixDiv"></div>
-            </form>
-            <!-- SB: 작성된 리뷰가 없을 때 안내 문구를 보여주는 div입니다. -->
-            <div id="noReviewDiv" class="noReviewDiv"></div>
-            <!-- SB: 작성된 리뷰를 보여주는 div입니다. -->
-            <div id="getReviewDiv" class="getReviewDiv"></div>
-          </div>
-          <!-- SB: 로컬 서버용 -->
-          <script
-            type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a54c1412f5e82ee9e5256c32dc403b24&libraries=services"
-          ></script>
+            <div class="mapContentsBox">
+              <!-- SB: 로그인 필요 안내 문구를 보여주는 div입니다. -->
+              <div id="messageDiv" class="messageDiv"></div>
+              <!-- SB: 리뷰 작성칸을 보여주는 div입니다.-->
+              <form name="reviewForm">
+                <div id="postReviewDiv" class="postReviewDiv"></div>
+              </form>
+              <!-- SB: 리뷰수정 버튼을 누르면 수정칸을 보여주는 div입니다.-->
+              <form name="reviewFixForm">
+                <div id="fixDiv" class="fixDiv"></div>
+              </form>
+              <!-- SB: 작성된 리뷰가 없을 때 안내 문구를 보여주는 div입니다. -->
+              <div id="noReviewDiv" class="noReviewDiv"></div>
+              <!-- SB: 작성된 리뷰를 보여주는 div입니다. -->
+              <div id="getReviewDiv" class="getReviewDiv"></div>
+            </div>
+            <!-- SB: 로컬 서버용 -->
+            <script
+              type="text/javascript"
+              src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a54c1412f5e82ee9e5256c32dc403b24&libraries=services"
+            ></script>
 
-          <!-- SB: 클라우드 서버용 -->
-          <!-- <script
+            <!-- SB: 클라우드 서버용 -->
+            <!-- <script
             type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b57e8eb48f3c5019d2677ba17488c4ed&libraries=services"
           ></script> -->
+          </div>
+        </main>
+      </div>
+    </body>
+  </html>
 
-          <script>
-            // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
-            var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
-              contentNode = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
-              markers = [], // 마커를 담을 배열입니다
-              currCategory = ""; // 현재 선택된 카테고리를 가지고 있을 변수입니다
+  <script>
+    // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
+    var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
+      contentNode = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
+      markers = [], // 마커를 담을 배열입니다
+      currCategory = ""; // 현재 선택된 카테고리를 가지고 있을 변수입니다
 
-            var mapContainer = document.getElementById("map"), // 지도를 표시할 div
-              mapOption = {
-                center: new kakao.maps.LatLng(
-                  37.53368846953789,
-                  126.96331420297767
-                ), // 지도의 중심좌표
-                level: 3, // 지도의 확대 레벨
-              };
+    var mapContainer = document.getElementById("map"), // 지도를 표시할 div
+      mapOption = {
+        center: new kakao.maps.LatLng(37.53368846953789, 126.96331420297767), // 지도의 중심좌표
+        level: 3, // 지도의 확대 레벨
+      };
 
-            // 지도를 생성합니다
-            var map = new kakao.maps.Map(mapContainer, mapOption);
+    // 지도를 생성합니다
+    var map = new kakao.maps.Map(mapContainer, mapOption);
 
-            // 장소 검색 객체를 생성합니다
-            var ps = new kakao.maps.services.Places(map);
+    // 장소 검색 객체를 생성합니다
+    var ps = new kakao.maps.services.Places(map);
 
-            // 지도에 idle 이벤트를 등록합니다
-            kakao.maps.event.addListener(map, "idle", searchPlaces);
+    // 지도에 idle 이벤트를 등록합니다
+    kakao.maps.event.addListener(map, "idle", searchPlaces);
 
-            // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
-            contentNode.className = "placeinfo_wrap";
+    // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
+    contentNode.className = "placeinfo_wrap";
 
-            // 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
-            // 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다
-            addEventHandle(
-              contentNode,
-              "mousedown",
-              kakao.maps.event.preventMap
-            );
-            addEventHandle(
-              contentNode,
-              "touchstart",
-              kakao.maps.event.preventMap
-            );
+    // 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
+    // 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다
+    addEventHandle(contentNode, "mousedown", kakao.maps.event.preventMap);
+    addEventHandle(contentNode, "touchstart", kakao.maps.event.preventMap);
 
-            // 커스텀 오버레이 컨텐츠를 설정합니다
-            placeOverlay.setContent(contentNode);
+    // 커스텀 오버레이 컨텐츠를 설정합니다
+    placeOverlay.setContent(contentNode);
 
-            // 각 카테고리에 클릭 이벤트를 등록합니다
-            addCategoryClickEvent();
+    // 각 카테고리에 클릭 이벤트를 등록합니다
+    addCategoryClickEvent();
 
-            // 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
-            function addEventHandle(target, type, callback) {
-              if (target.addEventListener) {
-                target.addEventListener(type, callback);
-              } else {
-                target.attachEvent("on" + type, callback);
-              }
-            }
+    // 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
+    function addEventHandle(target, type, callback) {
+      if (target.addEventListener) {
+        target.addEventListener(type, callback);
+      } else {
+        target.attachEvent("on" + type, callback);
+      }
+    }
 
-            // 카테고리 검색을 요청하는 함수입니다
-            function searchPlaces() {
-              if (!currCategory) {
-                return;
-              }
-              // 커스텀 오버레이를 숨깁니다
-              placeOverlay.setMap(null);
+    // 카테고리 검색을 요청하는 함수입니다
+    function searchPlaces() {
+      if (!currCategory) {
+        return;
+      }
+      // 커스텀 오버레이를 숨깁니다
+      placeOverlay.setMap(null);
 
-              // 지도에 표시되고 있는 마커를 제거합니다
-              removeMarker();
+      // 지도에 표시되고 있는 마커를 제거합니다
+      removeMarker();
 
-              ps.categorySearch(currCategory, placesSearchCB, {
-                useMapBounds: true,
-              });
-            }
+      ps.categorySearch(currCategory, placesSearchCB, {
+        useMapBounds: true,
+      });
+    }
 
-            // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-            function placesSearchCB(data, status, pagination) {
-              if (status === kakao.maps.services.Status.OK) {
-                // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
-                displayPlaces(data);
-              } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-                // 검색결과가 없는경우 해야할 처리가 있다면 이곳에 작성해 주세요
-              } else if (status === kakao.maps.services.Status.ERROR) {
-                // 에러로 인해 검색결과가 나오지 않은 경우 해야할 처리가 있다면 이곳에 작성해 주세요
-              }
-            }
+    // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+    function placesSearchCB(data, status, pagination) {
+      if (status === kakao.maps.services.Status.OK) {
+        // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
+        displayPlaces(data);
+      } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+        // 검색결과가 없는경우 해야할 처리가 있다면 이곳에 작성해 주세요
+      } else if (status === kakao.maps.services.Status.ERROR) {
+        // 에러로 인해 검색결과가 나오지 않은 경우 해야할 처리가 있다면 이곳에 작성해 주세요
+      }
+    }
 
-            function emptyStar() {
-              for (let i = 1; i <= 5; i++) {
-                // SB: 별별별
-                document.getElementById(`star${i}`).innerHTML = "☆";
-              }
-            }
+    function emptyStar() {
+      for (let i = 1; i <= 5; i++) {
+        // SB: 별별별
+        document.getElementById(`star${i}`).innerHTML = "☆";
+      }
+    }
 
-            // SB: 별점 별에 걸려있는 함수입니다.
-            function starRating(starNumber, divName) {
-              emptyStar();
+    // SB: 별점 별에 걸려있는 함수입니다.
+    function starRating(starNumber, divName) {
+      emptyStar();
 
-              for (let i = 1; i <= starNumber; i++) {
-                // SB: 별별별
-                document.getElementById(`star${i}`).innerHTML = "★";
-              }
+      for (let i = 1; i <= starNumber; i++) {
+        // SB: 별별별
+        document.getElementById(`star${i}`).innerHTML = "★";
+      }
 
-              $(`#${divName}`).append(`<div id="starResultDiv"></div>`);
+      $(`#${divName}`).append(`<div id="starResultDiv"></div>`);
 
-              document.getElementById(
-                "starResultDiv"
-              ).innerHTML = `<input type="text" name="rating" value="${starNumber}" style="display:none;" required>`;
-            }
+      document.getElementById(
+        "starResultDiv"
+      ).innerHTML = `<input type="text" name="rating" value="${starNumber}" style="display:none;" required>`;
+    }
 
-            // SB: 리뷰 작성칸을 보여주는 함수입니다. input 태그들을 보여줍니다.
-            function postReview(placeName, placeAddress) {
-              document.getElementById("fixDiv").innerHTML = "";
+    // SB: 리뷰 작성칸을 보여주는 함수입니다. input 태그들을 보여줍니다.
+    function postReview(placeName, placeAddress) {
+      document.getElementById("fixDiv").innerHTML = "";
 
-              // SB: 별별별
-              document.getElementById(
-                "postReviewDiv"
-              ).innerHTML = `<span class="starBox">
+      // SB: 별별별
+      document.getElementById(
+        "postReviewDiv"
+      ).innerHTML = `<span class="starBox">
                 <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
                 <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'postReviewDiv')">☆</button>
                 <button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'postReviewDiv')">☆</button>
@@ -204,69 +197,73 @@
               </span>
               <input type="text" name="reviewComment" class="reviewBox" placeholder="후기를 입력해주세요" required>
               <button type="button" class="submitButton" onclick="uplodeReview('${placeName}', '${placeAddress}')">작성하기</button>`;
-            }
+    }
 
-            // SB: 리뷰 제출 버튼(작성하기)에 걸려있는 함수입니다.
-            function uplodeReview(placeName, placeAddress) {
-              const form = document.forms["reviewForm"];
+    // SB: 리뷰 제출 버튼(작성하기)에 걸려있는 함수입니다.
+    function uplodeReview(placeName, placeAddress) {
+      const form = document.forms["reviewForm"];
 
-              if (!form.checkValidity()) {
-                form.reportValidity();
+      if (!form.checkValidity()) {
+        form.reportValidity();
 
-                document.getElementById(
-                  "messageDiv"
-                ).innerHTML = `<div class="notLogin">별점과 리뷰를 모두 작성해주세요</div>`;
+        document.getElementById(
+          "messageDiv"
+        ).innerHTML = `<div class="notLogin">별점과 리뷰를 모두 작성해주세요</div>`;
 
-                return false;
-              }
+        return false;
+      }
 
-              let thisUserId = "<%= user ? user.id : '' %>";
-              const data = {
-                id: thisUserId,
-                storeID: `${placeName}_${placeAddress}`,
-                rating: form.rating.value,
-                reviewComment: form.reviewComment.value,
-              };
-              axios({
-                method: "POST",
-                url: "/uplodeReview",
-                data: data,
-              }).then((res) => {
-                alert("리뷰 작성이 완료되었습니다.");
-                // SB: 별별별
+      let thisUserId = "<%= user ? user.id : '' %>";
+      const data = {
+        id: thisUserId,
+        storeID: `${placeName}_${placeAddress}`,
+        rating: form.rating.value,
+        reviewComment: form.reviewComment.value,
+      };
+      axios({
+        method: "POST",
+        url: "/uplodeReview",
+        data: data,
+      }).then((res) => {
+        alert("리뷰 작성이 완료되었습니다.");
+        // SB: 별별별
 
-                let html = `
-
-                <div id="${res.data.reviewNumber}" class="board-color-${Number(res.data.rating)}">
-                  <span id="ratingDiv" class="starRating">${"★".repeat(Number(res.data.rating))+"☆".repeat(5-Number(res.data.rating))} </span>
-                  <button type="button" class="buttonFix" onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}', '${placeName}',  '${placeAddress}')">리뷰 수정</button>
-                  <button type="button" class="buttonDelete"" onclick="reviewDelete('${res.data.reviewNumber}')">리뷰 삭제</button>
-                  <div id="reviewCommentDiv" class="reviewComment">${res.data.reviewComment}</div>
+        let html = `
+                <div id="${res.data.reviewNumber}" class="reveiwBox">
+                  <div id="ratingDiv" class="starRating">${
+                    "★".repeat(Number(res.data.rating)) +
+                    "☆".repeat(5 - Number(res.data.rating))
+                  } </div>
+                  <div id="reviewCommentDiv" class="reviewComment">${
+                    res.data.reviewComment
+                  }</div>
                   <span class="imageDiv" type="button">
                 `;
 
-                // SB: 랜덤 이미지
-                if (res.data.User.image) {
-                  html += `<img src="${res.data.User.image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
-                } else {
-                  html += `<img src="/static/img/bagicimg.jpeg" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
-                }
+        // SB: 랜덤 이미지
+        if (res.data.User.image) {
+          html += `<img src="${res.data.User.image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+        } else {
+          html += `<img src="/static/img/bagicimg.jpeg" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+        }
 
-                html += `<span class="nickname">${res.data.User.nickname}</span>
+        html += `<span class="nickname">${res.data.User.nickname}</span>
                   </span>
                   <div class="time">${res.data.createdAt}</div>
+                  <button type="button" onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}', '${placeName}',  '${placeAddress}')">리뷰 수정</button>
+                  <button type="button" onclick="reviewDelete('${res.data.reviewNumber}')">리뷰 삭제</button>
                 </div>
                 `;
 
-                $("#getReviewDiv").append(html);
+        $("#getReviewDiv").append(html);
 
-                document.getElementById("messageDiv").innerHTML = "";
-                document.getElementById("noReviewDiv").innerHTML = "";
+        document.getElementById("messageDiv").innerHTML = "";
+        document.getElementById("noReviewDiv").innerHTML = "";
 
-                // SB: 별별별
-                document.getElementById(
-                  "postReviewDiv"
-                ).innerHTML = `<span class="starBox">
+        // SB: 별별별
+        document.getElementById(
+          "postReviewDiv"
+        ).innerHTML = `<span class="starBox">
 
                   <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
                   <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'postReviewDiv')">☆</button>
@@ -276,23 +273,23 @@
                 </span>
                 <input type="text" name="reviewComment" class="reviewBox" placeholder="후기를 입력해주세요" required>
                 <button type="button" class="submitButton" onclick="uplodeReview('${placeName}', '${placeAddress}')">작성하기</button>`;
-              });
-            }
+      });
+    }
 
-            // SB: 리뷰 수정 버튼에 걸려있는 함수입니다.
-            function reviewFix(
-              reviewNumber,
-              rating,
-              reviewComment,
-              placeName,
-              placeAddress
-            ) {
-              document.getElementById("postReviewDiv").innerHTML = "";
-              document.getElementById("fixDiv").innerHTML = "";
+    // SB: 리뷰 수정 버튼에 걸려있는 함수입니다.
+    function reviewFix(
+      reviewNumber,
+      rating,
+      reviewComment,
+      placeName,
+      placeAddress
+    ) {
+      document.getElementById("postReviewDiv").innerHTML = "";
+      document.getElementById("fixDiv").innerHTML = "";
 
-              // SB: 별별별
-              $("#fixDiv").append(
-                `<span class="starBox">
+      // SB: 별별별
+      $("#fixDiv").append(
+        `<span class="starBox">
                     <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'fixDiv')">☆</button>
                     <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'fixDiv')">☆</button>
                     <button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'fixDiv')">☆</button>
@@ -301,39 +298,40 @@
                   </span>
                   <input type="text" name="reviewComment" class="reviewBox" placeholder="수정하고 싶은 내용을 입력해주세요" required value="${reviewComment}">
                   <button type="button" class="submitButton" onclick="updateReview('${reviewNumber}')">수정하기</button>`
-              );
+      );
 
-              $("input[name=reviewComment]").focus();
+      $("input[name=reviewComment]").focus();
 
-              starRating(rating, "fixDiv");
-            }
+      starRating(rating, "fixDiv");
+    }
 
-            // SB: 수정하기 버튼에 걸려있는 함수입니다.
-            function updateReview(reviewNumber) {
-              const form = document.forms["reviewFixForm"];
+    // SB: 수정하기 버튼에 걸려있는 함수입니다.
+    function updateReview(reviewNumber) {
+      const form = document.forms["reviewFixForm"];
 
-              if (!form.checkValidity()) {
-                form.reportValidity();
+      if (!form.checkValidity()) {
+        form.reportValidity();
 
-                return false;
-              }
+        return false;
+      }
 
-              const data = {
-                reviewNumber: reviewNumber,
-                rating: form.rating.value,
-                reviewComment: form.reviewComment.value,
-              };
+      const data = {
+        reviewNumber: reviewNumber,
+        rating: form.rating.value,
+        reviewComment: form.reviewComment.value,
+      };
 
-              axios({
-                method: "patch",
-                url: "/updateReview",
-                data: data,
-              }).then((res) => {
-                if (res.data) {
-                  alert("리뷰 수정이 완료되었습니다.");
-                  $(`#${res.data.reviewNumber}`).empty();
-                  // SB: 별별별
-                  let html = `
+      axios({
+        method: "patch",
+        url: "/updateReview",
+        data: data,
+      }).then((res) => {
+        if (res.data) {
+          alert("리뷰 수정이 완료되었습니다.");
+          $(`#${res.data.reviewNumber}`).empty();
+
+          // SB: 별별별
+          let html = `
                   <div id="ratingDiv" class="starRating">${
                     "★".repeat(Number(res.data.rating)) +
                     "☆".repeat(5 - Number(res.data.rating))
@@ -344,331 +342,324 @@
                   <span class="imageDiv" type="button">
                   `;
 
-                  // SB: 랜덤 이미지
-                  if (res.data.User.image) {
-                    html += `<img src="${res.data.User.image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
-                  } else {
-                    html += `<img src="/static/img/bagicimg.jpeg" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
-                  }
+          // SB: 랜덤 이미지
+          if (res.data.User.image) {
+            html += `<img src="${res.data.User.image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+          } else {
+            html += `<img src="/static/img/bagicimg.jpeg" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+          }
 
-                  html += `<span class="nickname">${res.data.User.nickname}</span>
+          html += `<span class="nickname">${res.data.User.nickname}</span>
                     </span>
                     <div class="time">${res.data.createdAt}</div>
                     <button type="button" onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}', '${res.data.Map_Information.placeName}',  '${res.data.Map_Information.address}')">리뷰 수정</button>
-                    <button type="button" onclick="reviewDelete('${res.data.reviewNumber}')">리뷰 삭제</button>
+                  <button type="button" onclick="reviewDelete('${res.data.reviewNumber}')">리뷰 삭제</button>
                   `;
 
-                  $(`#${res.data.reviewNumber}`).append(html);
+          $(`#${res.data.reviewNumber}`).append(html);
+        } else {
+          alert("수정할 리뷰가 없습니다.");
+        }
+        document.getElementById("fixDiv").innerHTML = "";
+        postReview(
+          res.data.Map_Information.placeName,
+          res.data.Map_Information.address
+        );
+      });
+    }
 
+    // SB: 리뷰 삭제 버튼에 걸려있는 함수입니다.
+    function reviewDelete(reviewNumber) {
+      axios({
+        method: "delete",
+        url: `/reviewDelete/${reviewNumber}`,
+      }).then((res) => {
+        const thisReviewDiv = document.getElementById(`${reviewNumber}`);
+        thisReviewDiv.remove();
+        alert(res.data);
+      });
+    }
 
-                  document.getElementById(`${res.data.reviewNumber}`).className = `board-color-${Number(res.data.rating)}`
+    // 지도에 마커를 표출하는 함수입니다
+    function displayPlaces(places) {
+      // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
+      // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
+      var order = document
+        .getElementById(currCategory)
+        .getAttribute("data-order");
 
-                } else {
-                  alert("수정할 리뷰가 없습니다.");
-                }
-                // document.getElementById(`${res.data.reviewNumber}`).classList.remove("red")
-                document.getElementById("fixDiv").innerHTML = "";
-                postReview(
-                  res.data.Map_Information.placeName,
-                  res.data.Map_Information.address
-                );
-              });
+      for (var i = 0; i < places.length; i++) {
+        // 마커를 생성하고 지도에 표시합니다
+        var marker = addMarker(
+          new kakao.maps.LatLng(places[i].y, places[i].x),
+          order
+        );
+
+        // 마커와 검색결과 항목을 클릭 했을 때
+        // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
+        (function (marker, place) {
+          kakao.maps.event.addListener(marker, "click", function () {
+            displayPlaceInfo(place);
+
+            // SB: 마커를 클릭하면 다른 리뷰 작성칸을 지우는 함수입니다.
+            if (postReviewDiv.innerHTML.indexOf(`${place.place_name}`) != -1) {
+            } else {
+              postReviewDiv.innerHTML = "";
             }
 
-            // SB: 리뷰 삭제 버튼에 걸려있는 함수입니다.
-            function reviewDelete(reviewNumber) {
+            document.getElementById("noReviewDiv").innerHTML = "";
+            document.getElementById("messageDiv").innerHTML = "";
+
+            // SB: 마커를 클릭하면 가게 정보를 DB에 올리는 함수입니다.
+            let storeData = {
+              storeID: `${place.place_name}_${place.address_name}`,
+              placeName: place.place_name,
+              address: place.address_name,
+            };
+            axios({
+              method: "POST",
+              url: "/uploadStore",
+              data: storeData,
+            }).then((res) => {
+              console.log(res.data);
+            });
+
+            // SB: 마커를 클릭하면 리뷰정보를 가져오는 함수입니다.
+            document.getElementById("getReviewDiv").innerHTML = ``;
+            let getReviewData = {
+              storeID: `${place.place_name}_${place.address_name}`,
+            };
+
+            if ("<%= user%>" == "") {
+              document.getElementById(
+                "messageDiv"
+              ).innerHTML = `<div class="notLogin">로그인 후에 리뷰를 작성하실 수 있습니다.</div>`;
               axios({
-                method: "delete",
-                url: `/reviewDelete/${reviewNumber}`,
+                method: "get",
+                url: "/getReview",
+                params: getReviewData,
               }).then((res) => {
-                const thisReviewDiv = document.getElementById(
-                  `${reviewNumber}`
-                );
-                thisReviewDiv.remove();
-                alert(res.data);
+                if (res.data) {
+                  // SB: 별별별
+                  for (let i = 0; i < res.data.length; i++) {
+                    // SB: 별별별
+                    let html = `
+                            <div id="${
+                              res.data[i].reviewNumber
+                            }" class="reveiwBox">
+                              <div id="ratingDiv" class="starRating">${
+                                "★".repeat(Number(res.data[i].rating)) +
+                                "☆".repeat(5 - Number(res.data[i].rating))
+                              } </div>
+                              <div id="reviewCommentDiv" class="reviewComment">${
+                                res.data[i].reviewComment
+                              }</div>
+                              <span class="imageDiv" type="button">
+                            `;
+
+                    // SB: 랜덤 이미지
+                    if (res.data[i].image) {
+                      html += `<img src="${res.data[i].image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+                    } else {
+                      html += `<img src="/static/img/bagicimg.jpeg" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+                    }
+
+                    html += `<span class="nickname">${res.data[i].nickname}</span>
+                              </span>
+                              <div class="time">${res.data[i].createdAt}</div>
+                            `;
+
+                    html += `</div>`;
+
+                    $("#getReviewDiv").append(html);
+                  }
+                } else {
+                  document.getElementById(
+                    "noReviewDiv"
+                  ).innerHTML = `<div class="noReview">${place.place_name}에 작성된 리뷰가 없습니다</div>`;
+                }
+              });
+            } else {
+              postReview(place.place_name, place.address_name);
+              axios({
+                method: "get",
+                url: "/getReview",
+                params: getReviewData,
+              }).then((res) => {
+                if (res.data) {
+                  for (let i = 0; i < res.data.length; i++) {
+                    let thisUserId = "<%= user ? user.id : '' %>";
+
+                    // SB: 별별별
+                    let html = `
+                            <div id="${
+                              res.data[i].reviewNumber
+                            }" class="reveiwBox">
+                              <div id="ratingDiv" class="starRating">${
+                                "★".repeat(Number(res.data[i].rating)) +
+                                "☆".repeat(5 - Number(res.data[i].rating))
+                              } </div>
+                              <div id="reviewCommentDiv" class="reviewComment">${
+                                res.data[i].reviewComment
+                              }</div>
+                              <span class="imageDiv" type="button">
+                            `;
+
+                    // SB: 랜덤 이미지
+                    if (res.data[i].image) {
+                      html += `<img src="${res.data[i].image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+                    } else {
+                      html += `<img src="/static/img/bagicimg.jpeg" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+                    }
+
+                    html += `<span class="nickname">${res.data[i].nickname}</span>
+                              </span>
+                              <div class="time">${res.data[i].createdAt}</div>
+                            `;
+
+                    // <div class="time">${res.data[i].updatedAt}</div>
+
+                    if (thisUserId == res.data[i].id) {
+                      html += `<button type="button" onclick="reviewFix('${res.data[i].reviewNumber}', '${res.data[i].rating}', '${res.data[i].reviewComment}', '${place.place_name}',  '${place.address_name}')">리뷰 수정</button>
+                              <button type="button" onclick="reviewDelete('${res.data[i].reviewNumber}')">리뷰 삭제</button>`;
+                    }
+
+                    html += `</div>`;
+
+                    $("#getReviewDiv").append(html);
+                  }
+                } else {
+                  document.getElementById(
+                    "noReviewDiv"
+                  ).innerHTML = `<div class="noReview">${place.place_name}에 작성된 리뷰가 없습니다</div>`;
+                }
               });
             }
+          });
+        })(marker, places[i]);
+      }
+    }
 
-            // 지도에 마커를 표출하는 함수입니다
-            function displayPlaces(places) {
-              // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
-              // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
-              var order = document
-                .getElementById(currCategory)
-                .getAttribute("data-order");
+    // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+    function addMarker(position, order) {
+      // SB: 마커 이미지는 여기서 바꿔야할 것 같습니다.
+      var imageSrc =
+          "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+        imageSize = new kakao.maps.Size(27, 28), // 마커 이미지의 크기
+        imgOptions = {
+          spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
+          spriteOrigin: new kakao.maps.Point(46, order * 36), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+          offset: new kakao.maps.Point(11, 28), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+        },
+        markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imgOptions
+        ),
+        marker = new kakao.maps.Marker({
+          position: position, // 마커의 위치
+          image: markerImage,
+        });
 
-              for (var i = 0; i < places.length; i++) {
-                // 마커를 생성하고 지도에 표시합니다
-                var marker = addMarker(
-                  new kakao.maps.LatLng(places[i].y, places[i].x),
-                  order
-                );
+      marker.setMap(map); // 지도 위에 마커를 표출합니다
+      markers.push(marker); // 배열에 생성된 마커를 추가합니다
 
-                // 마커와 검색결과 항목을 클릭 했을 때
-                // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
-                (function (marker, place) {
-                  kakao.maps.event.addListener(marker, "click", function () {
-                    displayPlaceInfo(place);
+      return marker;
+    }
 
-                    // SB: 마커를 클릭하면 다른 리뷰 작성칸을 지우는 함수입니다.
-                    if (
-                      postReviewDiv.innerHTML.indexOf(`${place.place_name}`) !=
-                      -1
-                    ) {
-                    } else {
-                      postReviewDiv.innerHTML = "";
-                    }
+    // 지도 위에 표시되고 있는 마커를 모두 제거합니다
+    function removeMarker() {
+      for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+      }
+      markers = [];
+    }
 
-                    document.getElementById("noReviewDiv").innerHTML = "";
-                    document.getElementById("messageDiv").innerHTML = "";
+    // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
+    function displayPlaceInfo(place) {
+      var content =
+        '<div class="placeinfo">' +
+        '<a class="title" href="' +
+        place.place_url +
+        '" target="_blank" title="' +
+        place.place_name +
+        '">' +
+        place.place_name +
+        "</a>";
 
-                    // SB: 마커를 클릭하면 가게 정보를 DB에 올리는 함수입니다.
-                    let storeData = {
-                      storeID: `${place.place_name}_${place.address_name}`,
-                      placeName: place.place_name,
-                      address: place.address_name,
-                    };
-                    axios({
-                      method: "POST",
-                      url: "/uploadStore",
-                      data: storeData,
-                    }).then((res) => {
-                      console.log(res.data);
-                    });
+      if (place.road_address_name) {
+        content +=
+          '    <span title="' +
+          place.road_address_name +
+          '">' +
+          place.road_address_name +
+          "</span>" +
+          '  <span class="jibun" title="' +
+          place.address_name +
+          '">(지번 : ' +
+          place.address_name +
+          ")</span>";
+      } else {
+        content +=
+          '    <span title="' +
+          place.address_name +
+          '">' +
+          place.address_name +
+          "</span>";
+      }
 
-                    // SB: 마커를 클릭하면 리뷰정보를 가져오는 함수입니다.
-                    document.getElementById("getReviewDiv").innerHTML = ``;
-                    let getReviewData = {
-                      storeID: `${place.place_name}_${place.address_name}`,
-                    };
+      content +=
+        '    <span class="tel">' +
+        place.phone +
+        "</span>" +
+        "</div>" +
+        '<div class="after"></div>';
 
-                    if ("<%= user%>" == "") {
-                      document.getElementById(
-                        "messageDiv"
-                      ).innerHTML = `<div class="notLogin">로그인 후에 리뷰를 작성하실 수 있습니다.</div>`;
-                      axios({
-                        method: "get",
-                        url: "/getReview",
-                        params: getReviewData,
-                      }).then((res) => {
-                        if (res.data) {
-                          // SB: 별별별
-                          for (let i = 0; i < res.data.length; i++) {
-                            // SB: 별별별
-                            let html = `
+      contentNode.innerHTML = content;
+      placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
+      placeOverlay.setMap(map);
+    }
 
-                            <div id="${res.data[i].reviewNumber}" class="board-color-${Number(res.data[i].rating)}">
-                              <div id="ratingDiv" class="starRating">${"★".repeat(Number(res.data[i].rating))+"☆".repeat(5-Number(res.data[i].rating))} </div>
-                              <div id="reviewCommentDiv" class="reviewComment">${res.data[i].reviewComment}</div>
+    // 각 카테고리에 클릭 이벤트를 등록합니다
+    function addCategoryClickEvent() {
+      var category = document.getElementById("category"),
+        children = category.children;
+      for (var i = 0; i < children.length; i++) {
+        children[i].onclick = onClickCategory;
+      }
+    }
 
-                              <span class="imageDiv" type="button">
-                            `;
+    // 카테고리를 클릭했을 때 호출되는 함수입니다
+    function onClickCategory() {
+      var id = this.id,
+        className = this.className;
 
-                            // SB: 랜덤 이미지
-                            if (res.data[i].image) {
-                              html += `<img src="${res.data[i].image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
-                            } else {
-                              html += `<img src="/static/img/bagicimg.jpeg" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
-                            }
+      placeOverlay.setMap(null);
 
-                            html += `<span class="nickname">${res.data[i].nickname}</span>
-                              </span>
-                              <div class="time">${res.data[i].createdAt}</div>
-                            `;
+      if (className === "on") {
+        currCategory = "";
+        changeCategoryClass();
+        removeMarker();
+      } else {
+        currCategory = id;
+        changeCategoryClass(this);
+        searchPlaces();
+      }
+    }
 
-                            html += `</div>`;
+    // 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
+    function changeCategoryClass(el) {
+      var category = document.getElementById("category"),
+        children = category.children,
+        i;
 
-                            $("#getReviewDiv").append(html);
-                          }
-                        } else {
-                          document.getElementById(
-                            "noReviewDiv"
-                          ).innerHTML = `<div class="noReview">${place.place_name}에 작성된 리뷰가 없습니다</div>`;
-                        }
-                      });
-                    } else {
-                      postReview(place.place_name, place.address_name);
-                      axios({
-                        method: "get",
-                        url: "/getReview",
-                        params: getReviewData,
-                      }).then((res) => {
-                        if (res.data) {
-                          for (let i = 0; i < res.data.length; i++) {
-                            let thisUserId = "<%= user ? user.id : '' %>";
+      for (i = 0; i < children.length; i++) {
+        children[i].className = "";
+      }
 
-                            // SB: 별별별
-                            let html = `
-
-                            <div id="${res.data[i].reviewNumber}" class="board-color-${Number(res.data[i].rating)}">
-                              <span id="ratingDiv" class="starRating">${"★".repeat(Number(res.data[i].rating))+"☆".repeat(5-Number(res.data[i].rating))} </span>`
-                              
-                            if (thisUserId == res.data[i].id) {
-                              html += `<button type="button" class="buttonFix" onclick="reviewFix('${res.data[i].reviewNumber}', '${res.data[i].rating}', '${res.data[i].reviewComment}', '${place.place_name}',  '${place.address_name}')">리뷰 수정</button>
-                              <button type="button" class="buttonDelete" onclick="reviewDelete('${res.data[i].reviewNumber}')">리뷰 삭제</button>`;
-                            }
-
-                            html += `<div id="reviewCommentDiv" class="reviewComment">${res.data[i].reviewComment}</div>
-
-                              <span class="imageDiv" type="button">
-                            `;
-
-                            // SB: 랜덤 이미지
-                            if (res.data[i].image) {
-                              html += `<img src="${res.data[i].image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
-                            } else {
-                              html += `<img src="/static/img/bagicimg.jpeg" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
-                            }
-
-                            html += `<span class="nickname">${res.data[i].nickname}</span>
-                              </span>
-                              <div class="time">${res.data[i].createdAt}</div>
-
-                              </div>`;
-
-                            $("#getReviewDiv").append(html);
-                          }
-                        } else {
-                          document.getElementById(
-                            "noReviewDiv"
-                          ).innerHTML = `<div class="noReview">${place.place_name}에 작성된 리뷰가 없습니다</div>`;
-                        }
-                      });
-                    }
-                  });
-                })(marker, places[i]);
-              }
-            }
-
-            // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-            function addMarker(position, order) {
-              // SB: 마커 이미지는 여기서 바꿔야할 것 같습니다.
-              var imageSrc =
-                  "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
-                imageSize = new kakao.maps.Size(27, 28), // 마커 이미지의 크기
-                imgOptions = {
-                  spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
-                  spriteOrigin: new kakao.maps.Point(46, order * 36), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-                  offset: new kakao.maps.Point(11, 28), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-                },
-                markerImage = new kakao.maps.MarkerImage(
-                  imageSrc,
-                  imageSize,
-                  imgOptions
-                ),
-                marker = new kakao.maps.Marker({
-                  position: position, // 마커의 위치
-                  image: markerImage,
-                });
-
-              marker.setMap(map); // 지도 위에 마커를 표출합니다
-              markers.push(marker); // 배열에 생성된 마커를 추가합니다
-
-              return marker;
-            }
-
-            // 지도 위에 표시되고 있는 마커를 모두 제거합니다
-            function removeMarker() {
-              for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(null);
-              }
-              markers = [];
-            }
-
-            // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
-            function displayPlaceInfo(place) {
-              var content =
-                '<div class="placeinfo">' +
-                '<a class="title" href="' +
-                place.place_url +
-                '" target="_blank" title="' +
-                place.place_name +
-                '">' +
-                place.place_name +
-                "</a>";
-
-              if (place.road_address_name) {
-                content +=
-                  '    <span title="' +
-                  place.road_address_name +
-                  '">' +
-                  place.road_address_name +
-                  "</span>" +
-                  '  <span class="jibun" title="' +
-                  place.address_name +
-                  '">(지번 : ' +
-                  place.address_name +
-                  ")</span>";
-              } else {
-                content +=
-                  '    <span title="' +
-                  place.address_name +
-                  '">' +
-                  place.address_name +
-                  "</span>";
-              }
-
-              content +=
-                '    <span class="tel">' +
-                place.phone +
-                "</span>" +
-                "</div>" +
-                '<div class="after"></div>';
-
-              contentNode.innerHTML = content;
-              placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
-              placeOverlay.setMap(map);
-            }
-
-            // 각 카테고리에 클릭 이벤트를 등록합니다
-            function addCategoryClickEvent() {
-              var category = document.getElementById("category"),
-                children = category.children;
-              for (var i = 0; i < children.length; i++) {
-                children[i].onclick = onClickCategory;
-              }
-            }
-
-            // 카테고리를 클릭했을 때 호출되는 함수입니다
-            function onClickCategory() {
-              var id = this.id,
-                className = this.className;
-
-              placeOverlay.setMap(null);
-
-              if (className === "on") {
-                currCategory = "";
-                changeCategoryClass();
-                removeMarker();
-              } else {
-                currCategory = id;
-                changeCategoryClass(this);
-                searchPlaces();
-              }
-            }
-
-            // 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
-            function changeCategoryClass(el) {
-              var category = document.getElementById("category"),
-                children = category.children,
-                i;
-
-              for (i = 0; i < children.length; i++) {
-                children[i].className = "";
-              }
-
-              if (el) {
-                el.className = "on";
-              }
-            }
-          </script>
-        </main>
-
-        <!-- 푸터 -->
-        <footer class="mt-auto text-white-50">
-          <p>SeSAC 용산2기 풀스텍 웹개발자 양성과정 @내 통장에 6조</p>
-        </footer>
-      </div>
-    </body>
-  </html>
+      if (el) {
+        el.className = "on";
+      }
+    }
+  </script>
 </html>
