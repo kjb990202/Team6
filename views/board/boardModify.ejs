@@ -23,24 +23,25 @@
 <!-- pe-none : 마우스 호버시 마우스변경 방지 -->
 <form class="row g-3 needs-validation" novalidate>
 <div class="col-md-100">
-  <div class="d-flex align-items-end" pe-none" id="editTitle">카테고리<a style="color: red;">&nbsp;*</a></div>
+  <div class="d-flex align-items-end" pe-none id="editTitle">카테고리<a style="color: red;">&nbsp;*</a></div>
   <select class="form-select" id="validationCustom04" required>
-    <option selected disabled value="">카테고리를 선택해 주세요.</option>
-    <option value="1">잡담</option>
-    <option value="2">Q&A</option>
+    <option selected disabled value="" >카테고리를 선택해 주세요.</option>
+    <option value="자유">자유</option>
+    <option value="Q&A">Q&A</option>
+    <option value="학습">학습</option>
   </select>
   <div class="pe-none invalid-feedback">
     필수 선택 항목입니다.
   </div>
 </div>
 <div class="col-md-100">
-  <div id="editTitle" class="d-flex align-items-end" pe-none">제목<a style="color: red;">&nbsp;*</a></div>
+  <div id="editTitle" class="d-flex align-items-end" pe-none required>제목<a style="color: red;">&nbsp;*</a></div>
   <input type="text" class="form-control" id="validationCustom01" placeholder="제목을 입력해 주세요." required value="<%= title %>">
-  <div class="pe-none invalid-feedback">
+  <div class="pe-none invalid-feedback" required>
     필수 입력 항목입니다.
   </div>
 </div>
-      <div id="editTitle" class="d-flex align-items-end" pe-none">내용<a style="color: red;">&nbsp;*</a></div>
+      <div id="editTitle" class="d-flex align-items-end" pe-none required>내용<a style="color: red;">&nbsp;*</a></div>
       
       <!-- 에디터를 적용할 요소 (컨테이너) -->
       <div id="content"><%= content %></div>
