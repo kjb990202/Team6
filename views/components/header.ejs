@@ -20,7 +20,7 @@
   }
 
   header {
-    z-index: 9999;
+    z-index: 100;
   }
 
   /* 홈페이지 좌우 여백 조절하는 곳 */
@@ -164,78 +164,79 @@
     margin-left: 1.5rem;
   }
 </style>
-
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-0">
     <div class="d-flex align-items-center justify-content-center">
       <a class="me-auto p-2 navbar-brand float-md-start" href="/">
         <img src="/static/img/SeSACitLogo.svg" />
       </a>
-      <!-- <a href="/">
-        <h3 class="logo float-md-start mb-0">SeSAC-it</h3>
-      </a> -->
       <nav
         class="nav nav-masthead d-flex align-items-center justify-content-center float-md-end"
       >
-        <div class="container"></div>
-        <% if (isAuthenticated) { %>
-        <!-- 로그인 상태일 때의 메뉴 -->
-        <a class="p-2 nav-link fw-normal py-1 px-0 float" href="/mapMain"
-          >맛집 지도</a
-        >
-        <a class="p-2 nav-link fw-normal py-1 px-0 float" href="/boardMain"
-          >게시판</a
-        >
-        <!-- <a class="nav-link fw-normal py-1 px-0 float" href="/comment"
+        <div class="container">
+          <% if (isAuthenticated) { %>
+          <!-- 로그인 상태일 때의 메뉴 -->
+          <a class="p-2 nav-link fw-normal py-1 px-0 float" href="/mapMain"
+            >맛집 지도</a
+          >
+          <a class="p-2 nav-link fw-normal py-1 px-0 float" href="/boardMain"
+            >게시판</a
+          >
+          <!-- <a class="nav-link fw-normal py-1 px-0 float" href="/comment"
           >댓글</a>
         > -->
-        <div class="nav-link fw-normal py-1 px-0 dropdown float">
-          <button
-            class="btn btnHeader"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+          <div class="nav-link fw-normal py-1 px-0 dropdown float">
+            <button
+              class="btn btnHeader"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <% if (user.image) { %>
+              <!-- 사용자 프로필이 있는 경우 -->
+              <img
+                src="/<%= user.image %>"
+                alt="프로필 이미지"
+                class="headerProfile"
+              />
+              <% } else { %>
+              <!-- 사용자 프로필이 없는 경우 -->
+              <img
+                src="/static/img/bagicimg.jpeg"
+                alt="사용자 메뉴"
+                class="headerProfile"
+                id="randomImage"
+              />
+              <% } %>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a class="dropdown-item float" href="/mypage">마이페이지</a>
+              </li>
+              <li>
+                <a class="dropdown-item float" href="/changePassword"
+                  >비밀번호 변경</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item float" href="/logout">로그아웃</a>
+              </li>
+            </ul>
+          </div>
+          <% } else { %>
+          <!-- 로그아웃 상태일 때의 메뉴 -->
+          <a class="nav-link fw-normal py-1 px-0 float" href="/mapMain"
+            >맛집 지도</a
           >
-            <% if (user.image) { %>
-            <!-- 사용자 프로필이 있는 경우 -->
-            <img
-              src="/<%= user.image %>"
-              alt="프로필 이미지"
-              class="headerProfile"
-            />
-            <% } else { %>
-            <!-- 사용자 프로필이 없는 경우 -->
-            <img
-              src="/static/img/bagicimg.jpeg"
-              alt="사용자 메뉴"
-              class="headerProfile"
-              id="randomImage"
-            />
-            <% } %>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li>
-              <a class="dropdown-item float" href="/mypage">마이페이지</a>
-            </li>
-            <li>
-              <a class="dropdown-item float" href="/changePassword"
-                >비밀번호 변경</a
-              >
-            </li>
-            <li><a class="dropdown-item float" href="/logout">로그아웃</a></li>
-          </ul>
+          <a class="nav-link fw-normal py-1 px-0 float" href="/boardMain"
+            >게시판</a
+          >
+          <a class="nav-link fw-normal py-1 px-0 float" href="/signin"
+            >로그인</a
+          >
+          <!-- <a class="nav-link fw-normal py-1 px-0" href="/comment">댓글</a> -->
+          <% } %>
         </div>
-        <% } else { %>
-        <!-- 로그아웃 상태일 때의 메뉴 -->
-        <a class="nav-link fw-normal py-1 px-0 float" href="/mapMain"
-          >맛집 지도</a
-        >
-        <a class="nav-link fw-normal py-1 px-0 float" href="/boardMain"
-          >게시판</a
-        >
-        <a class="nav-link fw-normal py-1 px-0 float" href="/signin">로그인</a>
-        <!-- <a class="nav-link fw-normal py-1 px-0" href="/comment">댓글</a> -->
-        <% } %>
       </nav>
     </div>
   </header>

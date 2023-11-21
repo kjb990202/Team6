@@ -33,7 +33,9 @@
 .placeinfo .tel {color:#0f7833;}
 .placeinfo .jibun {color:#999;font-size:11px;margin-top:0;}
 
-
+.margin-top--80 {
+  margin-top: 80px;
+}
 
 .messageDiv {
   width: 100%;
