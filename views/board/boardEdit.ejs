@@ -16,14 +16,17 @@
         </header>
     <!-- TOAST TUI 에디터 CSS CDN -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <!-- TOAST TUI 에디터 JS CDN -->
+     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+ 
   </head>
-  <body class="d-flex h-100 text-center text-bg-white">
-      <main class="px-3">
+<body class="d-flex h-100 text-center text-bg-white">
+<main class="px-3">
 <!-- 카테고리, 제목 선택창 -->
   <!-- pe-none : 마우스 호버시 마우스변경 방지 -->
 <form class="row g-3 needs-validation" novalidate>
-  <div class="col-md-100">
-    <div class="d-flex align-items-end" pe-none id="editTitle">카테고리<a style="color: red;">&nbsp;*</a></div>
+  <div class="col-md-100 ">
+    <div class="d-flex align-items-end margin-top--80"" pe-none id="editTitle">카테고리<a style="color: red;">&nbsp;*</a></div>
     <select class="form-select" id="validationCustom04" required>
       <option selected disabled value="">카테고리를 선택해 주세요.</option>
       <option value="자유">자유</option>
@@ -45,26 +48,22 @@
         
         <!-- 에디터를 적용할 요소 (컨테이너) -->
         <div id="content"></div>
-        <!-- TOAST TUI 에디터 JS CDN -->
-        <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+        
         <script>
           const editor = new toastui.Editor({
             el: document.querySelector('#content'), // 에디터를 적용할 요소 (컨테이너)
-            height: '500px', // 에디터 영역의 높이 값 (OOOpx || auto)
+            height: '300px', // 에디터 영역의 높이 값 (OOOpx || auto)
             initialEditType: 'wysiwyg', // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
             previewStyle: 'vertical', // 마크다운 프리뷰 스타일 (tab || vertical)
             toolbarItems: [
               ['heading', 'bold', 'italic', 'strike'],
               ['hr', 'quote'],
               ['ul', 'ol', 'task', 'indent', 'outdent'],
-              ['table', 'image', 'link'], //게시판 내에 이미지, 표 안쓰려면 'table', 'image' 주석처리 필요
               ['code', 'codeblock'],
               ['scrollSync'],
              ],
           });
-          
-
-        </script>
+           </script>
         <br />
         <!-- 취소&등록 버튼 -->
           <div class="d-flex gap-2" >
@@ -72,13 +71,9 @@
           <button type="submit" class="btn btn-primary editorButton" id="submitButton">등록</button>
         </div>      
         </form>
-        
+        </main>
+        </body>
 </html>
-</main>
-
-<footer class="mt-auto text-white-50">
-  <p>SeSAC 용산2기 풀스텍 웹개발자 양성과정 @내 통장에 6조</p>
-</footer>
 </div>
 <script>
 

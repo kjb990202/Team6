@@ -171,6 +171,10 @@ a .signupLink {
   flex-direction: column;
 }
 
+.margin-top--80 {
+  margin-top: 80px;
+}
+
 .padding-top--64 {
   padding-top: 64px;
 }
