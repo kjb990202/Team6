@@ -8,17 +8,16 @@
       <!-- CSS 연결 -->
       <link href="../static/css/map.css" rel="stylesheet" />
       <title>맛집 지도</title>
-    <!-- SB: 로컬 서버용 -->
+      <!-- SB: 로컬 서버용 -->
       <script
-      type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a54c1412f5e82ee9e5256c32dc403b24&libraries=services"
-    ></script>
-    <!-- SB: 클라우드 서버용 -->
-    <!-- <script
+        type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a54c1412f5e82ee9e5256c32dc403b24&libraries=services"
+      ></script>
+      <!-- SB: 클라우드 서버용 -->
+      <!-- <script
       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b57e8eb48f3c5019d2677ba17488c4ed&libraries=services"
     ></script> -->
-    
     </head>
     <body class="d-flex h-100 text-center text-bg-white">
       <!-- 헤더 : 상단 메뉴바  -->
@@ -28,37 +27,32 @@
         </header>
         <!-- 메인 -->
         <main class="px-3">
-          <div class="map_wrap">
-            <div
-              id="map"
-              style="
-                width: 100%;
-                height: 100%;
-                position: relative;
-                overflow: hidden;
-              "
-            ></div>
-            <ul id="category">
-              <li id="FD6" data-order="0">
-                <!-- SB: 카테고리 아이콘을 결정하는 클래스입니다. ex) cafe, store -->
-                <span class="category_bg cafe"></span>
-                음식점
-              </li>
-              <li id="CS2" data-order="1">
-                <span class="category_bg store"></span>
-                편의점
-              </li>
-              <li id="CE7" data-order="2">
-                <span class="category_bg cafe"></span>
-                카페
-              </li>
-              <li id="PM9" data-order="3">
-                <span class="category_bg pharmacy"></span>
-                약국
-              </li>
-            </ul>
+          <div class="pt-5">
+            <div class="map_wrap">
+              <!-- 지도 나오는 부분 -->
+              <div id="map"></div>
+              <!-- 카테고리 -->
+              <ul id="category">
+                <li id="FD6" data-order="0">
+                  <!-- SB: 카테고리 아이콘을 결정하는 클래스입니다. ex) cafe, store -->
+                  <span class="category_bg cafe"></span>
+                  음식점
+                </li>
+                <li id="CS2" data-order="1">
+                  <span class="category_bg store"></span>
+                  편의점
+                </li>
+                <li id="CE7" data-order="2">
+                  <span class="category_bg cafe"></span>
+                  카페
+                </li>
+                <li id="PM9" data-order="3">
+                  <span class="category_bg pharmacy"></span>
+                  약국
+                </li>
+              </ul>
+            </div>
           </div>
-
           <div class="mapContentsBox">
             <!-- SB: 로그인 필요 안내 문구를 보여주는 div입니다. -->
             <div id="messageDiv" class="messageDiv"></div>
@@ -76,7 +70,7 @@
             <div id="getReviewDiv" class="getReviewDiv"></div>
           </div>
           <!-- SB: 로컬 서버용 -->
-            <script
+          <script
             type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a54c1412f5e82ee9e5256c32dc403b24&libraries=services"
           ></script>
@@ -171,15 +165,12 @@
               }
             }
 
-
-
-
             function emptyStar() {
               for (let i = 1; i <= 5; i++) {
                 // SB: 별별별
-                document.getElementById(`star${i}`).innerHTML = "☆"
-              };
-            };
+                document.getElementById(`star${i}`).innerHTML = "☆";
+              }
+            }
 
             // SB: 별점 별에 걸려있는 함수입니다.
             function starRating(starNumber, divName) {
@@ -187,21 +178,24 @@
 
               for (let i = 1; i <= starNumber; i++) {
                 // SB: 별별별
-                document.getElementById(`star${i}`).innerHTML = "★"
-              };
+                document.getElementById(`star${i}`).innerHTML = "★";
+              }
 
               $(`#${divName}`).append(`<div id="starResultDiv"></div>`);
 
-              document.getElementById("starResultDiv").innerHTML = `<input type="text" name="rating" value="${starNumber}" style="display:none;" required>`;
-            };
+              document.getElementById(
+                "starResultDiv"
+              ).innerHTML = `<input type="text" name="rating" value="${starNumber}" style="display:none;" required>`;
+            }
 
             // SB: 리뷰 작성칸을 보여주는 함수입니다. input 태그들을 보여줍니다.
             function postReview(placeName, placeAddress) {
               document.getElementById("fixDiv").innerHTML = "";
 
               // SB: 별별별
-              document.getElementById("postReviewDiv").innerHTML =
-              `<span class="starBox">
+              document.getElementById(
+                "postReviewDiv"
+              ).innerHTML = `<span class="starBox">
                 <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
                 <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'postReviewDiv')">☆</button>
                 <button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'postReviewDiv')">☆</button>
@@ -210,7 +204,7 @@
               </span>
               <input type="text" name="reviewComment" class="reviewBox" placeholder="후기를 입력해주세요" required>
               <button type="button" class="submitButton" onclick="uplodeReview('${placeName}', '${placeAddress}')">작성하기</button>`;
-            };
+            }
 
             // SB: 리뷰 제출 버튼(작성하기)에 걸려있는 함수입니다.
             function uplodeReview(placeName, placeAddress) {
@@ -220,13 +214,13 @@
                 form.reportValidity();
 
                 document.getElementById(
-                        "messageDiv"
-                      ).innerHTML = `<div class="notLogin">별점과 리뷰를 모두 작성해주세요</div>`;
+                  "messageDiv"
+                ).innerHTML = `<div class="notLogin">별점과 리뷰를 모두 작성해주세요</div>`;
 
-                  return false;
+                return false;
               }
 
-              let thisUserId = "<%= user ? user.id : '' %>"
+              let thisUserId = "<%= user ? user.id : '' %>";
               const data = {
                 id: thisUserId,
                 storeID: `${placeName}_${placeAddress}`,
@@ -236,10 +230,11 @@
               axios({
                 method: "POST",
                 url: "/uplodeReview",
-                data: data
-              }).then((res)=> {
-                alert("리뷰 작성이 완료되었습니다.")
+                data: data,
+              }).then((res) => {
+                alert("리뷰 작성이 완료되었습니다.");
                 // SB: 별별별
+
                 let html = `
                 <div id="${res.data.reviewNumber}" class="reveiwBox">
                   <div id="ratingDiv" class="starRating">${"★".repeat(Number(res.data.rating))+"☆".repeat(5-Number(res.data.rating))} </div>
@@ -269,6 +264,7 @@
 
                 // SB: 별별별
                 document.getElementById("postReviewDiv").innerHTML = `<span class="starBox">
+
                   <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
                   <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'postReviewDiv')">☆</button>
                   <button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'postReviewDiv')">☆</button>
@@ -277,16 +273,22 @@
                 </span>
                 <input type="text" name="reviewComment" class="reviewBox" placeholder="후기를 입력해주세요" required>
                 <button type="button" class="submitButton" onclick="uplodeReview('${placeName}', '${placeAddress}')">작성하기</button>`;
-                });
+              });
             }
 
             // SB: 리뷰 수정 버튼에 걸려있는 함수입니다.
-            function reviewFix(reviewNumber, rating, reviewComment, placeName, placeAddress) {
+            function reviewFix(
+              reviewNumber,
+              rating,
+              reviewComment,
+              placeName,
+              placeAddress
+            ) {
               document.getElementById("postReviewDiv").innerHTML = "";
               document.getElementById("fixDiv").innerHTML = "";
 
               // SB: 별별별
-              $('#fixDiv').append(
+              $("#fixDiv").append(
                 `<span class="starBox">
                     <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'fixDiv')">☆</button>
                     <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'fixDiv')">☆</button>
@@ -309,8 +311,8 @@
 
               if (!form.checkValidity()) {
                 form.reportValidity();
-              
-                  return false;
+
+                return false;
               }
 
               const data = {
@@ -325,6 +327,7 @@
                 data: data,
               }).then((res) => {
                 if (res.data) {
+
                   alert("리뷰 수정이 완료되었습니다.")
                   $(`#${res.data.reviewNumber}`).empty();
 
@@ -351,11 +354,15 @@
 
                   $(`#${res.data.reviewNumber}`).append(html);
 
+
                 } else {
                   alert("수정할 리뷰가 없습니다.");
                 }
                 document.getElementById("fixDiv").innerHTML = "";
-                postReview(res.data.Map_Information.placeName, res.data.Map_Information.address);
+                postReview(
+                  res.data.Map_Information.placeName,
+                  res.data.Map_Information.address
+                );
               });
             }
 
@@ -436,8 +443,9 @@
                         params: getReviewData,
                       }).then((res) => {
                         if (res.data) {
-                            // SB: 별별별
+                          // SB: 별별별
                           for (let i = 0; i < res.data.length; i++) {
+
 
                             // SB: 별별별
                             let html = `
@@ -462,11 +470,12 @@
                             html += `</div>`;
 
                             $("#getReviewDiv").append(html);
+
                           }
                         } else {
                           document.getElementById(
                             "noReviewDiv"
-                          ).innerHTML = `<div class="noReview">${place.place_name}에 작성된 리뷰가 없습니다</div>`
+                          ).innerHTML = `<div class="noReview">${place.place_name}에 작성된 리뷰가 없습니다</div>`;
                         }
                       });
                     } else {
@@ -479,6 +488,7 @@
                         if (res.data) {
                           for (let i = 0; i < res.data.length; i++) {
                             let thisUserId = "<%= user ? user.id : '' %>";
+
 
                             // SB: 별별별
                             let html = `
@@ -501,6 +511,7 @@
                             `;
 
                               // <div class="time">${res.data[i].updatedAt}</div>
+
                             if (thisUserId == res.data[i].id) {
                               html += `<button type="button" onclick="reviewFix('${res.data[i].reviewNumber}', '${res.data[i].rating}', '${res.data[i].reviewComment}', '${place.place_name}',  '${place.address_name}')">리뷰 수정</button>
                               <button type="button" onclick="reviewDelete('${res.data[i].reviewNumber}')">리뷰 삭제</button>`;

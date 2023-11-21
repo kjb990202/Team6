@@ -1,3 +1,28 @@
+/* 버튼 호버시 색상 변경 -> 부트스트랩 차용 */
+.btn-danger:active,
+.btn-danger:hover,
+.btn-danger.focus,
+.btn-danger.active {
+  background-color: #e96b6b;
+}
+
+.btn-primary:active,
+.btn-primary:hover,
+.btn-primary.focus,
+.btn-primary.active {
+  background-color: #78c0ea !important;
+}
+
+.btn-primary {
+  background-color: #95c3de !important;
+  border-color: #95c3de !important;
+}
+
+.btn-danger {
+  background-color: #ff8c8c !important;
+  border-color: #ff8c8c !important;
+}
+
 a {
   color: #7f7979;
   text-decoration: unset;
