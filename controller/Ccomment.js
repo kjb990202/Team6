@@ -9,15 +9,16 @@ exports.comment = (req, res) => {
   // select * from comment;
   console.log("user: ", req.session.user);
   Comment.findAll({
-    where: {
-      id: req.session.user.id
-    },
+    // where: {
+    //   id: req.session.user.id
+    // },
     include: [{model: User, attributes: ["nickname"]}]
   }).then((result) => {
-    console.log("findAll result: ", result);
-    console.log("0 index의 id", result.id);
-    console.log("0 index의 user", result.User);
+    // console.log("findAll result: ", result);
+    // console.log("0 index의 id", result.id);
+    // console.log("0 index의 user", result.User);
 
+    console.log("여기입니다!!!!:", result)
     // res.render("./comment/comment", { data: result  });
     res.render("./comment/comment", {user: req.session.user, data: result});
 
@@ -35,13 +36,17 @@ exports.postComment = async (req, res) => {
 
   const data = {
     id: req.body.id,
+    boardID: req.body.boardID,
     Field: req.body.Field,
     createComment: req.body.createComment
   };
 
   try {
     const createComment = await Comment.create(data);
-    res.send(createComment);
+   
+    // 서버에서 새로운 댓글을 생성하고 클라이언트에게 해당 댓글을 전송
+    console.log("여기다!!!!:", createComment)
+    res.send({ result: true, comment: createComment });
   } catch (error) {
     console.error("Error adding comment:", error);
     res.status(500).send({ error: "서버 에러" });

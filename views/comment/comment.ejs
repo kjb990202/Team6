@@ -43,6 +43,7 @@
             <% for(let i = 0; i< data.length; i++) { %> 
               <tr id="tr_<%=data[i].commentID%>"> 
                 <td><%= data[i].commentID %></td>
+                <td><%= data[i].boardID %></td>
                 <td><%= data[i].id %></td>
                 <td><%= data[i].Field %></td>
                 <td><%= data[i].createComment %></td>
@@ -58,6 +59,7 @@
             <% for(let i = 0; i< data.length; i++) { %> 
               <tr id="tr_<%=data[i].commentID%>"> 
                 <td><%= data[i].commentID %></td>
+                <td><%= data[i].boardID %></td>
                 <td><%= data[i].id %></td>
                 <td><%= data[i].Field %></td>
                 <td><%= data[i].createComment %></td>
@@ -99,6 +101,7 @@
 
           $("tbody").append(`<tr id="tr_${commentID}">
             <td>${commentID}</td>
+            <td>${boardID}</td>
             <td>${id}</td>
             <td>${Field}</td>
             <td><button type="button" onclick="updateComment(${commentID})">수정</button></td>
@@ -137,11 +140,12 @@
     method: 'get',
     url: `/comment/${commentID}`,
   }).then((res) => {
-    const { commentID, Field } = res.data;
+    const { commentID, boardId, Field } = res.data;
 
     // commentID 값을 저장하고, 수정 폼에 필요한 값만 설정
     const form = document.forms['form-comment'];
     form.dataset.commentID = commentID;
+    form.dataset.boardID = boardId;
     form.Field.value = Field;
 
     // [변경], [취소] 버튼 보이기
@@ -156,6 +160,7 @@
 function editDo() {
   const form = document.forms['form-comment'];
   const commentID = form.dataset.commentID; // 이제 commentID를 가져올 수 있음
+  const boardID = form.dataset.commentID;
 
   axios({
   method: 'patch',

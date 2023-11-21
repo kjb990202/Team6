@@ -1,5 +1,6 @@
 const { Op, where } = require('sequelize');
 const { User } = require("../model");
+const { Comment } = require("../model");
 // 게시판 작성 화면 -> 게시글 등록
 const { Board } = require("../model"); // Board 모델 가져오기
 Board.belongsTo(User, { foreignKey: 'id' });
@@ -52,29 +53,57 @@ exports.getBoard = async (req, res) => {
 
 //상세페이지 이동
 exports.boardDetail = async (req, res) => {
-  const boardID =  parseInt(req.params.boardID, 10);//문자열로 넘어갔기때문에 int형으로 변환해줘야함(트러블 슈팅에 추가예정)
-  console.log("보드 아이디 값",boardID)//잘넘어옴
+  const boardID = parseInt(req.params.boardID, 10);
+  console.log("보드 아이디 값", boardID);
   try {
     const result = await Board.findOne({
-      where: { boardID : boardID },
-      include: [{ model: User, attributes: ['nickname'] }],
+      where: { boardID: boardID },
+      include: [
+        { model: User, attributes: ["id", "nickname"] },
+        {
+          model: Comment, // Comment 모델 추가
+          include: [{ model: User, attributes: ["id", "nickname"] }],
+        },
+      ],
     });
-   
-     if (result) {
+
+    if (result) {
       // 데이터가 존재할 때 템플릿에 전달
-      
-      const { boardID,title, content ,User,createBoard,modifiedBoard,views,category, } = result;
-      const{ nickname,id } =User;
+
+      const {
+        boardID,
+        title,
+        content,
+        User,
+        createBoard,
+        modifiedBoard,
+        views,
+        category,
+        Comments,
+      } = result;
+      const { nickname, id } = User;
+
+
       console.log(result.id);
-      res.render('board/boardDetail', { boardID, title, content ,nickname,createBoard,modifiedBoard,views,category,id:result.id });
-      //JW:여기서 궁금한점:여기서 닉네임값은 result.nickname 으로 안넘겨도 넘어가는데 왜 유저id값은 result.id로 보내야 하는가... 누가 알려주세요
+      res.render("board/boardDetail", {
+        boardID,
+        title,
+        content,
+        nickname,
+        createBoard,
+        modifiedBoard,
+        views,
+        category,
+        id: result.id,
+        data: Comments, // 템플릿에 Comments 변수로 댓글 데이터 전달
+      });
     } else {
       // 데이터가 존재하지 않을 때 처리
       res.status(404).render("404");
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send('서버 에러');
+    res.status(500).send("서버 에러");
   }
 };
 
@@ -99,7 +128,9 @@ exports.boardModify = (req, res) => {
     where: { boardID : boardID },
     include: [{ model: User, attributes: ['nickname'] }],
   }).then((result)=>{
-    const { boardID,title, content ,user,createBoard,modifiedBoard,views,category, } = result;
+
+    const { boardID,title, content ,User,createBoard,modifiedBoard,views,category, } = result;
+
     const{ nickname,id } =User;
 
 
