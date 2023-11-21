@@ -100,7 +100,6 @@
 .getReviewDiv {
   list-style: none;
   width: 100%;
-  height: 1000px;
 }
 
 .reveiwBox {
@@ -111,5 +110,42 @@
   float: left;
   list-style: none;
   background-color: gray;
+  padding: 1rem;
 }
 
+.starRating{
+  background-color: rgba( 255, 255, 255, 0 );
+  color: black;
+  border:none;
+  font-size: 20px;
+  margin:  0px 0px 0px 0px;
+  text-align: left;
+}
+
+.reviewComment{
+  height: 130px;
+  background-color: rgba( 255, 255, 255, 0 );
+  color: black;
+  border:none;
+  font-size: 15px;
+  margin:  10px 0px 10px 0px;
+  text-align: left;
+}
+
+.nickname{
+  background-color: rgba( 255, 255, 255, 0 );
+  color: black;
+  border:none;
+  font-size: 20px;
+  margin:  10px 0px 10px 0px;
+  text-align: left;
+}
+
+.time{
+  background-color: rgba( 255, 255, 255, 0 );
+  color: black;
+  border:none;
+  font-size: 10px;
+  margin:  5px 0px 5px 0px;
+  text-align: left;
+}

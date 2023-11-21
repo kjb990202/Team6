@@ -241,16 +241,15 @@
               }).then((res)=> {
                 alert("리뷰 작성이 완료되었습니다.")
                 // SB: 별별별
-                $('#getReviewDiv').append(
-                  `<div id="${res.data.reviewNumber}" class="reveiwBox">
-                    <div>작성일 : ${res.data.createdAt}</div>
-                    <div>수정일 : ${res.data.updatedAt}</div>
-                    <div>작성자 : ${res.data.User.nickname}</div>
-                    <div id="ratingDiv">별점 : ${"★".repeat(Number(res.data.rating))+"☆".repeat(5-Number(res.data.rating))} </div>
-                    <div id="reviewCommentDiv">내용 : ${res.data.reviewComment}</div>
-                    <button type="button" onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}', '${placeName}',  '${placeAddress}')">리뷰 수정</button>
-                    <button type="button" onclick="reviewDelete('${res.data.reviewNumber}')">리뷰 삭제</button>
-                  </div>`
+                $('#getReviewDiv').append(`
+                <div id="${res.data.reviewNumber}" class="reveiwBox">
+                <div id="ratingDiv" class="starRating">${"★".repeat(Number(res.data.rating))+"☆".repeat(5-Number(res.data.rating))} </div>
+                <div id="reviewCommentDiv" class="reviewComment">${res.data.reviewComment}</div>
+                <div class="nickname">${res.data.User.nickname}</div>
+                <div class="time">${res.data.createdAt}</div>
+                <button type="button" onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}', '${placeName}',  '${placeAddress}')">리뷰 수정</button>
+                <button type="button" onclick="reviewDelete('${res.data.reviewNumber}')">리뷰 삭제</button>
+                </div>`
                 );
                 document.getElementById("messageDiv").innerHTML = "";
                 document.getElementById("noReviewDiv").innerHTML = "";
@@ -285,6 +284,8 @@
                   <button type="button" class="submitButton" onclick="updateReview('${reviewNumber}')">수정하기</button>`
               );
 
+              $("input[name=reviewComment]").focus()
+
               starRating(rating, "fixDiv");
             }
 
@@ -313,14 +314,13 @@
                   alert("리뷰 수정이 완료되었습니다.")
                   // SB: 별별별
                   $(`#${res.data.reviewNumber}`).empty();
-                  $(`#${res.data.reviewNumber}`).append(
-                    `<div>작성일 : ${res.data.createdAt}</div>
-                      <div>수정일 : ${res.data.updatedAt}</div>
-                      <div>작성자 : ${res.data.User.nickname}</div>
-                      <div id="ratingDiv">별점 : ${"★".repeat(Number(res.data.rating))+"☆".repeat(5-Number(res.data.rating))} </div>
-                      <div id="reviewCommentDiv">내용 : ${res.data.reviewComment}</div>
-                      <button type="button" onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}', '${res.data.Map_Information.placeName}',  '${res.data.Map_Information.address}')">리뷰 수정</button>
-                      <button type="button" onclick="reviewDelete('${res.data.reviewNumber}')">리뷰 삭제</button>`
+                  $(`#${res.data.reviewNumber}`).append(`
+                  <div id="ratingDiv" class="starRating">${"★".repeat(Number(res.data.rating))+"☆".repeat(5-Number(res.data.rating))} </div>
+                  <div id="reviewCommentDiv" class="reviewComment">${res.data.reviewComment}</div>
+                  <div class="nickname">${res.data.User.nickname}</div>
+                  <div class="time">${res.data.createdAt}</div>
+                  <button type="button" onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}', '${res.data.Map_Information.placeName}',  '${res.data.Map_Information.address}')">리뷰 수정</button>
+                  <button type="button" onclick="reviewDelete('${res.data.reviewNumber}')">리뷰 삭제</button>`
                   );
                 } else {
                   alert("수정할 리뷰가 없습니다.");
@@ -411,11 +411,10 @@
                           for (let i = 0; i < res.data.length; i++) {
                             $("#getReviewDiv").append(`
                             <div id="${res.data[i].reviewNumber}" class="reveiwBox">
-                            <div>작성일 : ${res.data[i].createdAt}</div>
-                            <div>수정일 : ${res.data[i].updatedAt}</div>
-                            <div>작성자 : ${res.data[i].nickname}</div>
-                            <div id="ratingDiv">별점 : ${"★".repeat(Number(res.data[i].rating))+"☆".repeat(5-Number(res.data[i].rating))} </div>
-                            <div id="reviewCommentDiv">내용 : ${res.data[i].reviewComment}</div>
+                            <div id="ratingDiv" class="starRating">${"★".repeat(Number(res.data[i].rating))+"☆".repeat(5-Number(res.data[i].rating))} </div>
+                            <div id="reviewCommentDiv" class="reviewComment">${res.data[i].reviewComment}</div>
+                            <div class="nickname">${res.data[i].nickname}</div>
+                            <div class="time">${res.data[i].createdAt}</div>
                             `);
                           }
                         } else {
@@ -437,16 +436,17 @@
 
                             let thisUserId = "<%= user ? user.id : '' %>";
 
-
                             // SB: 작성할 HTML을 미리 정의해 놨습니다.
                             // SB: 별별별
-                            let html = `<div id="${res.data[i].reviewNumber}" class="reveiwBox">
-                              <div>작성일 : ${res.data[i].createdAt}</div>
-                              <div>수정일 : ${res.data[i].updatedAt}</div>
-                              <div>작성자 : ${res.data[i].nickname}</div>
-                              <div id="ratingDiv">별점 : ${"★".repeat(Number(res.data[i].rating))+"☆".repeat(5-Number(res.data[i].rating))} </div>
-                              <div id="reviewCommentDiv">내용 : ${res.data[i].reviewComment}</div>`;
+                            let html = `
+                            <div id="${res.data[i].reviewNumber}" class="reveiwBox">
+                            <div id="ratingDiv" class="starRating">${"★".repeat(Number(res.data[i].rating))+"☆".repeat(5-Number(res.data[i].rating))} </div>
+                            <div id="reviewCommentDiv" class="reviewComment">${res.data[i].reviewComment}</div>
+                            <div class="nickname">${res.data[i].nickname}</div>
+                            <div class="time">${res.data[i].createdAt}</div>
+                            `;
 
+                              // <div class="time">${res.data[i].updatedAt}</div>
                             if (thisUserId == res.data[i].id) {
                               html += `<button type="button" onclick="reviewFix('${res.data[i].reviewNumber}', '${res.data[i].rating}', '${res.data[i].reviewComment}', '${place.place_name}',  '${place.address_name}')">리뷰 수정</button>
                               <button type="button" onclick="reviewDelete('${res.data[i].reviewNumber}')">리뷰 삭제</button>`;
