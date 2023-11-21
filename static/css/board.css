@@ -106,7 +106,7 @@
   width: 290px;
   height: 290px;
   margin: 1.5rem;
-  padding: 15px;
+  padding: 25px;
   float: left;
   list-style: none;
   background-color: #95C3DE;
@@ -117,7 +117,7 @@
   width: 290px;
   height: 290px;
   margin: 1.5rem;
-  padding: 15px;
+  padding: 25px;
   float: left;
   list-style: none;
   background-color: #FFEB81;
@@ -128,8 +128,76 @@
   width: 290px;
   height: 290px;
   margin: 1.5rem;
-  padding: 15px;
+  padding: 25px;
   float: left;
   list-style: none;
   background-color:#FF8C8C;
+}
+
+.DetailC-container{
+  display: flex;
+  flex-direction: column;
+  flex-wrap:wrap;
+  justify-content: space-between;
+  height: 240px;
+}
+
+.scrollP  div{
+  text-align: left;
+  
+}
+
+.DetailC-container > div{
+  margin: 2px;
+}
+
+.content-container{
+  height: 130px;
+  position: relative;
+  bottom: 5px;
+}
+.title{
+  margin-bottom: 10px;
+  font-weight:700;
+  color: #464646;
+  
+}
+.category{
+  font-size: large;
+  font-weight: bold;
+  color: #464646;
+  margin-bottom: 10px;
+}
+
+.content{
+  
+  margin: 0px;
+  padding: 0px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  color: #4a4a4a;
+}
+.userId{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  font-size: small;
+}
+.createBoard{
+  font-size: small;
+  font-weight: lighter;
+}
+
+.profile-image{
+  height:35px;
+  width: 35px;
+  border-radius: 20px;
+  margin-right: 12px;
+}
+
+.profile-container{
+  display: flex;
+  align-items:center
 }

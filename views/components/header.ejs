@@ -19,6 +19,10 @@
     overflow: scroll;
   }
 
+  header {
+    z-index: 9999;
+  }
+
   /* 홈페이지 좌우 여백 조절하는 곳 */
   .cover-container {
     max-width: 72em;
@@ -69,9 +73,14 @@
   }
 
   /* 헤더 로고 */
-  .navbar-brand {
-    width: 100px;
-    height: 100px;
+  header {
+    height: 80px;
+  }
+
+  img {
+    margin-bottom: 10px;
+    width: 80px;
+    height: 80px;
   }
 
   /* 헤더 드롭다운 버튼 */
@@ -93,9 +102,15 @@
 
   /* 드롭다운 배경 */
   .dropdown-menu.show {
+    position: relative;
     border-style: none;
-    background-color: #fefff7;
+    background-color: white;
     box-shadow: 0 5px 10px 0 rgba(138, 155, 165, 0.2);
+  }
+
+  /* <ul class="dropdown-menu dropdown-menu-end"> */
+  .dropdown-menu {
+    z-index: 1000;
   }
 
   /* 헤더 프로필사진 */
@@ -152,8 +167,8 @@
 
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-0">
-    <div>
-      <a class="navbar-brand float-md-start mb-0" href="/">
+    <div class="d-flex align-items-center justify-content-center">
+      <a class="me-auto p-2 navbar-brand float-md-start" href="/">
         <img src="/static/img/SeSACitLogo.svg" />
       </a>
       <!-- <a href="/">
@@ -165,10 +180,10 @@
         <div class="container"></div>
         <% if (isAuthenticated) { %>
         <!-- 로그인 상태일 때의 메뉴 -->
-        <a class="nav-link fw-normal py-1 px-0 float" href="/mapMain"
+        <a class="p-2 nav-link fw-normal py-1 px-0 float" href="/mapMain"
           >맛집 지도</a
         >
-        <a class="nav-link fw-normal py-1 px-0 float" href="/boardMain"
+        <a class="p-2 nav-link fw-normal py-1 px-0 float" href="/boardMain"
           >게시판</a
         >
         <!-- <a class="nav-link fw-normal py-1 px-0 float" href="/comment"

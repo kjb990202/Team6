@@ -4,11 +4,9 @@ const router = express.Router();
 const Cmap_Database = require("../controller/Cmap_Database");
 const Cmap_Information = require("../controller/Cmap_Information");
 const user = require("../controller/Cuser");
-const Ccomment = require("../controller/Ccomment")
+const Ccomment = require("../controller/Ccomment");
 const board = require("../controller/Cboard");
 const { upload } = require("../multer/multerConfig"); // Multer 설정 파일 import
-
-
 
 // 메인 페이지
 router.get("/", controller.index);
@@ -29,9 +27,7 @@ router.get("/getReview", Cmap_Database.getReview);
 // DB(Map_Database)에 리뷰 업로드하는 기능
 router.post("/uplodeReview", Cmap_Database.uplodeReview);
 
-
-
-router.get("/comment",Ccomment.comment);
+router.get("/comment", Ccomment.comment);
 // 댓글 등록
 router.post("/comment", Ccomment.postComment);
 //  댓글 수정
@@ -53,8 +49,6 @@ router.patch("/updateReview", Cmap_Database.updateReview);
 // DB(Map_Database)에 리뷰 삭제하는 기능
 router.delete("/reviewDelete/:reviewNumber", Cmap_Database.reviewDelete);
 
-
-
 // 게시판 메인 페이지
 router.get("/boardMain", controller.boardMain);
 
@@ -67,14 +61,13 @@ router.post("/boardSubmit", board.boardSubmit);
 // 게시판 상세페이지 (댓글창도 합칠예정)
 router.get("/boardDetail/:boardID", board.boardDetail);
 
-// 게시글 삭제 
-router.delete("/deleteBoard/:boardID",board.boardDelete);
+// 게시글 삭제
+router.delete("/deleteBoard/:boardID", board.boardDelete);
 // 게시글 수정
-router.get("/boardModify/:boardID",board.boardModify);
-router.patch("/updateBoard/:boardID",board.updateBoard);
+router.get("/boardModify/:boardID", board.boardModify);
+router.patch("/updateBoard/:boardID", board.updateBoard);
 // 게시글 조회수
 router.patch("/increaseViewCount/:boardID", board.increaseViewCount);
-
 
 //데이터 가져오기 테스트
 router.get("/getBoard", board.getBoard);
@@ -123,7 +116,6 @@ router.get("/logout", (req, res) => {
   });
 });
 
-
 // 마이페이지
 router.get("/mypage", user.mypage);
 
@@ -131,15 +123,22 @@ router.get("/mypage", user.mypage);
 router.post("/updateMypageNickname", user.updateMypageNickname);
 // 마이페이지 비밀번호 수정
 router.post("/updateMypagePassword", user.updateMypagePassword);
+
+// 회원탈퇴
 // 마이페이지 회원 탈퇴
 router.post("/deleteAccount", user.deleteAccount);
 
-router.post("/upload", upload.single("image"), user.uploadImage, (error, req, res, next) => {
-  if (error) {
-    console.error(error);
-    res.status(500).json({ message: error.message });
-  } else {
-    next();
+router.post(
+  "/upload",
+  upload.single("image"),
+  user.uploadImage,
+  (error, req, res, next) => {
+    if (error) {
+      console.error(error);
+      res.status(500).json({ message: error.message });
+    } else {
+      next();
+    }
   }
-});
+);
 module.exports = router;

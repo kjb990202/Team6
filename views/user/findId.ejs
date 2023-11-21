@@ -17,7 +17,7 @@
         </header>
 <body>
     <div class="login-root">
- <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh; flex-grow: 1;">
+ <div class="box-root flex-flex flex-direction--column padding-top--48" style="min-height: 100vh; flex-grow: 1;">
       <div class="formbg-outer">
         <div class="formbg">
           <div class="login-box formbg-inner padding-horizontal--48">
@@ -29,7 +29,7 @@
               />
               </div>
               <div class="field padding-bottom--10">
-                <input class="login-button" type="button" id="find-button" onclick="findId();" value="아이디 찾기">
+                <input class="login-button btn btn-primary" type="button" id="find-button" onclick="findId();" value="아이디 찾기">
               </div>
               <div class="field padding-bottom--10 login" id="content-div" ></div>
         </form>
@@ -50,7 +50,7 @@
                     document.getElementById("find-button").style.display = "none";
                     let message = document.createElement("p");
                     message.className = "padding-bottom--24"
-                    message.innerText = "당신의 아이디는 " + res.data.userid + " 입니다.";
+                    message.innerHTML = "당신의 아이디는 <strong>" + res.data.userid + "</strong> 입니다.";
                     message.style.color = "#7f7979";
                     message.style.fontSize = "18px";
                     message.style.textAlign = "start";
@@ -66,6 +66,7 @@
 
                     // input 로그인 버튼 요소 생성
                     let input1 = document.createElement("input");
+                    input1.className ="btn  btn-primary"
                     input1.type = "button";
                     input1.name = "submit flex-grow-1";
                     input1.value = "로그인";
@@ -74,6 +75,7 @@
                 
                         // input 로그인 버튼 요소 생성
                     let input2 = document.createElement("input");
+                    input2.className ="btn  btn-primary"
                     input2.type = "button";
                     input2.name = "submit";
                     input2.value = "비밀번호 찾기";
