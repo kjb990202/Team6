@@ -73,8 +73,12 @@
   }
 
   /* 헤더 로고 */
+  header {
+    height: 80px;
+  }
+
   img {
-    margin-bottom: none;
+    margin-bottom: 10px;
     width: 80px;
     height: 80px;
   }
@@ -163,8 +167,8 @@
 
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-0">
-    <div>
-      <a class="navbar-brand float-md-start" href="/">
+    <div class="d-flex align-items-center justify-content-center">
+      <a class="me-auto p-2 navbar-brand float-md-start" href="/">
         <img src="/static/img/SeSACitLogo.svg" />
       </a>
       <!-- <a href="/">
@@ -176,10 +180,10 @@
         <div class="container"></div>
         <% if (isAuthenticated) { %>
         <!-- 로그인 상태일 때의 메뉴 -->
-        <a class="nav-link fw-normal py-1 px-0 float" href="/mapMain"
+        <a class="p-2 nav-link fw-normal py-1 px-0 float" href="/mapMain"
           >맛집 지도</a
         >
-        <a class="nav-link fw-normal py-1 px-0 float" href="/boardMain"
+        <a class="p-2 nav-link fw-normal py-1 px-0 float" href="/boardMain"
           >게시판</a
         >
         <!-- <a class="nav-link fw-normal py-1 px-0 float" href="/comment"

@@ -329,37 +329,7 @@ function checkNickname() {
       }
   });
 }
-    //   function checkPasswordMatch() {
-    //     let password = document.getElementById('password').value;
-    //     let confirmPassword = document.getElementById('confirmPassword').value;
-    //     let checkPasswordMatch = document.getElementById('checkPasswordMatch');
-
-    //     if (!password || !confirmPassword) {
-    //       checkPasswordMatch.style.display = 'none';
-    //       return;
-    // }
-
-    //     if (password === confirmPassword) {
-    //       checkPasswordMatch.style.display = 'none';
-    //     } else {
-    //       checkPasswordMatch.style.color = 'red';
-    //       checkPasswordMatch.style.display = 'block';
-    //       checkPasswordMatch.innerHTML = '비밀번호가 일치하지 않습니다.';
-    //     }
-    //   }
-
-    //   function validatePassword() {
-    //     var password = document.getElementById("password");
-    //     var passwordError = document.getElementById("passwordError");
-
-    //     if (password.validity.patternMismatch) {
-    //         passwordError.style.color = 'red';
-    //         passwordError.innerText = "특수문자를 포함한 6자 이상의 비밀번호를 입력해주세요.";
-    //         passwordError.style.display = 'block';
-    //     } else {
-    //         passwordError.style.display = 'none';
-    //     }
-    // }
+    
     function updateMypageNickname() {
   if (!nicknameChecked) {
       alert("중복확인을 먼저 해주세요.");
@@ -513,4 +483,5 @@ function showTab(tabId) {
   $("fieldset").removeClass("show");
   $("#"+tabId + "1").addClass("show");
 }
-
+</script>
+</html>
