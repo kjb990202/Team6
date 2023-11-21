@@ -36,6 +36,9 @@ db.User.hasMany(db.Comment, { foreignKey: 'id' })
 db.Map_Database.belongsTo(db.User, { foreignKey: 'id' })
 db.User.hasMany(db.Map_Database, { foreignKey: 'id' })
 
+db.Board.belongsTo(db.User, { foreignKey: 'id', onDelete: 'CASCADE' });
+db.User.hasMany(db.Board, { foreignKey: 'id' });
+
 db.Map_Database.belongsTo(db.Map_Information, { foreignKey: 'storeID' } )
 db.Map_Information.hasMany(db.Map_Database, { foreignKey: 'storeID' })
 
