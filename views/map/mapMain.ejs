@@ -25,9 +25,94 @@
         <header class="container">
           <div><%- include('../components/header.ejs') %></div>
         </header>
+
         <!-- 메인 -->
         <main class="px-3">
           <div class="container">
+            <div class="footer-link padding-top--24">
+              <div class="mapInfo">
+                <!-- 아이콘 svg -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-chat-right-dots-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353V2zM5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"
+                  />
+                </svg>
+                &nbsp&nbsp지도 좌측 상단의 카테고리를 클릭한 뒤, 지도에 표시되는
+                마커를 클릭하여 리뷰를 작성해주세요!
+              </div>
+              <!-- 예시 테스트 입력칸 이렇게 만들고 싶은데 안됨...ㅠㅠ -->
+              <!-- <div class="starBox d-flex align-items-center">
+                <span class="p-2 starBox">
+                  <button
+                    type="button"
+                    id="star1"
+                    class="buttonStar"
+                    value="1"
+                    onclick="starRating(1, 'postReviewDiv')"
+                  >
+                    ☆
+                  </button>
+                  <button
+                    type="button"
+                    id="star2"
+                    class="buttonStar"
+                    value="2"
+                    onclick="starRating(2, 'postReviewDiv')"
+                  >
+                    ☆
+                  </button>
+                  <button
+                    type="button"
+                    id="star3"
+                    class="buttonStar"
+                    value="3"
+                    onclick="starRating(3, 'postReviewDiv')"
+                  >
+                    ☆
+                  </button>
+                  <button
+                    type="button"
+                    id="star4"
+                    class="buttonStar"
+                    value="4"
+                    onclick="starRating(4, 'postReviewDiv')"
+                  >
+                    ☆
+                  </button>
+                  <button
+                    type="button"
+                    id="star5"
+                    class="buttonStar"
+                    value="5"
+                    onclick="starRating(5, 'postReviewDiv')"
+                  >
+                    ☆
+                  </button>
+                </span>
+                <input
+                  type="text"
+                  name="reviewComment"
+                  class="reviewBox flex-grow-1"
+                  placeholder="후기를 입력해주세요"
+                  required
+                />
+                <button
+                  type="button"
+                  class="submitButton p-2"
+                  onclick="uplodeReview('${placeName}', '${placeAddress}')"
+                >
+                  작성하기
+                </button>
+              </div> -->
+              <!-- 테스트 끝@@@@@@@@@@@@@@@@@@@@ -->
+            </div>
             <div class="map_wrap">
               <!-- 지도 나오는 부분 -->
               <div id="map"></div>
@@ -186,17 +271,18 @@
       document.getElementById("fixDiv").innerHTML = "";
 
       // SB: 별별별
-      document.getElementById(
-        "postReviewDiv"
-      ).innerHTML = `<span class="starBox">
-                <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
-                <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'postReviewDiv')">☆</button>
-                <button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'postReviewDiv')">☆</button>
-                <button type="button" id="star4" class="buttonStar" value="4" onclick="starRating(4, 'postReviewDiv')">☆</button>
-                <button type="button" id="star5" class="buttonStar" value="5" onclick="starRating(5, 'postReviewDiv')">☆</button>
-              </span>
-              <input type="text" name="reviewComment" class="reviewBox" placeholder="후기를 입력해주세요" required>
-              <button type="button" class="submitButton" onclick="uplodeReview('${placeName}', '${placeAddress}')">작성하기</button>`;
+      document.getElementById("postReviewDiv").innerHTML = `
+    <div class="starBox">
+      <span class="starBox">
+        <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
+        <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'postReviewDiv')">☆</button>
+        <button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'postReviewDiv')">☆</button>
+        <button type="button" id="star4" class="buttonStar" value="4" onclick="starRating(4, 'postReviewDiv')">☆</button>
+        <button type="button" id="star5" class="buttonStar" value="5" onclick="starRating(5, 'postReviewDiv')">☆</button>
+      </span>
+      <input type="text" name="reviewComment" class="reviewBox" placeholder="후기를 입력해주세요" maxlength="128" oninput="checkLength(this)" required />
+      <button type="button" class="submitButton" onclick="uplodeReview('${placeName}', '${placeAddress}')">작성하기</button>
+    </div>`;
     }
 
     // SB: 리뷰 제출 버튼(작성하기)에 걸려있는 함수입니다.
@@ -208,7 +294,10 @@
 
         document.getElementById(
           "messageDiv"
-        ).innerHTML = `<div class="notLogin">별점과 리뷰를 모두 작성해주세요</div>`;
+        ).innerHTML = `<div class="notLogin"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-diamond" viewBox="0 0 16 16">
+  <path d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z"/>
+  <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+</svg>  별점과 리뷰를 모두 작성해주세요!</div>`;
 
         return false;
       }
@@ -229,7 +318,7 @@
         // SB: 별별별
 
         let html = `
-                <div id="${res.data.reviewNumber}" class="reveiwBox">
+                <div id="${res.data.reviewNumber}" class="reviewBox">
                   <div id="ratingDiv" class="starRating">${
                     "★".repeat(Number(res.data.rating)) +
                     "☆".repeat(5 - Number(res.data.rating))
@@ -261,18 +350,17 @@
         document.getElementById("noReviewDiv").innerHTML = "";
 
         // SB: 별별별
-        document.getElementById(
-          "postReviewDiv"
-        ).innerHTML = `<span class="starBox">
-
+        document.getElementById("postReviewDiv").innerHTML = `
+        <div class="starBox">
+        <span class="starBox">
                   <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
                   <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'postReviewDiv')">☆</button>
                   <button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'postReviewDiv')">☆</button>
                   <button type="button" id="star4" class="buttonStar" value="4" onclick="starRating(4, 'postReviewDiv')">☆</button>
                   <button type="button" id="star5" class="buttonStar" value="5" onclick="starRating(5, 'postReviewDiv')">☆</button>
                 </span>
-                <input type="text" name="reviewComment" class="reviewBox" placeholder="후기를 입력해주세요" required>
-                <button type="button" class="submitButton" onclick="uplodeReview('${placeName}', '${placeAddress}')">작성하기</button>`;
+                <input type="text" name="reviewComment" class="reviewBox" placeholder="후기를 입력해주세요" maxlength="128" oninput="checkLength(this)" required>
+                <button type="button" class="submitButton" onclick="uplodeReview('${placeName}', '${placeAddress}')">작성하기</button></div>`;
       });
     }
 
@@ -289,15 +377,18 @@
 
       // SB: 별별별
       $("#fixDiv").append(
-        `<span class="starBox">
-                    <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'fixDiv')">☆</button>
-                    <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'fixDiv')">☆</button>
-                    <button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'fixDiv')">☆</button>
-                    <button type="button" id="star4" class="buttonStar" value="4" onclick="starRating(4, 'fixDiv')">☆</button>
-                    <button type="button" id="star5" class="buttonStar" value="5" onclick="starRating(5, 'fixDiv')">☆</button>
-                  </span>
-                  <input type="text" name="reviewComment" class="reviewBox" placeholder="수정하고 싶은 내용을 입력해주세요" required value="${reviewComment}">
-                  <button type="button" class="submitButton" onclick="updateReview('${reviewNumber}')">수정하기</button>`
+        `
+        <div class="starBox">
+        <span class="starBox">
+
+<button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
+<button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'postReviewDiv')">☆</button>
+<button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'postReviewDiv')">☆</button>
+<button type="button" id="star4" class="buttonStar" value="4" onclick="starRating(4, 'postReviewDiv')">☆</button>
+<button type="button" id="star5" class="buttonStar" value="5" onclick="starRating(5, 'postReviewDiv')">☆</button>
+</span>
+<input type="text" name="reviewComment" class="reviewBox" placeholder="수정하고 싶은 내용을 입력해주세요" maxlength="128" oninput="checkLength(this)" required value="${reviewComment}">
+                  <button type="button" class="submitButton" onclick="updateReview('${reviewNumber}')">수정하기</button></div>`
       );
 
       $("input[name=reviewComment]").focus();
@@ -446,7 +537,7 @@
                     let html = `
                             <div id="${
                               res.data[i].reviewNumber
-                            }" class="reveiwBox">
+                            }" class="reviewBox">
                               <div id="ratingDiv" class="starRating">${
                                 "★".repeat(Number(res.data[i].rating)) +
                                 "☆".repeat(5 - Number(res.data[i].rating))
@@ -476,7 +567,7 @@
                 } else {
                   document.getElementById(
                     "noReviewDiv"
-                  ).innerHTML = `<div class="noReview">${place.place_name}에 작성된 리뷰가 없습니다</div>`;
+                  ).innerHTML = `<div class="noReview">${place.place_name}에 작성된 리뷰가 없습니다.</div>`;
                 }
               });
             } else {
@@ -494,7 +585,7 @@
                     let html = `
                             <div id="${
                               res.data[i].reviewNumber
-                            }" class="reveiwBox">
+                            }" class="reviewBox">
                               <div id="ratingDiv" class="starRating">${
                                 "★".repeat(Number(res.data[i].rating)) +
                                 "☆".repeat(5 - Number(res.data[i].rating))
@@ -531,7 +622,10 @@
                 } else {
                   document.getElementById(
                     "noReviewDiv"
-                  ).innerHTML = `<div class="noReview">${place.place_name}에 작성된 리뷰가 없습니다</div>`;
+                  ).innerHTML = `<div class="noReview"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-dizzy" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M9.146 5.146a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 1 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 0-.708zm-5 0a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 1 1 .708.708l-.647.646.647.646a.5.5 0 1 1-.708.708L5.5 7.207l-.646.647a.5.5 0 1 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 0-.708zM10 11a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+</svg>  ${place.place_name}에 작성된 리뷰가 없습니다.</div>`;
                 }
               });
             }
@@ -661,5 +755,17 @@
         el.className = "on";
       }
     }
+
+    // input에 128자 이상 작성하면 경고
+    function checkLength(inputField) {
+      const maxLength = 128;
+      if (inputField.value.length > maxLength) {
+        alert("글자수 128자까지만 작성할 수 있습니다.");
+        inputField.value = inputField.value.substring(0, maxLength);
+      }
+    }
+
+    // 리뷰 박스 색상에 따라 색상 생성
+    const reviewBoxColor = ["#FFEB81", "#95c3de", "#ff8c8c"];
   </script>
 </html>

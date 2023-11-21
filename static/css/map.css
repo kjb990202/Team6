@@ -37,6 +37,35 @@
   margin-top: 80px;
 }
 
+/* 지도 상단 폰트 */
+div .mapInfo {
+  text-align: left;
+  font-size: 14px;
+  color: rgb(105, 115, 134);
+  font-weight: 400;
+  font-family: "Pretendard";
+  padding-bottom: 24px;
+}
+
+
+/* 리뷰 입력창 */
+div.starBox {
+  border: none;
+  background-color: none;
+}
+/* 
+span.starBox {
+  padding: 0.5rem;
+}
+
+input.reviewBox {
+  flex-grow: 1;
+}
+
+button.submitButton {
+  padding: 0.5rem;
+} */
+
 .messageDiv {
   width: 100%;
 }
@@ -82,13 +111,28 @@
   margin:  0px 0px 0px 0px;
 }
 
-.reviewBox{
-  background-color: white;
+/* 리뷰 박스 */
+/* div.reviewBox-red{
+  background-color: rgb(162, 91, 91);
   border: 1px solid gray;
   border-radius: 5px;
   margin: 0px 5px 0px 5px;
   padding: 5px 10px 5px 10px;
+} */
+
+div.reviewBox {
+  border-radius: 4px;
+  list-style: none;
+  width: 290px;
+  height: 290px;
+  margin: 1.5rem;
+  padding: 25px;
+  float: left;
+  list-style: none;
+  background-color: #ff8c8c;
 }
+
+
 
 .submitButton{
   background-color: rgb(253, 255, 231);
