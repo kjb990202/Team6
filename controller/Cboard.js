@@ -27,12 +27,13 @@ exports.boardSubmit = async (req, res) => {
 
 //게시글 커서기반 페이지네이션
 exports.getBoard = async (req, res) => {
+  console.log("쿼리에 담긴 어쩌고",req.query);
   try {
     // 현재 가장 큰 boardID 값 가져오기
     const maxBoardID = await Board.max('boardID');
 
     let cursor = req.query.cursor || maxBoardID + 1;
-    console.log("커서 값:", cursor);
+    
 
     const results = await Board.findAll({
       where: {
@@ -45,6 +46,8 @@ exports.getBoard = async (req, res) => {
       limit: 12,
     });
     res.json(results);
+    
+    
   } catch (error) {
     console.error("보드 데이터를 불러오는데 실패했습니다", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -85,7 +88,7 @@ exports.boardDetail = async (req, res) => {
       const { nickname, id } = User;
 
 
-      console.log(result.id);
+      
       res.render("board/boardDetail", {
         boardID,
         title,
@@ -112,7 +115,7 @@ exports.boardDetail = async (req, res) => {
 //게시글 삭제
 exports.boardDelete = (req,res) => {
   
-  console.log("없앨보드의 숫자",req.params.boardID);
+  
   Board.destroy({
     where:{
       boardID:req.params.boardID,
