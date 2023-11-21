@@ -199,5 +199,17 @@
 
 .profile-container{
   display: flex;
-  align-items:center
+  align-items:center;
+  justify-content:space-between
+}
+
+.UserID-container{
+  position: relative;
+  right: 25px;
+}
+
+.view{
+  color:#565656 ;
+  font-size: small;
+ 
 }
