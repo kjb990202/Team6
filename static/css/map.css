@@ -112,14 +112,6 @@ button.submitButton {
 }
 
 /* 리뷰 박스 */
-/* div.reviewBox-red{
-  background-color: rgb(162, 91, 91);
-  border: 1px solid gray;
-  border-radius: 5px;
-  margin: 0px 5px 0px 5px;
-  padding: 5px 10px 5px 10px;
-} */
-
 div.reviewBox {
   border-radius: 4px;
   list-style: none;
@@ -132,7 +124,27 @@ div.reviewBox {
   background-color: #ff8c8c;
 }
 
+/* 리뷰 수정 / 삭제 버튼 */
 
+.reviewButton {
+  border: none;
+  outline: none;
+  background-color: inherit ;
+  cursor: pointer;
+}
+
+.reviewButton svg {
+  width: 20px;  
+  height: 20px;
+}
+
+.ml-71 {
+margin-left: 71px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
 
 .submitButton{
   background-color: rgb(253, 255, 231);
@@ -218,7 +230,6 @@ div.reviewBox {
 }
 
 .starRating{
-  width: 50px;
   background-color: rgba( 255, 255, 255, 0 );
   color: black;
   border:none;
