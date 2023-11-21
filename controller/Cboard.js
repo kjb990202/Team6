@@ -70,6 +70,7 @@ exports.boardDetail = async (req, res) => {
     if (result) {
       // 데이터가 존재할 때 템플릿에 전달
 
+
       const {
         boardID,
         title,
@@ -77,7 +78,7 @@ exports.boardDetail = async (req, res) => {
         User,
         createBoard,
         modifiedBoard,
-        views,
+        viewCount,
         category,
         Comments,
       } = result;
@@ -92,11 +93,12 @@ exports.boardDetail = async (req, res) => {
         nickname,
         createBoard,
         modifiedBoard,
-        views,
+        viewCount,
         category,
         id: result.id,
         data: Comments, // 템플릿에 Comments 변수로 댓글 데이터 전달
       });
+
     } else {
       // 데이터가 존재하지 않을 때 처리
       res.status(404).render("404");
@@ -129,13 +131,15 @@ exports.boardModify = (req, res) => {
     include: [{ model: User, attributes: ['nickname'] }],
   }).then((result)=>{
 
-    const { boardID,title, content ,User,createBoard,modifiedBoard,views,category, } = result;
+
+    const { boardID,title, content ,User,createBoard,modifiedBoard,viewCount,category, } = result;
 
     const{ nickname,id } =User;
 
 
 
-    res.render("board/boardModify", { boardID, title, content ,nickname,createBoard,modifiedBoard,views,category,id:result.id});//랜더
+
+    res.render("board/boardModify", { boardID, title, content ,nickname,createBoard,modifiedBoard,viewCount,category,id:result.id});//랜더
   })
 };
 
@@ -171,3 +175,22 @@ exports.updateBoard = async (req, res) => {
     res.status(500).send("게시글 수정 중에 오류가 발생했습니다.");
   }
 };
+
+
+exports.increaseViewCount = async (req, res) => {
+  try {
+    const { boardID } = req.params;
+    const board = await Board.findByPk(boardID);
+    if (!board) {
+      res.status(404).send("Board not found");
+      return;
+    }
+    board.viewCount += 1;
+    await board.save();
+    res.json(board);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+

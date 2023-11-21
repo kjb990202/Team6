@@ -79,6 +79,7 @@
                 newBoard.innerHTML = `
 
                 <div class="board-color-${getCategoryColorClass(boardData.category)} scrollP">
+
                   <div onclick="moveBoardDetail(${boardData.boardID})" style="cursor:pointer" class="DetailC-container">
                       <div class="category"> ${boardData.category}</div>
                     <div class="content-container">
@@ -93,9 +94,11 @@
                       <div>
                         <div class="userId"> ${boardData.User.nickname}</div>  
                         <div class="createBoard"> ${boardData.createBoard}</div>
+                        <div class="userId">${boardData.viewCount}</div>
                       <div>
                       
                     </div>  
+
 
                   </div>
                 </div>
@@ -107,9 +110,9 @@
               // 마지막 데이터의 boardID를 기준으로 cursor 설정
               if (res.data.length > 0) {
                 cursor = res.data[res.data.length - 1].boardID;
-                console.log("Updated cursor:", cursor);
-                console.log("res.data.length", res.data.length);
-                console.log("res.data", res.data);
+                // console.log("Updated cursor:", cursor);
+                // console.log("res.data.length", res.data.length);
+                // console.log("res.data", res.data);
 
                 // 새로 생성된 nowBox-list를 감시
                 observeLastBoard(io, document.querySelectorAll(".scrollP"));
@@ -130,7 +133,7 @@
             }
             if (entry.isIntersecting) {
               observer.unobserve(entry.target);
-              console.log("커서", cursor);
+              // console.log("커서", cursor);
               getBoard();
               // 새로 생성된 nowBox-list를 감시
               observeLastBoard(

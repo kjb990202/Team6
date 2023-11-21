@@ -46,6 +46,11 @@ function Board(Sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
+      viewCount: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: false,
+      }
     },
     {
       // 모델 옵션
