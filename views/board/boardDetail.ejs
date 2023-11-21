@@ -63,9 +63,7 @@
           <table border="1" cellspacing="0">
             <thead>
               <tr>
-                <th>글 번호</th>
-                <th>게시판 번호</th>
-                <th>id번호</th>
+                <th>닉네임</th>
                 <th>내용</th>
                 <th>작성시간</th>
               </tr>
@@ -73,10 +71,7 @@
             <tbody>
               <% if(user) { %>
                 <% for(let i = 0; i< data.length; i++) { %> 
-                  <tr id="tr_<%=data[i].commentID%>"> 
-                    <td><%= data[i].commentID %></td>
-                    <td><%= data[i].boardID %></td>
-                    <td><%= data[i].id %></td>
+                    <td><%= data[i].User.nickname %></td>
                     <td><%= data[i].Field %></td>
                     <td><%= data[i].createComment %></td>
                     <td>
@@ -89,16 +84,14 @@
                 <% } %>
               <% }else { %>
                 <% for(let i = 0; i< data.length; i++) { %> 
-                  <tr id="tr_<%=data[i].commentID%>"> 
-                    <td><%= data[i].commentID %></td>
-                    <td><%= data[i].boardID %></td>
-                    <td><%= data[i].id %></td>
+                    <td><%= data[i].User.nickname %></td>
                     <td><%= data[i].Field %></td>
                     <td><%= data[i].createComment %></td>
                   </tr>
                 <% } %>
               <% } %>
             </tbody>
+
           </table>
         </div>
       </main>
@@ -155,7 +148,7 @@
             // 서버에서 생성한 ID 사용
           boardID : form.boardID.value,
           Field: form.Field.value,
-          createComment: new Date().toUTCString() // 댓글 작성 시간 추가
+          createComment: new Date() // 댓글 작성 시간 추가
         }
 
         console.log("data:", data); 
@@ -176,11 +169,9 @@
           // } = res.data.comment;
           // console.log(res.data.comment)
           $("tbody").append(`<tr id="tr_${res.data.comment.commentID}">
-            <td>${res.data.comment.commentID}</td>
-            <td>${res.data.comment.boardID}</td>
-            <td>${res.data.comment.id}</td>
+            <td>${"<%= user ? user.nickname : '' %>"}</td>
             <td>${res.data.comment.Field}</td>
-            <td>${res.data.comment.createComment}</td>
+            <td id="td_${res.data.comment.commentID}">${res.data.comment.createComment}</td>
             <td><button type="button" onclick="updateComment(${res.data.comment.commentID})">수정</button>
             <button type="button" onclick="deleteComment(${res.data.comment.commentID})">삭제</button></td>
           </tr>`);
@@ -194,30 +185,28 @@
       }
 
 
-      function deleteComment(commentID, TrElement) {
-        // id를 이용해서 url을 완성, 요청 보내기
-        axios({
-          method: 'delete',
-          url: `/comment/${commentID}`
-        }).then((res) => {
-          console.log(res.data);
+      function deleteComment(commentID) {
+  axios({
+    method: 'delete',
+    url: `/comment/${commentID}`
+  }).then((res) => {
+    console.log(res.data);
 
-          if (res.data.result) {
-            // 삭제할 td 태그가 필요함.
-            // $(TrElement).remove();
-            $(`#tr_${commentID}`).remove()
-          } else {
-            alert("존재하지 않는 댓글입니다.")
-          }
-        })
-      }
+    if (res.data.result) {
+      // 삭제 성공한 경우 해당 행을 삭제
+      $(`#tr_${commentID}`).remove();
+    } else {
+      alert("존재하지 않는 댓글입니다.");
+    }
+  });
+}
 
-      function updateComment(commentID) {
-        axios({
-          method: 'get',
-          url: `/comment/${commentID}`,
-          }).then((res) => {
-      const { commentID, boardId, Field } = res.data;
+function updateComment(commentID) {
+  axios({
+    method: 'get',
+    url: `/comment/${commentID}`,
+  }).then((res) => {
+    const { commentID, boardId, Field } = res.data;
 
     // commentID 값을 저장하고, 수정 폼에 필요한 값만 설정
     const form = document.forms['form-comment'];
@@ -227,36 +216,37 @@
 
     // [변경], [취소] 버튼 보이기
     $(".btn-group").html(`
-      <button type='button' onclick='editDo();'>변경</button>
+      <button type='button' onclick='editDo("${commentID}");'>변경</button>
       <button type='button' onclick='editCancel();'>취소</button>
     `);
   });
 }
 
 // 수정된 editDo 함수
-function editDo() {
+function editDo(commentID) {
   const form = document.forms['form-comment'];
-  const commentID = form.dataset.commentID; // 이제 commentID를 가져올 수 있음
-  const boardID = form.dataset.commentID;
+  const data = {
+    commentID: commentID,
+    Field: form.Field.value
+  };
 
   axios({
-  method: 'patch',
-  url: `/comment`,
-  data: {
-    commentID: commentID,
-    Field: form.Field.value,
-  },
+    method: 'patch',
+    url: `/comment`,
+    data: data
   }).then((res) => {
-  // 업데이트 성공 시 해당 행의 내용을 변경
-  $(`#tr_${commentID}`).children('td:eq(3)').text(form.Field.value);
+    // 업데이트 성공 시 해당 행의 내용을 변경
+    let fieldText = form.Field.value;
+    $(`#td_${commentID}`).text(fieldText);
 
-  // 입력창 초기화
-  editCancel();
+    // 입력창 초기화
+    editCancel();
   }).catch((error) => {
-  console.error("Error updating comment:", error);
-  alert("댓글 업데이트 중 오류가 발생했습니다.");
+    console.error("Error updating comment:", error);
+    alert("댓글 업데이트 중 오류가 발생했습니다.");
   });
-  }
+}
+
   function editCancel() {
     // (1) input 초기화
     const form = document.forms['form-comment'];
