@@ -39,7 +39,7 @@ exports.getBoard = async (req, res) => {
           [Op.lt]: cursor,
         },
       },
-      include: [{ model: User, attributes: ['nickname'] }],
+      include: [{ model: User, attributes: ['nickname','image'] }],
       order: [['boardID', 'DESC']],
       limit: 12,
     });
@@ -100,7 +100,7 @@ exports.boardModify = (req, res) => {
     include: [{ model: User, attributes: ['nickname'] }],
   }).then((result)=>{
     const { boardID,title, content ,user,createBoard,modifiedBoard,views,category, } = result;
-    const{ nickname,id } =user;
+    const{ nickname,id } =User;
 
 
 
