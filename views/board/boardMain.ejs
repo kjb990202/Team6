@@ -15,26 +15,41 @@
       </header>
       <main class="px-3">
         <div class="main-container">
-
-          
           <div class="button-container">
-            <button class="board-button" type="button" onclick="location.href='/boardEdit'">
+            <button class="board-button" type="button" onclick="boardButton()">
               작성하기
             </button>
           </div>
           <div class="board-container">
             <ul class="board-list">
-            
             </ul>
           </div>
-          
-      </div>
+        </div>
       </main>
       <script>
+    
+      function boardButton() {
+        // 서버에서 넘어온 유저 정보 확인
+        var user = "<%= user %>";
+
+        if (user === "") {
+          // 로그인되어 있지 않은 경우
+          alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+          
+          window.location.href = '/signin';
+        } else {
+          // 로그인된 경우
+          window.location.href = '/boardEdit';
+        }
+      }
+
+
         //요소 생성
         const boardList = document.querySelector(".board-list"); //보드를 담을 리스트
         const boards = document.querySelectorAll(".nowBox-list"); //현재 출력되고있는 보드를 담을 리스트
         let cursor = null;
+        
+        //-------------------------------------------------------------------------------------------------------
         function getBoard() {
           axios({
             method: "get",
@@ -47,23 +62,41 @@
               console.log("얻은데이터:", res.data);
               console.log("새로받은 데이터 개수:", res.data.length);
               
-
               const boardList = document.querySelector(".board-list");
 
               res.data.forEach((boardData) => {
                 const newBoard = document.createElement("li");
                 newBoard.className = "nowBox-list";
+                
+                let profileImageHTML = '';
+                if (boardData.User.image) {
+                  profileImageHTML = `<img src="/${boardData.User.image}" alt="프로필 이미지" class="headerProfile" />`;
+                } else {
+                  profileImageHTML = `<img src="/static/img/bagicimg.jpeg" alt="사용자 메뉴" class="headerProfile" id="randomImage" />`;
+                }
+
 
                 newBoard.innerHTML = `
-                <div class="board-color-${getCategoryColorClass(boardData.category)}">
-                  <div onclick="moveBoardDetail(${boardData.boardID})" style="cursor:pointer">
-                    <div class="title">제목: ${boardData.title}</div>
-                    <div class="userId">작성자: ${boardData.User.nickname}</div>
-                    <div class="category">카테고리: ${boardData.category}</div>
-                    <div class="content">${boardData.content}</div>
-                    <div class="views">조회수: ${boardData.views}</div>
-                    <div class="createBoard">작성일: ${boardData.createBoard}</div>
-                    <div class="modifiedBoard">수정일: ${boardData.modifiedBoard}</div>
+
+                <div class="board-color-${getCategoryColorClass(boardData.category)} scrollP">
+                  <div onclick="moveBoardDetail(${boardData.boardID})" style="cursor:pointer" class="DetailC-container">
+                      <div class="category"> ${boardData.category}</div>
+                    <div class="content-container">
+                      <div class="title"> ${boardData.title}</div>   
+                      <div class="content">${boardData.content}</div>
+                    </div>
+                    <div class="profile-container">
+                      <div class="profile-image">
+                        ${profileImageHTML}
+                      </div>
+
+                      <div>
+                        <div class="userId"> ${boardData.User.nickname}</div>  
+                        <div class="createBoard"> ${boardData.createBoard}</div>
+                      <div>
+                      
+                    </div>  
+
                   </div>
                 </div>
                 `;
@@ -77,7 +110,9 @@
                 console.log("Updated cursor:", cursor);
                 console.log("res.data.length", res.data.length);
                 console.log("res.data", res.data);
-                observeLastBoard(io, document.querySelectorAll(".nowBox-list"));
+
+                // 새로 생성된 nowBox-list를 감시
+                observeLastBoard(io, document.querySelectorAll(".scrollP"));
               }
             })
             .catch(function (error) {
@@ -95,12 +130,12 @@
             }
             if (entry.isIntersecting) {
               observer.unobserve(entry.target);
-              console.log("커서", cursor); //왜 늘어나지....왜?
+              console.log("커서", cursor);
               getBoard();
               // 새로 생성된 nowBox-list를 감시
               observeLastBoard(
                 observer,
-                document.querySelectorAll(".nowBox-list")
+                document.querySelectorAll(".scrollP")
               );
             }
           });
@@ -109,15 +144,17 @@
         function observeLastBoard(io, boards) {
           if (boards.length > 0) {
             const lastBoard = boards[boards.length - 1];
+            io.disconnect();
             io.observe(lastBoard);
           }
         }
+        
         //보드색상 변경
         function getCategoryColorClass(category) {
           switch (category) {
-            case '1':
+            case '자유':
               return 'red'; // 잡담인 경우
-            case '2':
+            case 'Q&A':
               return 'yellow'; // Q&A인 경우
             default:
               return 'blue'; // 기타 카테고리인 경우
@@ -126,7 +163,7 @@
  
         //-----------관찰하는 시점을 바꿔야함.(맨아래 보다 위로 올리기)
         //관찰자 객체 생성
-        const io = new IntersectionObserver(callback, { threshold: 0.7 });
+        const io = new IntersectionObserver(callback, { threshold: 0.9 });
        
         //보드 상세페이지로이동
         function moveBoardDetail(boardID){

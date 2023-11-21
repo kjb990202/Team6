@@ -23,6 +23,31 @@
   border-color: #7f7979; /* 사용자 정의 색상 */
 }
 
+/* 버튼 호버시 색상 변경 -> 부트스트랩 차용 */
+.btn-danger:active,
+.btn-danger:hover,
+.btn-danger.focus,
+.btn-danger.active {
+  background-color: #e96b6b !important;
+}
+
+.btn-primary:active,
+.btn-primary:hover,
+.btn-primary.focus,
+.btn-primary.active {
+  background-color: #78c0ea !important;
+}
+
+.btn-primary {
+  background-color: #95c3de !important;
+  border-color: #95c3de !important;
+}
+
+.btn-danger {
+  background-color: #ff8c8c !important;
+  border-color: #ff8c8c !important;
+}
+
 /* 마이페이지 */
 body {
   position: relative;
@@ -155,6 +180,19 @@ a .signupLink {
 .padding-top--48 {
   padding-top: 48px;
 }
+
+.padding-left--52 {
+  padding-left: 32;
+}
+
+.padding-top--70 {
+  padding-top: 70px;
+}
+
+.padding-bottom--48 {
+  padding-bottom: 48px;
+}
+
 .padding-bottom--24 {
   padding-bottom: 24px;
 }
@@ -181,6 +219,26 @@ a .signupLink {
 
 .padding-left--32 {
   padding-left: 32px;
+}
+
+.padding-right--24 {
+  padding-right: 24px;
+}
+
+.padding-left--24 {
+  padding-left: 24px;
+}
+
+.padding-bottom--16 {
+  padding-bottom: 16px;
+}
+
+.padding-right--16 {
+  padding-right: 16px;
+}
+
+.padding-left--16 {
+  padding-left: 16px;
 }
 
 .flex-justifyContent--center {
@@ -220,7 +278,7 @@ label {
 }
 .grid--50-50 {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 90% 10%;
   align-items: center;
 }
 

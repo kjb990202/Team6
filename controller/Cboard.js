@@ -40,7 +40,7 @@ exports.getBoard = async (req, res) => {
           [Op.lt]: cursor,
         },
       },
-      include: [{ model: User, attributes: ['nickname'] }],
+      include: [{ model: User, attributes: ['nickname','image'] }],
       order: [['boardID', 'DESC']],
       limit: 12,
     });
@@ -69,6 +69,7 @@ exports.boardDetail = async (req, res) => {
 
     if (result) {
       // 데이터가 존재할 때 템플릿에 전달
+
       const {
         boardID,
         title,
@@ -81,6 +82,7 @@ exports.boardDetail = async (req, res) => {
         Comments,
       } = result;
       const { nickname, id } = User;
+
 
       console.log(result.id);
       res.render("board/boardDetail", {
@@ -126,7 +128,9 @@ exports.boardModify = (req, res) => {
     where: { boardID : boardID },
     include: [{ model: User, attributes: ['nickname'] }],
   }).then((result)=>{
+
     const { boardID,title, content ,User,createBoard,modifiedBoard,views,category, } = result;
+
     const{ nickname,id } =User;
 
 

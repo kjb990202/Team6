@@ -13,7 +13,6 @@
         <header class="container">
           <div><%- include('../components/header.ejs') %></div>
         </header>
-
     <script>
         let idChecked = false;
         let nicknameChecked = false;
@@ -160,7 +159,7 @@
 </head>
 <body>
   <div class="login-root">
-<div class="box-root flex-flex flex-direction--column" style="min-height: 100vh; flex-grow: 1;">
+<div class="box-root flex-flex flex-direction--column padding-top--48" style="min-height: 100vh; flex-grow: 1;">
   <div class="formbg-outer">
     <div class="form-register formbg">
       <div class="formbg-inner padding-horizontal--48">
@@ -168,7 +167,7 @@
           <label class="d-flex justify-content-start" for="userId">아이디</label>
           <div class="d-flex field padding-bottom--24">
             <input type="text" class="login-input" placeholder="아이디" name="userid" required />
-            <input type="button" class="doubleCheck" name="submit" value="중복확인" onclick="checkId();">
+            <input type="button" class="doubleCheck btn btn-primary" name="submit" value="중복확인" onclick="checkId();">
           </div>
           <div class="field padding-bottom--24">
             <div class="grid--50-50">
@@ -201,11 +200,11 @@
             </div>
             <div class="d-flex  padding-bottom--10">
             <input type="text" class="flex-grow-1 login-input" placeholder="닉네임" name="nickname" required>
-            <input type="button" class="doubleCheck" name="submit" value="중복확인" onclick="checkNickname();">
+            <input type="button" class="doubleCheck btn btn-primary" name="submit" value="중복확인" onclick="checkNickname();">
             </div>
           </div>
           <div class="field padding-bottom--10">
-            <input type="button" name="submit2" value="회원가입" onclick="register();">
+            <input  class="btn btn-primary" type="button" name="submit2" value="회원가입" onclick="register();">
           </div>
         </form>
       </div>

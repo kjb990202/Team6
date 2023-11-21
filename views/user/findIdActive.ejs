@@ -1,23 +1,38 @@
 <!DOCTYPE html>
 <html lang="kr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./user.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./user.css" />
     <title>아이디 조회</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="flex">
-        <div class="login-box flex">
-            <form action="">
-                <div><input type="text" class="login-input" placeholder="귀하의 아이디는 입니다" name="userid" readonly></div>
-                <!-- 아이디 부분을 변수처리해서 db에서 가져오기 -->
-                <br />
-                <button class="activePage-button" type="button" ><span>로그인 하기</span></button>
-                <!-- 찾은 아이디가 로그인페이지로 넘어갈때 자동으로 적혀있으면 좋지만 어려우면 빼기 -->
-                <button class="activePage-button find-password" type="button" ><span>비밀번호 찾기</span></button>
-            </form>
-        </div>
+      <div class="login-box flex">
+        <form action="">
+          <div>
+            <input
+              type="text"
+              class="login-input"
+              placeholder="귀하의 아이디는 입니다"
+              name="userid"
+              readonly
+            />
+          </div>
+          <!-- 아이디 부분을 변수처리해서 db에서 가져오기 -->
+          <br />
+          <button class="activePage-button btn btn-primary" type="button">
+            <span>로그인 하기</span>
+          </button>
+          <!-- 찾은 아이디가 로그인페이지로 넘어갈때 자동으로 적혀있으면 좋지만 어려우면 빼기 -->
+          <button
+            class="activePage-button find-password btn btn-primary"
+            type="button"
+          >
+            <span>비밀번호 찾기</span>
+          </button>
+        </form>
+      </div>
     </div>
-</body>
+  </body>
 </html>
