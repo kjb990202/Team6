@@ -23,12 +23,12 @@ function Board(Sequelize, DataTypes) {
         allowNull: true,
       },
       category: {
-        type: DataTypes.STRING(20),
-        allowNull: false,
+        type: DataTypes.TEXT,
+        allowNull: true,
       },
       content: {
-        type: DataTypes.TEXT,
-        allowNull: false,
+        type: DataTypes.STRING(20),
+        allowNull: true,
       },
       views: {
         type: DataTypes.INTEGER,
@@ -36,16 +36,21 @@ function Board(Sequelize, DataTypes) {
       },
       createBoard: {
         type: DataTypes.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        allowNull: true,
       },
       modifiedBoard: {
         type: DataTypes.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        allowNull: true,
       },
       id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
+      viewCount: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: false,
+      }
     },
     {
       // 모델 옵션

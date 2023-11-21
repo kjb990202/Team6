@@ -28,8 +28,8 @@
             <hr />
            <div>작성일: <%= createBoard %></div>
            <div>수정일: <%= modifiedBoard %></div>
-           <div>조회수: <%= views %></div>
-           
+           <div>조회수</div>
+           <div id="viewCount"><%= viewCount %></div>           
            <!-- 작성자와 로그인된 유저가 일치할때 삭제, 수정 버튼이 생김 -->
            <div class="DBoard-button">
               <% if (user && user.id && user.id == id) { %>
@@ -43,6 +43,57 @@
         </div>
 
         <!--  여기 아래에 댓글기능을 붙이면 될 것 같습니다~! -->
+        <form name="form-comment">
+          <fieldset>
+            <legend>댓글 등록</legend>
+            <div>
+              <% if (isAuthenticated) { %>
+                <h5><%= user.nickname %> 님 </h5>
+              <% } %>
+            </div>
+            <input type="text" name="Field" placeholder="내용" />
+            <br />
+            <div class="btn-group">
+              <button type="button" onclick="addComment()">등록</button>
+            </div>
+          </fieldset>
+          <input type="hidden" name="boardID" value="<%= boardID %>">
+        </form>
+        <div>
+          <table border="1" cellspacing="0">
+            <thead>
+              <tr>
+                <th>닉네임</th>
+                <th>내용</th>
+                <th>작성시간</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if(user) { %>
+                <% for(let i = 0; i< data.length; i++) { %> 
+                    <td><%= data[i].User.nickname %></td>
+                    <td><%= data[i].Field %></td>
+                    <td><%= data[i].createComment %></td>
+                    <td>
+                      <% if (isAuthenticated && user.id === data[i].id) { %>
+                        <button type="button" onclick="updateComment('<%= data[i].commentID %>')">수정</button>
+                        <button type="button" onclick="deleteComment('<%= data[i].commentID %>')">삭제</button>
+                      <% } %>
+                    </td>
+                  </tr>
+                <% } %>
+              <% }else { %>
+                <% for(let i = 0; i< data.length; i++) { %> 
+                    <td><%= data[i].User.nickname %></td>
+                    <td><%= data[i].Field %></td>
+                    <td><%= data[i].createComment %></td>
+                  </tr>
+                <% } %>
+              <% } %>
+            </tbody>
+
+          </table>
+        </div>
       </main>
     
       <script>
@@ -67,7 +118,147 @@
           //쿼리에 보드아이디 정보를 담아서 수정페이지로 리다이렉션 
           window.location.href = `/boardModify/${boardID}`;//잘넘어감
         }
+
+      
+        
+        fetch("/increaseViewCount/<%= boardID %>", {
+            method: 'PATCH',
+          })
+          .then(response => response.json())
+          .then(data => {
+            // data는 증가된 조회수를 포함한 게시글의 데이터입니다.
+            // 이 data를 이용해서 페이지를 업데이트합니다.
+            document.getElementById('viewCount').textContent = data.viewCount;
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+
+
+
+        // 여기서부터 댓글 !
+        function addComment() {
+        // 서버에 보낼 데이터를 만들어야 함.
+        const form = document.forms["form-comment"];
+        const userId = `<%= user ? user.id : null %>`
+        console.log("userId:", userId); 
+
+        const data = {
+          id : userId,
+            // 서버에서 생성한 ID 사용
+          boardID : form.boardID.value,
+          Field: form.Field.value,
+          createComment: new Date() // 댓글 작성 시간 추가
+        }
+
+        console.log("data:", data); 
+
+        // axios를 이용해 데이터를 서버로 전송.
+        axios({
+          method: 'post',
+          url: '/comment',
+          data: data
+        }).then((res) => {
+          // axios 응답을 받으면, table에 행 추가 (동적으로)
+          // const {
+          //   commentID,
+          //   boardID,
+          //   id,
+          //   Field,
+          //   createComment
+          // } = res.data.comment;
+          // console.log(res.data.comment)
+          $("tbody").append(`<tr id="tr_${res.data.comment.commentID}">
+            <td>${"<%= user ? user.nickname : '' %>"}</td>
+            <td>${res.data.comment.Field}</td>
+            <td id="td_${res.data.comment.commentID}">${res.data.comment.createComment}</td>
+            <td><button type="button" onclick="updateComment(${res.data.comment.commentID})">수정</button>
+            <button type="button" onclick="deleteComment(${res.data.comment.commentID})">삭제</button></td>
+          </tr>`);
+        })
+        .catch((error) => {
+          console.error("Error adding comment:", error);
+          alert("댓글 등록에 실패했습니다. 로그인 후 이용해주세요.");
+    });
+        
+        
+      }
+
+
+      function deleteComment(commentID) {
+  axios({
+    method: 'delete',
+    url: `/comment/${commentID}`
+  }).then((res) => {
+    console.log(res.data);
+
+    if (res.data.result) {
+      // 삭제 성공한 경우 해당 행을 삭제
+      $(`#tr_${commentID}`).remove();
+    } else {
+      alert("존재하지 않는 댓글입니다.");
+    }
+  });
+}
+
+function updateComment(commentID) {
+  axios({
+    method: 'get',
+    url: `/comment/${commentID}`,
+  }).then((res) => {
+    const { commentID, boardId, Field } = res.data;
+
+    // commentID 값을 저장하고, 수정 폼에 필요한 값만 설정
+    const form = document.forms['form-comment'];
+    form.dataset.commentID = commentID;
+    form.dataset.boardID = boardId;
+    form.Field.value = Field;
+
+    // [변경], [취소] 버튼 보이기
+    $(".btn-group").html(`
+      <button type='button' onclick='editDo("${commentID}");'>변경</button>
+      <button type='button' onclick='editCancel();'>취소</button>
+    `);
+  });
+}
+
+// 수정된 editDo 함수
+function editDo(commentID) {
+  const form = document.forms['form-comment'];
+  const data = {
+    commentID: commentID,
+    Field: form.Field.value
+  };
+
+  axios({
+    method: 'patch',
+    url: `/comment`,
+    data: data
+  }).then((res) => {
+    // 업데이트 성공 시 해당 행의 내용을 변경
+    let fieldText = form.Field.value;
+    $(`#td_${commentID}`).text(fieldText);
+
+    // 입력창 초기화
+    editCancel();
+  }).catch((error) => {
+    console.error("Error updating comment:", error);
+    alert("댓글 업데이트 중 오류가 발생했습니다.");
+  });
+}
+
+  function editCancel() {
+    // (1) input 초기화
+    const form = document.forms['form-comment'];
+    form.Field.value = '';
+
+    // (2) [등록] 버튼 보이기
+    $(".btn-group").html(`<button type='button' onclick='addComment();'>등록</button>`);
+  }
+
+
       </script>
+
 
     </div>
   </body>

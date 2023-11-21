@@ -68,7 +68,7 @@ exports.signin = (req, res) => {
   res.render("./user/signin");
 };
 // 로그인 화면 랜더링
-exports.post_signin = async (req, res) => {
+exports.postSignin = async (req, res) => {
 
   const user = await User.findOne({ where: { userid: req.body.userid } });
 
@@ -98,7 +98,7 @@ exports.findId = (req, res) => {
   res.render("./user/findId");
 };
 //
-exports.post_findId = (req, res) => {
+exports.postFindId = (req, res) => {
   User.findOne({
     where: {
       email: req.body.email,
