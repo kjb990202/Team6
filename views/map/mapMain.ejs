@@ -236,7 +236,7 @@
                 // SB: 별별별
 
                 let html = `
-                <div id="${res.data.reviewNumber}" class="reveiwBox">
+                <div id="${res.data.reviewNumber}" class="board-color-${Number(res.data.rating)}">
                   <div id="ratingDiv" class="starRating">${"★".repeat(Number(res.data.rating))+"☆".repeat(5-Number(res.data.rating))} </div>
                   <div id="reviewCommentDiv" class="reviewComment">${res.data.reviewComment}</div>
                   <span class="imageDiv" type="button">
@@ -449,7 +449,7 @@
 
                             // SB: 별별별
                             let html = `
-                            <div id="${res.data[i].reviewNumber}" class="reveiwBox">
+                            <div id="${res.data[i].reviewNumber}" class="board-color-${Number(res.data[i].rating)}">
                               <div id="ratingDiv" class="starRating">${"★".repeat(Number(res.data[i].rating))+"☆".repeat(5-Number(res.data[i].rating))} </div>
                               <div id="reviewCommentDiv" class="reviewComment">${res.data[i].reviewComment}</div>
                               <span class="imageDiv" type="button">
@@ -492,7 +492,7 @@
 
                             // SB: 별별별
                             let html = `
-                            <div id="${res.data[i].reviewNumber}" class="reveiwBox">
+                            <div id="${res.data[i].reviewNumber}" class="board-color-${Number(res.data[i].rating)}">
                               <div id="ratingDiv" class="starRating">${"★".repeat(Number(res.data[i].rating))+"☆".repeat(5-Number(res.data[i].rating))} </div>
                               <div id="reviewCommentDiv" class="reviewComment">${res.data[i].reviewComment}</div>
                               <span class="imageDiv" type="button">

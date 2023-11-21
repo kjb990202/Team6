@@ -106,15 +106,64 @@
   width: 100%;
 }
 
-.reveiwBox {
+.board-color-1{
+  border-radius: 4px;
   list-style: none;
-  width: 300px;
-  height: 300px;
-  margin: 1rem;
+  width: 290px;
+  height: 290px;
+  margin: 1.5rem;
+  padding: 25px;
   float: left;
   list-style: none;
-  background-color: gray;
-  padding: 1rem;
+  background-color: #FF8C8C;
+}
+
+.board-color-2{
+  border-radius: 4px;
+  list-style: none;
+  width: 290px;
+  height: 290px;
+  margin: 1.5rem;
+  padding: 25px;
+  float: left;
+  list-style: none;
+  background-color: #FF8C8C;
+}
+
+.board-color-3{
+  border-radius: 4px;
+  list-style: none;
+  width: 290px;
+  height: 290px;
+  margin: 1.5rem;
+  padding: 25px;
+  float: left;
+  list-style: none;
+  background-color: #FFEB81;
+}
+
+.board-color-4{
+  border-radius: 4px;
+  list-style: none;
+  width: 290px;
+  height: 290px;
+  margin: 1.5rem;
+  padding: 25px;
+  float: left;
+  list-style: none;
+  background-color: #FFEB81;
+}
+
+.board-color-5{
+  border-radius: 4px;
+  list-style: none;
+  width: 290px;
+  height: 290px;
+  margin: 1.5rem;
+  padding: 25px;
+  float: left;
+  list-style: none;
+  background-color: #95C3DE;
 }
 
 .starRating{
