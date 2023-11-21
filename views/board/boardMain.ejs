@@ -58,7 +58,7 @@
                     <div class="userId">작성자: ${boardData.User.nickname}</div>
                     <div class="category">카테고리: ${boardData.category}</div>
                     <div class="content">${boardData.content}</div>
-                    <div class="views">조회수: ${boardData.views}</div>
+                    <div class="views">조회수: ${boardData.viewCount}</div>
                     <div class="createBoard">작성일: ${boardData.createBoard}</div>
                     <div class="modifiedBoard">수정일: ${boardData.modifiedBoard}</div>
                   </div>
@@ -71,9 +71,9 @@
               // 마지막 데이터의 boardID를 기준으로 cursor 설정
               if (res.data.length > 0) {
                 cursor = res.data[res.data.length - 1].boardID;
-                console.log("Updated cursor:", cursor);
-                console.log("res.data.length", res.data.length);
-                console.log("res.data", res.data);
+                // console.log("Updated cursor:", cursor);
+                // console.log("res.data.length", res.data.length);
+                // console.log("res.data", res.data);
 
                 // 새로 생성된 nowBox-list를 감시
                 observeLastBoard(io, document.querySelectorAll(".scrollP"));
@@ -94,7 +94,7 @@
             }
             if (entry.isIntersecting) {
               observer.unobserve(entry.target);
-              console.log("커서", cursor);
+              // console.log("커서", cursor);
               getBoard();
               // 새로 생성된 nowBox-list를 감시
               observeLastBoard(

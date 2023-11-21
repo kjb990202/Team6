@@ -72,6 +72,8 @@ router.delete("/deleteBoard/:boardID",board.boardDelete);
 // 게시글 수정
 router.get("/boardModify/:boardID",board.boardModify);
 router.patch("/updateBoard/:boardID",board.updateBoard);
+// 게시글 조회수
+router.patch("/increaseViewCount/:boardID", board.increaseViewCount);
 
 
 //데이터 가져오기 테스트
@@ -94,11 +96,11 @@ router.post("/checknickname", user.checkNickname);
 
 // 로그인 페이지
 router.get("/signin", user.signin);
-router.post("/signin", user.post_signin);
+router.post("/signin", user.postSignin);
 
 // 아이디 찾기
 router.get("/findId", user.findId);
-router.post("/findId", user.post_findId);
+router.post("/findId", user.postFindId);
 
 // 비밀번호 찾기
 router.get("/findPassword", user.findPassword);

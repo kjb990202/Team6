@@ -63,10 +63,10 @@ exports.boardDetail = async (req, res) => {
      if (result) {
       // 데이터가 존재할 때 템플릿에 전달
       
-      const { boardID,title, content ,User,createBoard,modifiedBoard,views,category, } = result;
+      const { boardID,title, content ,User,createBoard,modifiedBoard,viewCount,category, } = result;
       const{ nickname,id } =User;
       console.log(result.id);
-      res.render('board/boardDetail', { boardID, title, content ,nickname,createBoard,modifiedBoard,views,category,id:result.id });
+      res.render('board/boardDetail', { boardID, title, content ,nickname,createBoard,modifiedBoard,viewCount,category,id:result.id });
       //JW:여기서 궁금한점:여기서 닉네임값은 result.nickname 으로 안넘겨도 넘어가는데 왜 유저id값은 result.id로 보내야 하는가... 누가 알려주세요
     } else {
       // 데이터가 존재하지 않을 때 처리
@@ -99,12 +99,12 @@ exports.boardModify = (req, res) => {
     where: { boardID : boardID },
     include: [{ model: User, attributes: ['nickname'] }],
   }).then((result)=>{
-    const { boardID,title, content ,user,createBoard,modifiedBoard,views,category, } = result;
-    const{ nickname,id } =user;
+    const { boardID,title, content ,user,createBoard,modifiedBoard,viewCount,category, } = result;
+    const { nickname,id } = User;
 
 
 
-    res.render("board/boardModify", { boardID, title, content ,nickname,createBoard,modifiedBoard,views,category,id:result.id});//랜더
+    res.render("board/boardModify", { boardID, title, content ,nickname,createBoard,modifiedBoard,viewCount,category,id:result.id});//랜더
   })
 };
 
@@ -138,5 +138,22 @@ exports.updateBoard = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("게시글 수정 중에 오류가 발생했습니다.");
+  }
+};
+
+exports.increaseViewCount = async (req, res) => {
+  try {
+    const { boardID } = req.params;
+    const board = await Board.findByPk(boardID);
+    if (!board) {
+      res.status(404).send("Board not found");
+      return;
+    }
+    board.viewCount += 1;
+    await board.save();
+    res.json(board);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
   }
 };
