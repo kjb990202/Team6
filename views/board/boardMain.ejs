@@ -15,8 +15,6 @@
       </header>
       <main class="px-3">
         <div class="main-container">
-
-          
           <div class="button-container">
             <button class="board-button" type="button" onclick="location.href='/boardEdit'">
               작성하기
@@ -24,17 +22,17 @@
           </div>
           <div class="board-container">
             <ul class="board-list">
-            
             </ul>
           </div>
-          
-      </div>
+        </div>
       </main>
       <script>
         //요소 생성
         const boardList = document.querySelector(".board-list"); //보드를 담을 리스트
         const boards = document.querySelectorAll(".nowBox-list"); //현재 출력되고있는 보드를 담을 리스트
         let cursor = null;
+        
+        //-------------------------------------------------------------------------------------------------------
         function getBoard() {
           axios({
             method: "get",
@@ -47,7 +45,6 @@
               console.log("얻은데이터:", res.data);
               console.log("새로받은 데이터 개수:", res.data.length);
               
-
               const boardList = document.querySelector(".board-list");
 
               res.data.forEach((boardData) => {
@@ -55,10 +52,10 @@
                 newBoard.className = "nowBox-list";
 
                 newBoard.innerHTML = `
-                <div class="board-color-${getCategoryColorClass(boardData.category)}">
+                <div class="board-color-${getCategoryColorClass(boardData.category)} scrollP">
                   <div onclick="moveBoardDetail(${boardData.boardID})" style="cursor:pointer">
                     <div class="title">제목: ${boardData.title}</div>
-                    <div class="userId">작성자: ${boardData.user.nickname}</div>
+                    <div class="userId">작성자: ${boardData.User.nickname}</div>
                     <div class="category">카테고리: ${boardData.category}</div>
                     <div class="content">${boardData.content}</div>
                     <div class="views">조회수: ${boardData.views}</div>
@@ -77,7 +74,9 @@
                 console.log("Updated cursor:", cursor);
                 console.log("res.data.length", res.data.length);
                 console.log("res.data", res.data);
-                observeLastBoard(io, document.querySelectorAll(".nowBox-list"));
+
+                // 새로 생성된 nowBox-list를 감시
+                observeLastBoard(io, document.querySelectorAll(".scrollP"));
               }
             })
             .catch(function (error) {
@@ -95,12 +94,12 @@
             }
             if (entry.isIntersecting) {
               observer.unobserve(entry.target);
-              console.log("커서", cursor); //왜 늘어나지....왜?
+              console.log("커서", cursor);
               getBoard();
               // 새로 생성된 nowBox-list를 감시
               observeLastBoard(
                 observer,
-                document.querySelectorAll(".nowBox-list")
+                document.querySelectorAll(".scrollP")
               );
             }
           });
@@ -109,9 +108,11 @@
         function observeLastBoard(io, boards) {
           if (boards.length > 0) {
             const lastBoard = boards[boards.length - 1];
+            io.disconnect();
             io.observe(lastBoard);
           }
         }
+        
         //보드색상 변경
         function getCategoryColorClass(category) {
           switch (category) {
@@ -126,7 +127,7 @@
  
         //-----------관찰하는 시점을 바꿔야함.(맨아래 보다 위로 올리기)
         //관찰자 객체 생성
-        const io = new IntersectionObserver(callback, { threshold: 0.7 });
+        const io = new IntersectionObserver(callback, { threshold: 0.9 });
        
         //보드 상세페이지로이동
         function moveBoardDetail(boardID){
