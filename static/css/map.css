@@ -116,6 +116,7 @@
   float: left;
   list-style: none;
   background-color: #FF8C8C;
+  text-align: left;
 }
 
 .board-color-2{
@@ -128,6 +129,7 @@
   float: left;
   list-style: none;
   background-color: #FF8C8C;
+  text-align: left;
 }
 
 .board-color-3{
@@ -140,6 +142,7 @@
   float: left;
   list-style: none;
   background-color: #FFEB81;
+  text-align: left;
 }
 
 .board-color-4{
@@ -152,6 +155,7 @@
   float: left;
   list-style: none;
   background-color: #FFEB81;
+  text-align: left;
 }
 
 .board-color-5{
@@ -164,15 +168,36 @@
   float: left;
   list-style: none;
   background-color: #95C3DE;
+  text-align: left;
 }
 
 .starRating{
+  width: 50px;
   background-color: rgba( 255, 255, 255, 0 );
   color: black;
   border:none;
   font-size: 20px;
   margin:  0px 0px 0px 0px;
-  text-align: left;
+}
+
+.buttonFix {
+  background-color: rgba( 255, 255, 255, 0 );
+  border:none;
+  width: 60px;
+  height: 30px;
+  font-size: 10px;
+  margin: 0px -20px 0px 20px;
+  padding: 0px;
+}
+
+.buttonDelete {
+  background-color: rgba( 255, 255, 255, 0 );
+  border:none;
+  width: 60px;
+  height: 30px;
+  font-size: 10px;
+  margin: 0px 0px 0px 10px;
+  padding: 0px;
 }
 
 .reviewComment{
