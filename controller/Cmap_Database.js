@@ -6,7 +6,7 @@ exports.getReview = (req, res) => {
       where: {
         storeID: req.query.storeID,
       },
-      include: [{model: User, attributes: ["nickname"]}]
+      include: [{model: User, attributes: ["nickname"]}, {model: User, attributes: ["image"]}]
     }).then((results) => {
       if (results.length > 0) {
         const data = results.map((result) => ({
@@ -17,7 +17,8 @@ exports.getReview = (req, res) => {
           rating: result.dataValues.rating,
           createdAt: result.dataValues.createdAt,
           updatedAt: result.dataValues.updatedAt,
-          nickname: result.dataValues.User.nickname
+          nickname: result.dataValues.User.nickname,
+          image: result.dataValues.User.image
         }));
         res.send(data);
       } else {
@@ -49,7 +50,7 @@ exports.uplodeReview = (req, res) => {
         reviewComment: req.body.reviewComment,
         rating: req.body.rating
       },
-      include: [{model: User, attributes: ["nickname"]}]
+      include: [{model: User, attributes: ["nickname"]}, {model: User, attributes: ["image"]}]
 
     }).then((results) => {
       res.send(results.dataValues);
@@ -76,7 +77,7 @@ exports.updateReview = (req, res) => {
         where: {
           reviewNumber: req.body.reviewNumber
       },
-      include: [{model: User, attributes: ["nickname"]}, {model: Map_Information, attributes: ["placeName"]}, {model: Map_Information, attributes: ["address"]}]
+      include: [{model: User, attributes: ["nickname"]}, {model: User, attributes: ["image"]}, {model: Map_Information, attributes: ["placeName"]}, {model: Map_Information, attributes: ["address"]}]
       }).then((results) => {
         res.send(results.dataValues);
       })

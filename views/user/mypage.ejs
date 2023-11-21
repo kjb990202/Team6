@@ -7,6 +7,7 @@
     <link href="../static/css/mypage.css" rel="stylesheet" />
     <title>SeSAC-it : 마이페이지</title>
   </head>
+
   <!-- 헤더 : 상단 메뉴바  -->
   <body class="d-flex h-100 text-center text-bg-white">
   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
@@ -281,174 +282,186 @@
           </div>
         </div>
       </main>
-    </body>
-
+    </body>     
   <script>
-    document.getElementById("file").addEventListener("change", function () {
-      const formData = new FormData();
-      formData.append("image", this.files[0]);
 
-      fetch("/upload", {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.success) {
-            location.reload();
-          } else {
-            alert("파일 업로드에 실패했습니다.");
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    });
+document.getElementById('file').addEventListener('change', function() {
+  const formData = new FormData();
+  formData.append('image', this.files[0]);
 
-    function checkNickname() {
-      let nickname = document.forms["nicknameForm"].nickname.value;
-      if (!nickname) {
-        alert("닉네임을 입력해주세요.");
-        return;
+  fetch('/upload', {
+      method: 'POST',
+      body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          location.reload();
+      } else {
+          alert('파일 업로드에 실패했습니다.');
       }
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
+});
 
-      axios({
-        method: "post",
-        url: "/checknickname",
-        data: { nickname: nickname },
-      }).then((res) => {
-        if (res.data.duplicate) {
+let nicknameChecked = false;
+
+function checkNickname() {
+  let nickname = document.forms["nicknameForm"].nickname.value;
+  if (!nickname) {
+      alert("닉네임을 입력해주세요.");
+      return;
+  }
+
+  axios({
+      method: "post",
+      url: "/checknickname",
+      data: { nickname: nickname }
+  }).then((res) => {
+      if (res.data.duplicate) {
           alert("이미 사용 중인 닉네임입니다.");
           nicknameChecked = false;
-        } else {
+      } else {
           alert("사용 가능한 닉네임입니다.");
           nicknameChecked = true;
-        }
-      });
-    }
-  
+      }
+  });
+}
+    //   function checkPasswordMatch() {
+    //     let password = document.getElementById('password').value;
+    //     let confirmPassword = document.getElementById('confirmPassword').value;
+    //     let checkPasswordMatch = document.getElementById('checkPasswordMatch');
+
+    //     if (!password || !confirmPassword) {
+    //       checkPasswordMatch.style.display = 'none';
+    //       return;
+    // }
+
+    //     if (password === confirmPassword) {
+    //       checkPasswordMatch.style.display = 'none';
+    //     } else {
+    //       checkPasswordMatch.style.color = 'red';
+    //       checkPasswordMatch.style.display = 'block';
+    //       checkPasswordMatch.innerHTML = '비밀번호가 일치하지 않습니다.';
+    //     }
+    //   }
+
+    //   function validatePassword() {
+    //     var password = document.getElementById("password");
+    //     var passwordError = document.getElementById("passwordError");
+
+    //     if (password.validity.patternMismatch) {
+    //         passwordError.style.color = 'red';
+    //         passwordError.innerText = "특수문자를 포함한 6자 이상의 비밀번호를 입력해주세요.";
+    //         passwordError.style.display = 'block';
+    //     } else {
+    //         passwordError.style.display = 'none';
+    //     }
+    // }
     function updateMypageNickname() {
-      const form = document.forms["nicknameForm"];
-      const nickname = form.nickname.value;
+  if (!nicknameChecked) {
+      alert("중복확인을 먼저 해주세요.");
+      return;
+  }
 
-      let user = {
-        id: "<%= user.id %>", // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
-        nickname: form.nickname.value,
-      };
+  const form = document.forms["nicknameForm"];
+  const nickname = form.nickname.value;
 
-      axios({
-        method: "post",
-        url: "/updateMypageNickname",
-        data: user,
-      }).then((res) => {
-        if (res.data.result) {
+  let user = {
+      id: '<%= user.id %>',
+      nickname: form.nickname.value
+  };
+
+  axios({
+      method: 'post',
+      url: '/updateMypageNickname',
+      data: user
+  }).then((res) => {
+      if (res.data.result) {
           alert(res.data.message);
           location.reload();
-        } else {
+      } else {
           alert(res.data.message);
+      }
+  });
+  $('#profileModal').modal('hide');
+}
+
+      function updateMypagePassword() {
+        const form = document.forms["passwordForm"];
+        const password = form.password.value.trim();
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        // 비밀번호가 비어있는지 확인
+        if (!password) {
+            alert('비밀번호를 입력해주세요.');
+            return false;
         }
-      });
-      $("#profileModal").modal("hide");
-    }
-
-    function updateMypagePassword() {
-      const form = document.forms["passwordForm"];
-      const password = form.password.value.trim();
-      const confirmPassword = document.getElementById("confirmPassword").value;
-
-      // 비밀번호가 비어있는지 확인
-      if (!password) {
-        alert("비밀번호를 입력해주세요.");
-        return false;
-      }
-      if (password !== confirmPassword) {
-        alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-        return;
-      }
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return false;
-      }
-
-      let user = {
-        id: "<%= user.id %>", // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
-        password: form.password.value,
-      };
-
-      axios({
-        method: "post",
-        url: "/updateMypagePassword",
-        data: user,
-      }).then((res) => {
-        if (res.data.result) {
-          alert(res.data.message);
-          location.reload();
-        } else {
-          alert(res.data.message);
+        if (password !== confirmPassword) {
+            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+            return;
         }
-      });
-      $("#profileModal").modal("hide");
-    }
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return false;
+        }
 
-    function deleteAccount() {
-      const userid = "<%= user.id %>"; // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
-      const password = document.getElementById("accountDeletePassword").value; // 비밀번호 입력 필드에서 값 가져오기
+        let user = {
+            id: '<%= user.id %>', // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
+            password: form.password.value
+        };
 
-      // 비밀번호가 비어있는지 확인
-      if (!password) {
-        alert("비밀번호를 입력해주세요.");
-        return;
+        axios({
+            method: 'post',
+            url: '/updateMypagePassword',
+            data: user
+        }).then((res) => {
+            if (res.data.result) {
+                alert(res.data.message);
+                location.reload();
+            } else {
+                alert(res.data.message);
+            }
+        });
+        $('#profileModal').modal('hide');
       }
+      function deleteAccount() {
+        const userid = '<%= user.id %>'; // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
+        const password = document.getElementById("accountDeletePassword").value; // 비밀번호 입력 필드에서 값 가져오기
 
-      // 회원 탈퇴 요청
-      axios({
-        method: "post",
-        url: "/deleteAccount",
-        data: { id: userid, password: password },
-      })
-        .then((res) => {
+        // 비밀번호가 비어있는지 확인
+        if (!password) {
+          alert('비밀번호를 입력해주세요.');
+          return;
+        }
+
+        // 회원 탈퇴 요청
+        axios({
+          method: 'post',
+          url: '/deleteAccount',
+          data: { id: userid, password: password }
+        }).then((res) => {
           if (res.data.result) {
-            alert("탈퇴가 완료되었습니다.")
-
             // 회원 탈퇴 성공 시 로그인 페이지로 이동
             window.location.href = "/signin";
           } else {
             alert(res.data.message);
           }
-        })
-        .catch((error) => {
+        }).catch((error) => {
           console.error(error);
         });
 
-      $("#profileModal").modal("hide"); // 모달 창 닫기
-    }
+        $('#profileModal').modal('hide'); // 모달 창 닫기
+      }
 
-    function hideAllSections() {
-      document.querySelectorAll(".sectionContent").forEach((section) => {
-        section.style.display = "none";
-      });
-    }
+      function hideAllSections() {
+        document.querySelectorAll('.sectionContent').forEach((section) => {
+          section.style.display = 'none';
+        });
+      }
 
-    // // 특정 섹션만 표시하는 함수
-    // function showSection(sectionId) {
-    //   hideAllSections();
-    //   document.querySelector(sectionId).style.display = 'block';
-    // }
-
-    // // 페이지가 로드될 때 모든 섹션을 숨기고, 첫 번째 섹션(리뷰)만 표시
-    // window.onload = () => {
-    //   hideAllSections();
-    //   showSection('#reviewsSection');
-    // };
-
-    // // 각 링크에 이벤트 리스너 추가
-    // document.querySelector('#reviewsLink').addEventListener('click', () => {
-    //   showSection('#reviewsSection');
-    // });
-
-    // document.querySelector('#postsLink').addEventListener('click', () => {
-    //   showSection('#postsSection');
-    // });
 
     // 추가적인 링크들도 동일한 방식으로 설정
 
@@ -501,7 +514,3 @@ function showTab(tabId) {
   $("#"+tabId + "1").addClass("show");
 }
 
-  </script>
-</html>
-
-<!-- 지피티가 시키는대로 링크에 추가하고, 윗부분 ID 값도 더 줘야함! -->

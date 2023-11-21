@@ -39,7 +39,7 @@ exports.getBoard = async (req, res) => {
           [Op.lt]: cursor,
         },
       },
-      include: [{ model: User, attributes: ['nickname'] }],
+      include: [{ model: User, attributes: ['nickname','image'] }],
       order: [['boardID', 'DESC']],
       limit: 12,
     });
@@ -63,8 +63,8 @@ exports.boardDetail = async (req, res) => {
      if (result) {
       // 데이터가 존재할 때 템플릿에 전달
       
-      const { boardID,title, content ,user,createBoard,modifiedBoard,views,category, } = result;
-      const{ nickname,id } =user;
+      const { boardID,title, content ,User,createBoard,modifiedBoard,views,category, } = result;
+      const{ nickname,id } =User;
       console.log(result.id);
       res.render('board/boardDetail', { boardID, title, content ,nickname,createBoard,modifiedBoard,views,category,id:result.id });
       //JW:여기서 궁금한점:여기서 닉네임값은 result.nickname 으로 안넘겨도 넘어가는데 왜 유저id값은 result.id로 보내야 하는가... 누가 알려주세요
@@ -100,7 +100,7 @@ exports.boardModify = (req, res) => {
     include: [{ model: User, attributes: ['nickname'] }],
   }).then((result)=>{
     const { boardID,title, content ,user,createBoard,modifiedBoard,views,category, } = result;
-    const{ nickname,id } =user;
+    const{ nickname,id } =User;
 
 
 

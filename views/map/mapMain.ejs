@@ -69,7 +69,6 @@
             <!-- SB: 작성된 리뷰를 보여주는 div입니다. -->
             <div id="getReviewDiv" class="getReviewDiv"></div>
           </div>
-
           <!-- SB: 로컬 서버용 -->
           <script
             type="text/javascript"
@@ -235,33 +234,37 @@
               }).then((res) => {
                 alert("리뷰 작성이 완료되었습니다.");
                 // SB: 별별별
-                $("#getReviewDiv").append(
-                  `<div id="${res.data.reviewNumber}" class="reveiwBox">
-                    <div>작성일 : ${res.data.createdAt}</div>
-                    <div>수정일 : ${res.data.updatedAt}</div>
-                    <div>작성자 : ${res.data.User.nickname}</div>
-                    <div id="ratingDiv">별점 : ${
-                      "★".repeat(Number(res.data.rating)) +
-                      "☆".repeat(5 - Number(res.data.rating))
-                    } </div>
-                    <div id="reviewCommentDiv">내용 : ${
-                      res.data.reviewComment
-                    }</div>
-                    <button type="button" onclick="reviewFix('${
-                      res.data.reviewNumber
-                    }', '${res.data.rating}', '${
-                    res.data.reviewComment
-                  }', '${placeName}',  '${placeAddress}')">리뷰 수정</button>
-                    <button type="button" onclick="reviewDelete('${
-                      res.data.reviewNumber
-                    }')">리뷰 삭제</button>
-                  </div>`
-                );
+
+                let html = `
+                <div id="${res.data.reviewNumber}" class="reveiwBox">
+                  <div id="ratingDiv" class="starRating">${"★".repeat(Number(res.data.rating))+"☆".repeat(5-Number(res.data.rating))} </div>
+                  <div id="reviewCommentDiv" class="reviewComment">${res.data.reviewComment}</div>
+                  <span class="imageDiv" type="button">
+                `;
+
+                // SB: 랜덤 이미지
+                if (res.data.User.image) {
+                  html += `<img src="${res.data.User.image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+                } else {
+                  html += `<img src="/static/img/bagicimg.jpeg" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+                };
+
+                html += `<span class="nickname">${res.data.User.nickname}</span>
+                  </span>
+                  <div class="time">${res.data.createdAt}</div>
+                  <button type="button" onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}', '${placeName}',  '${placeAddress}')">리뷰 수정</button>
+                  <button type="button" onclick="reviewDelete('${res.data.reviewNumber}')">리뷰 삭제</button>
+                </div>
+                `;
+
+                $("#getReviewDiv").append(html);
+
                 document.getElementById("messageDiv").innerHTML = "";
                 document.getElementById("noReviewDiv").innerHTML = "";
-                document.getElementById(
-                  "postReviewDiv"
-                ).innerHTML = `<span class="starBox">
+
+                // SB: 별별별
+                document.getElementById("postReviewDiv").innerHTML = `<span class="starBox">
+
                   <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
                   <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'postReviewDiv')">☆</button>
                   <button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'postReviewDiv')">☆</button>
@@ -297,6 +300,8 @@
                   <button type="button" class="submitButton" onclick="updateReview('${reviewNumber}')">수정하기</button>`
               );
 
+              $("input[name=reviewComment]").focus()
+
               starRating(rating, "fixDiv");
             }
 
@@ -322,31 +327,34 @@
                 data: data,
               }).then((res) => {
                 if (res.data) {
-                  alert("리뷰 수정이 완료되었습니다.");
-                  // SB: 별별별
+
+                  alert("리뷰 수정이 완료되었습니다.")
                   $(`#${res.data.reviewNumber}`).empty();
-                  $(`#${res.data.reviewNumber}`).append(
-                    `<div>작성일 : ${res.data.createdAt}</div>
-                      <div>수정일 : ${res.data.updatedAt}</div>
-                      <div>작성자 : ${res.data.User.nickname}</div>
-                      <div id="ratingDiv">별점 : ${
-                        "★".repeat(Number(res.data.rating)) +
-                        "☆".repeat(5 - Number(res.data.rating))
-                      } </div>
-                      <div id="reviewCommentDiv">내용 : ${
-                        res.data.reviewComment
-                      }</div>
-                      <button type="button" onclick="reviewFix('${
-                        res.data.reviewNumber
-                      }', '${res.data.rating}', '${res.data.reviewComment}', '${
-                      res.data.Map_Information.placeName
-                    }',  '${
-                      res.data.Map_Information.address
-                    }')">리뷰 수정</button>
-                      <button type="button" onclick="reviewDelete('${
-                        res.data.reviewNumber
-                      }')">리뷰 삭제</button>`
-                  );
+
+                  // SB: 별별별
+                  let html = `
+                  <div id="ratingDiv" class="starRating">${"★".repeat(Number(res.data.rating))+"☆".repeat(5-Number(res.data.rating))} </div>
+                  <div id="reviewCommentDiv" class="reviewComment">${res.data.reviewComment}</div>
+                  <span class="imageDiv" type="button">
+                  `;
+
+                  // SB: 랜덤 이미지
+                  if (res.data.User.image) {
+                    html += `<img src="${res.data.User.image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+                  } else {
+                    html += `<img src="/static/img/bagicimg.jpeg" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+                  };
+
+                  html += `<span class="nickname">${res.data.User.nickname}</span>
+                    </span>
+                    <div class="time">${res.data.createdAt}</div>
+                    <button type="button" onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}', '${res.data.Map_Information.placeName}',  '${res.data.Map_Information.address}')">리뷰 수정</button>
+                  <button type="button" onclick="reviewDelete('${res.data.reviewNumber}')">리뷰 삭제</button>
+                  `;
+
+                  $(`#${res.data.reviewNumber}`).append(html);
+
+
                 } else {
                   alert("수정할 리뷰가 없습니다.");
                 }
@@ -437,21 +445,32 @@
                         if (res.data) {
                           // SB: 별별별
                           for (let i = 0; i < res.data.length; i++) {
-                            $("#getReviewDiv").append(`
-                            <div id="${
-                              res.data[i].reviewNumber
-                            }" class="reveiwBox">
-                            <div>작성일 : ${res.data[i].createdAt}</div>
-                            <div>수정일 : ${res.data[i].updatedAt}</div>
-                            <div>작성자 : ${res.data[i].nickname}</div>
-                            <div id="ratingDiv">별점 : ${
-                              "★".repeat(Number(res.data[i].rating)) +
-                              "☆".repeat(5 - Number(res.data[i].rating))
-                            } </div>
-                            <div id="reviewCommentDiv">내용 : ${
-                              res.data[i].reviewComment
-                            }</div>
-                            `);
+
+
+                            // SB: 별별별
+                            let html = `
+                            <div id="${res.data[i].reviewNumber}" class="reveiwBox">
+                              <div id="ratingDiv" class="starRating">${"★".repeat(Number(res.data[i].rating))+"☆".repeat(5-Number(res.data[i].rating))} </div>
+                              <div id="reviewCommentDiv" class="reviewComment">${res.data[i].reviewComment}</div>
+                              <span class="imageDiv" type="button">
+                            `;
+
+                            // SB: 랜덤 이미지
+                            if (res.data[i].image) {
+                              html += `<img src="${res.data[i].image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+                            } else {
+                              html += `<img src="/static/img/bagicimg.jpeg" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+                            };
+
+                            html += `<span class="nickname">${res.data[i].nickname}</span>
+                              </span>
+                              <div class="time">${res.data[i].createdAt}</div>
+                            `;
+
+                            html += `</div>`;
+
+                            $("#getReviewDiv").append(html);
+
                           }
                         } else {
                           document.getElementById(
@@ -461,7 +480,6 @@
                       });
                     } else {
                       postReview(place.place_name, place.address_name);
-
                       axios({
                         method: "get",
                         url: "/getReview",
@@ -471,21 +489,28 @@
                           for (let i = 0; i < res.data.length; i++) {
                             let thisUserId = "<%= user ? user.id : '' %>";
 
-                            // SB: 작성할 HTML을 미리 정의해 놨습니다.
+
                             // SB: 별별별
-                            let html = `<div id="${
-                              res.data[i].reviewNumber
-                            }" class="reveiwBox">
-                              <div>작성일 : ${res.data[i].createdAt}</div>
-                              <div>수정일 : ${res.data[i].updatedAt}</div>
-                              <div>작성자 : ${res.data[i].nickname}</div>
-                              <div id="ratingDiv">별점 : ${
-                                "★".repeat(Number(res.data[i].rating)) +
-                                "☆".repeat(5 - Number(res.data[i].rating))
-                              } </div>
-                              <div id="reviewCommentDiv">내용 : ${
-                                res.data[i].reviewComment
-                              }</div>`;
+                            let html = `
+                            <div id="${res.data[i].reviewNumber}" class="reveiwBox">
+                              <div id="ratingDiv" class="starRating">${"★".repeat(Number(res.data[i].rating))+"☆".repeat(5-Number(res.data[i].rating))} </div>
+                              <div id="reviewCommentDiv" class="reviewComment">${res.data[i].reviewComment}</div>
+                              <span class="imageDiv" type="button">
+                            `;
+
+                            // SB: 랜덤 이미지
+                            if (res.data[i].image) {
+                              html += `<img src="${res.data[i].image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+                            } else {
+                              html += `<img src="/static/img/bagicimg.jpeg" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
+                            };
+
+                            html += `<span class="nickname">${res.data[i].nickname}</span>
+                              </span>
+                              <div class="time">${res.data[i].createdAt}</div>
+                            `;
+
+                              // <div class="time">${res.data[i].updatedAt}</div>
 
                             if (thisUserId == res.data[i].id) {
                               html += `<button type="button" onclick="reviewFix('${res.data[i].reviewNumber}', '${res.data[i].rating}', '${res.data[i].reviewComment}', '${place.place_name}',  '${place.address_name}')">리뷰 수정</button>
