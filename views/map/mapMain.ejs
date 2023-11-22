@@ -78,7 +78,7 @@
               <div id="postReviewDiv" class="postReviewDiv"></div>
             </form>
             <!-- SB: 리뷰수정 버튼을 누르면 수정칸을 보여주는 div입니다.-->
-            <form name="reviewFixForm">
+            <form name="reviewFixForm" class="reviewForm">
               <div id="fixDiv" class="fixDiv"></div>
             </form>
             <!-- SB: 작성된 리뷰가 없을 때 안내 문구를 보여주는 div입니다. -->
@@ -258,10 +258,10 @@
                       "★".repeat(Number(res.data.rating)) +
                       "☆".repeat(5 - Number(res.data.rating))
                     } 
-                    <div>
-                  <button type="button" class="ml-71 reviewButton edit"  onclick="reviewFix('${
-                    res.data.reviewNumber
-                  }', '${res.data.rating}', '${
+      
+                    <button type="button" class="ml-71 reviewButton edit"  onclick="reviewFix('${
+                      res.data.reviewNumber
+                    }', '${res.data.rating}', '${
           res.data.reviewComment
         }', '${placeName}',  '${placeAddress}')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -271,7 +271,7 @@
                     res.data.reviewNumber
                   }')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
   <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-</svg></button></div></div>
+</svg></button></div>
                   <div id="reviewCommentDiv" class="reviewComment text-break">${
                     res.data.reviewComment
                   }</div>
@@ -332,7 +332,7 @@
 <button type="button" id="star5" class="buttonStar" value="5" onclick="starRating(5, 'postReviewDiv')">☆</button>
 </span>
 <input type="text" name="reviewComment" class="reviewBox" placeholder="수정하고 싶은 내용을 입력해주세요" maxlength="100" oninput="checkLength(this)" required value="${reviewComment}">
-                  <button type="button" class="submitButton" onclick="updateReview('${reviewNumber}')">수정하기</button></div>`
+                  <button type="button" class="submitButton" onclick="updateReview('${reviewNumber}')">수정</button></div>`
       );
 
       $("input[name=reviewComment]").focus();
@@ -343,6 +343,8 @@
     // SB: 수정하기 버튼에 걸려있는 함수입니다.
     function updateReview(reviewNumber) {
       const form = document.forms["reviewFixForm"];
+      console.log("폼 확인: ", form);
+      console.log("폼 요소 확인: ", form.rating);
 
       if (!form.checkValidity()) {
         form.reportValidity();
@@ -370,7 +372,6 @@
             "★".repeat(Number(res.data.rating)) +
             "☆".repeat(5 - Number(res.data.rating))
           } 
-                  <div class="">
                     <button type="button" class="ml-71 reviewButton edit"  onclick="reviewFix('${
                       res.data.reviewNumber
                     }', '${res.data.rating}', '${res.data.reviewComment}', '${
@@ -385,7 +386,7 @@
                                res.data.reviewNumber
                              }')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
              <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-           </svg></button></div></div>
+           </svg></button></div>
 
                   <div id="reviewCommentDiv" class="reviewComment text-break">${
                     res.data.reviewComment
@@ -551,7 +552,7 @@
                                 ${
                                   "★".repeat(Number(res.data[i].rating)) +
                                   "☆".repeat(5 - Number(res.data[i].rating))
-                                } <div class="">
+                                } 
                               <button type="button" class="ml-71 reviewButton edit" onclick="reviewFix('${
                                 res.data[i].reviewNumber
                               }', '${res.data[i].rating}', '${
@@ -566,7 +567,7 @@
                                 res.data[i].reviewNumber
                               }')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
   <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-</svg></button></div></div>
+</svg></button></div>
                               <div id="reviewCommentDiv" class="reviewComment text-break">${
                                 res.data[i].reviewComment
                               }</div>
@@ -610,12 +611,11 @@
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     function addMarker(position, order) {
       // SB: 마커 이미지는 여기서 바꿔야할 것 같습니다.
-      var imageSrc =
-          "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
-        imageSize = new kakao.maps.Size(27, 28), // 27, 28 마커 이미지의 크기(나-19,30)
+      var imageSrc = "../static/img/pin_Logo.png", // "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png" 마커 이미지 url, 스프라이트 이미지를 씁니다
+        imageSize = new kakao.maps.Size(19, 30), // 27, 28 마커 이미지의 크기(나-19,30)
         imgOptions = {
           spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기(나-72,208)
-          spriteOrigin: new kakao.maps.Point(46, order * 36), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표(나-71,33)
+          spriteOrigin: new kakao.maps.Point(46, order * 35), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표(나-71,33)
           offset: new kakao.maps.Point(11, 28), // 마커 좌표에 일치시킬 이미지 내에서의 좌표(나-47,31)
         },
         markerImage = new kakao.maps.MarkerImage(
@@ -740,55 +740,5 @@
 
     // 리뷰 박스 색상에 따라 색상 생성
     const reviewBoxColor = ["#FFEB81", "#95c3de", "#ff8c8c"];
-
-    // 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일과 지도에 표시되는 마커를 변경합니다
-    // function changeMarker(type){
-    //     var restaurant = document.getElementById('restaurantMenu');
-    //     var cafeMenu = document.getElementById('cafeMenu');
-    //     var storeMenu = document.getElementById('storeMenu');
-    //     var pharmacy = document.getElementById('pharmacyMenu');
-    //     v
-
-    //     // 커피숍 카테고리가 클릭됐을 때
-    //     if (type === 'cafe') {
-
-    //         // 커피숍 카테고리를 선택된 스타일로 변경하고
-    //         cafeMenu.className = 'menu_selected';
-
-    //         // 편의점과 주차장 카테고리는 선택되지 않은 스타일로 바꿉니다
-    //         storeMenu.className = '';
-    //         pharmacyMenu.className = '';
-
-    //         // 커피숍 마커들만 지도에 표시하도록 설정합니다
-    //         setCafeMarkers(map);
-    //         setRestaurant()
-    //         setStoreMarkers(null);
-    //         setPharmacyMarkers(null);
-
-    //     } else if (type === 'store') { // 편의점 카테고리가 클릭됐을 때
-
-    //         // 편의점 카테고리를 선택된 스타일로 변경하고
-    //         coffeeMenu.className = '';
-    //         storeMenu.className = 'menu_selected';
-    //         carparkMenu.className = '';
-
-    //         // 편의점 마커들만 지도에 표시하도록 설정합니다
-    //         setCoffeeMarkers(null);
-    //         setStoreMarkers(map);
-    //         setCarparkMarkers(null);
-
-    //     } else if (type === 'carpark') { // 주차장 카테고리가 클릭됐을 때
-
-    //         // 주차장 카테고리를 선택된 스타일로 변경하고
-    //         coffeeMenu.className = '';
-    //         storeMenu.className = '';
-    //         carparkMenu.className = 'menu_selected';
-
-    //         // 주차장 마커들만 지도에 표시하도록 설정합니다
-    //         setCoffeeMarkers(null);
-    //         setStoreMarkers(null);
-    //         setCarparkMarkers(map);
-    //     }
-    // }
   </script>
 </html>

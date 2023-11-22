@@ -3,6 +3,13 @@
  * Globals
  */
 
+ @font-face {
+  font-family: 'UhBeeSe_hyun';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeeSe_hyun.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  }
+
  body {
   font-family: "Pretendard";
  }
@@ -54,12 +61,14 @@ div .mapInfo {
 /* 글자 스타일 */
 div.time {
   font-size: 13px;
+  color: #212529;
 }
 
 span.nickname {
-  font-weight: 600;
-  font-size: 17px;
+  font-weight: 400;
+  font-size: 13px;
   align-items: center;
+  color: #212529;
 }
 
 
@@ -141,8 +150,9 @@ form.reviewForm {
   width: 100%;
 }
 
-#postReviewDiv.postReviewDiv {
+#postReviewDiv {
   width: 100%;
+  display: flex;
 }
 
 div.starBox {
@@ -162,13 +172,23 @@ span.starBox {
 }
 
 span.starBox button {
-  padding-bottom: 6px;
+  padding-bottom: 2.5px;
+  font-family: "UhBeeSe_hyun";
+  font-size: 17px;
 }
 
 input.reviewBox {
   flex-grow: 1;
   text-align: center;
   width: 74%;
+}
+
+#fixDiv {
+  width: 100%;
+}
+
+.reviewFixForm {
+  width: 100%;
 }
 
  /* 지원님과 통일한 버튼 작성하기 버튼 디자인 */
@@ -180,8 +200,14 @@ button.submitButton {
   margin: 0 5px 0 5px;
   height: 30px;
   width: 7%;
+  color: #7f7979;
 }
 
+#ratingDiv {
+  color: #726f6f;
+  font-family: "UhBeeSe_hyun";
+  font-size: 17px;
+}
 
 .messageDiv {
   width: 100%;
@@ -252,10 +278,11 @@ div.reviewBox {
 .reviewButton svg {
   width: 20px;  
   height: 20px;
+  color: #565656;
 }
 
 .ml-71 {
-margin-left: 71px;
+margin-left: 85px;
 }
 
 .mb-10 {
@@ -264,7 +291,7 @@ margin-left: 71px;
 xw
 .submitButton{
   background-color: rgb(253, 255, 231);
-  border: 1px solid gray;
+  border: 1px solid #6a6a6a;
   border-radius: 5px;
   margin: 0px 5px 0px 5px;
   padding: 5px 10px 5px 10px;
@@ -331,7 +358,7 @@ xw
 .reviewComment{
   height: 130px;
   background-color: rgba( 255, 255, 255, 0 );
-  color: black;
+  color: #4a4a4a;
   border:none;
   font-size: 15px;
   margin:  10px 0px 10px 0px;
