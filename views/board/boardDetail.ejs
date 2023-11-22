@@ -193,6 +193,7 @@
     console.log(res.data);
 
     if (res.data.result) {
+      location.reload();
       // 삭제 성공한 경우 해당 행을 삭제
       $(`#tr_${commentID}`).remove();
     } else {
@@ -235,6 +236,7 @@ function editDo(commentID) {
     url: `/comment`,
     data: data
   }).then((res) => {
+    location.reload();
     // 업데이트 성공 시 해당 행의 내용을 변경
     let fieldText = form.Field.value;
     $(`#td_${commentID}`).text(fieldText);

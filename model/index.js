@@ -30,10 +30,10 @@ db.Board = require("./Board")(sequelize, Sequelize);
 db.Comment.belongsTo(db.Board, { foreignKey: 'boardID' })
 db.Board.hasMany(db.Comment, { foreignKey: 'boardID' })
 
-db.Comment.belongsTo(db.User, { foreignKey: 'id' })
+db.Comment.belongsTo(db.User, { foreignKey: 'id', onDelete: 'CASCADE' })
 db.User.hasMany(db.Comment, { foreignKey: 'id' })
 
-db.Map_Database.belongsTo(db.User, { foreignKey: 'id' })
+db.Map_Database.belongsTo(db.User, { foreignKey: 'id', onDelete: 'CASCADE'  })
 db.User.hasMany(db.Map_Database, { foreignKey: 'id' })
 
 db.Board.belongsTo(db.User, { foreignKey: 'id', onDelete: 'CASCADE' });
