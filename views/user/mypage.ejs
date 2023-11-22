@@ -51,16 +51,28 @@
                       <!-- DB에서 아래 숫자 데이터 추출 필요 -->
                       <div class = "d-flex flex-row">
                       <div>
-                        <p class="mb-1 h5">253</p>
-                        <p class="small text-muted mb-0">게시글수</p>
+                        <p class="mb-1 h5">
+                          <% if (isAuthenticated) { %>
+                          <%= user.nickname %>
+                          <% } %>
+                        </p>
+                        <p class="small text-muted mb-0">리뷰수</p>
                       </div>
                       <div class="px-3">
-                        <p class="mb-1 h5">1026</p>
-                        <p class="small text-muted mb-0">댓글수</p>
+                        <p class="mb-1 h5">
+                          <% if (isAuthenticated) { %>
+                          <%= user.nickname %>
+                          <% } %>
+                        </p>
+                        <p class="small text-muted mb-0">게시글수</p>
                       </div>
                       <div>
-                        <p class="mb-1 h5">478</p>
-                        <p class="small text-muted mb-0">좋아요수</p>
+                        <p class="mb-1 h5">
+                          <% if (isAuthenticated) { %>
+                          <%= user.nickname %>
+                          <% } %>
+                        </p>
+                        <p class="small text-muted mb-0">댓글수</p>
                       </div>
                     </div>
                     </div>
@@ -371,6 +383,7 @@ function checkNickname() {
         }).then((res) => {
           if (res.data.result) {
             // 회원 탈퇴 성공 시 로그인 페이지로 이동
+            alert('이용해주셔서 감사합니다.');
             window.location.href = "/signin";
           } else {
             alert(res.data.message);
