@@ -3,6 +3,9 @@
  * Globals
  */
 
+ body {
+  font-family: "Pretendard";
+ }
 
 /* 메인 지도 */
 .map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
@@ -47,6 +50,17 @@ div .mapInfo {
   padding-bottom: 24px;
 }
 
+
+/* 글자 스타일 */
+div.time {
+  font-size: 13px;
+}
+
+span.nickname {
+  font-weight: 600;
+  font-size: 17px;
+  align-items: center;
+}
 
 /* 리뷰 입력창 */
 div.starBox {
@@ -139,7 +153,7 @@ div.reviewBox {
 }
 
 .ml-71 {
-margin-left: 71px;
+margin-left: 84px;
 }
 
 .mb-10 {
@@ -284,13 +298,15 @@ margin-left: 71px;
 }
 
 .nickname{
+  display:  flex;
   height: 2.5rem;
   background-color: rgba( 255, 255, 255, 0 );
   color: black;
   border:none;
   font-size: 20px;
   text-align: left;
-  padding: 5px 5px 5px 10px;
+  padding: 0px 0px 0px 10px;
+  align-items: center;
 }
 
 .time{
