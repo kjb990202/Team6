@@ -1,0 +1,331 @@
+/* 
+합쳐야할 코드
+*/
+
+/* 카테고리 */
+#category li .category_bg.restaurant{ 
+background: url(../img/pin_red.svg);
+background-repeat: no-repeat;
+display: flex;
+}
+
+#category li .category_bg.store{ 
+    background: url(../img/pin_yellow.svg);
+    background-repeat: no-repeat;
+    display: flex;
+    }
+
+#category li .category_bg.cafe{ 
+    background: url(../img/pin_blue.svg);
+    background-repeat: no-repeat;
+    display: flex;
+    }
+        
+#category li .category_bg.pharmacy{ 
+    background: url(../img/pin_green.svg);
+    background-repeat: no-repeat;
+    display: flex;
+    }
+            
+/* 카테고리 클릭시 */
+#category li.on .category_bg.restaurant{ 
+    background: url(../img/pin_red.svg);
+    background-repeat: no-repeat;
+    display: flex;
+    }
+    
+#category li.on .category_bg.store{ 
+        background: url(../img/pin_yellow.svg);
+        background-repeat: no-repeat;
+        display: flex;
+        }
+    
+#category li.on .category_bg.cafe{ 
+        background: url(../img/pin_blue.svg);
+        background-repeat: no-repeat;
+        display: flex;
+        }
+            
+#category li.on .category_bg.pharmacy{ 
+        background: url(../img/pin_green.svg);
+        background-repeat: no-repeat;
+        display: flex;
+        }
+
+/* 
+.placeinfo a.title {
+    background-color: #ffe566 !important;
+} */
+
+/*
+ * Globals
+ */
+
+ body {
+    font-family: "Pretendard";
+   }
+  
+  /* 메인 지도 */
+  .map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+  .map_wrap {position:relative;width:100%;height:350px;}
+  .map_wrap #map {position:relative;width: 100%;height: 100%;position: relative;overflow: hidden;}
+  #category {position:absolute;top:10px;left:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;  z-index:2;}
+  #category li {float:left;list-style: none;width:50px;px; border-right:1px solid #acacac;padding:6px 0;text-align: center; cursor: pointer;}
+  #category li.on {background: #eee;}
+  #category li:hover {background: #ffe6e6;border-left:1px solid #acacac;margin-left: -1px;}
+  #category li:last-child{margin-right:0;border-right:0;}
+  #category li span {display: block;margin:0 auto 3px;width:27px;height: 28px;}
+  #category li .category_bg {background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png) no-repeat;}
+  #category li .bank {background-position: -10px 0;}
+  #category li .mart {background-position: -10px -36px;}
+  #category li .pharmacy {background-position: -10px -72px;}
+  #category li .oil {background-position: -10px -108px;}
+  #category li .cafe {background-position: -10px -144px;}
+  #category li .store {background-position: -10px -180px;}
+  #category li.on .category_bg {background-position-x:-46px;}
+  .placeinfo_wrap {position:absolute;bottom:28px;left:-150px;width:300px;}
+  .placeinfo {position:relative;width:100%;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;padding-bottom: 10px;background: #fff;}
+  .placeinfo:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+  .placeinfo_wrap .after {content:'';position:relative;margin-left:-12px;left:50%;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+  .placeinfo a, .placeinfo a:hover, .placeinfo a:active{color:#fff;text-decoration: none;}
+  .placeinfo a, .placeinfo span {display: block;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+  .placeinfo span {margin:5px 5px 0 5px;cursor: default;font-size:13px;}
+  .placeinfo .title {font-weight: bold; font-size:14px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+  .placeinfo .tel {color:#0f7833;}
+  .placeinfo .jibun {color:#999;font-size:11px;margin-top:0;}
+  
+  .margin-top--80 {
+    margin-top: 80px;
+  }
+  
+  /* 지도 상단 폰트 */
+  div .mapInfo {
+    text-align: left;
+    font-size: 14px;
+    color: rgb(105, 115, 134);
+    font-weight: 400;
+    font-family: "Pretendard";
+    padding-bottom: 24px;
+  }
+  
+  
+  /* 글자 스타일 */
+  div.time {
+    font-size: 13px;
+  }
+  
+  span.nickname {
+    font-weight: 600;
+    font-size: 17px;
+    align-items: center;
+  }
+  
+  /* 리뷰 입력창 */
+  div.starBox {
+    border: none;
+    background-color: transparent;
+  }
+  /* 
+  span.starBox {
+    padding: 0.5rem;
+  }
+  
+  input.reviewBox {
+    flex-grow: 1;
+  }
+  
+  button.submitButton {
+    padding: 0.5rem;
+  } */
+  
+  .messageDiv {
+    width: 100%;
+  }
+  
+  .notLogin {
+    width: 100%;
+    background-color: pink;
+    border: 1px solid gray;
+    margin: 20px 0px 0px 0px;
+    padding: 6px 0px 6px 0px;
+    border-radius: 5px;
+  }
+  
+  .noReviewDiv {
+    width: 100%;
+  }
+  
+  .noReview {
+    background-color: pink;
+    border: 1px solid gray;
+    margin: 20px 0px 0px 0px;
+    padding: 6px 0px 6px 0px;
+    border-radius: 5px;
+  }
+  
+  .postReviewDiv {
+    margin: 20px 0px 0px 0px;
+  }
+  
+  .starBox{
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 6px 5px 6px 5px;
+    margin: 0px 5px 0px 5px;
+  }
+  
+  .buttonStar{
+    background-color: rgba( 255, 255, 255, 0 );
+    color: pink;
+    border:none;
+    font-size: 20px;
+    margin:  0px 0px 0px 0px;
+  }
+  
+  /* 리뷰 박스 */
+  div.reviewBox {
+    border-radius: 4px;
+    list-style: none;
+    width: 290px;
+    height: 290px;
+    margin: 1.5rem;
+    padding: 25px;
+    float: left;
+    list-style: none;
+  }
+  
+  /* 리뷰 수정 / 삭제 버튼 */
+  
+  .reviewButton {
+    border: none;
+    outline: none;
+    background-color: inherit ;
+    cursor: pointer;
+  }
+  
+  .reviewButton svg {
+    width: 20px;  
+    height: 20px;
+  }
+  
+  .ml-71 {
+  margin-left: 71px;
+  }
+  
+  .mb-10 {
+    margin-bottom: 10px;
+  }
+  xw
+  .submitButton{
+    background-color: rgb(253, 255, 231);
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin: 0px 5px 0px 5px;
+    padding: 5px 10px 5px 10px;
+  }
+  
+  .mapContentsBox {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .getReviewDiv {
+    list-style: none;
+    width: 100%;
+  }
+  
+  .board-color-1{
+    background-color: #FF8C8C;
+  }
+  
+  .board-color-2{
+    background-color: #FF8C8C;
+  }
+  
+  .board-color-3{
+    background-color: #FFEB81;
+  }
+  
+  .board-color-4{
+    background-color: #FFEB81;
+  }
+  
+  .board-color-5{
+    background-color: #95C3DE;
+  }
+  
+  .starRating{
+    background-color: rgba( 255, 255, 255, 0 );
+    color: black;
+    border:none;
+    font-size: 20px;
+    margin:  0px 0px 0px 0px;
+  }
+  
+  .buttonFix {
+    background-color: rgba( 255, 255, 255, 0 );
+    border:none;
+    width: 60px;
+    height: 30px;
+    font-size: 10px;
+    margin: 0px -20px 0px 20px;
+    padding: 0px;
+  }
+  
+  .buttonDelete {
+    background-color: rgba( 255, 255, 255, 0 );
+    border:none;
+    width: 60px;
+    height: 30px;
+    font-size: 10px;
+    margin: 0px 0px 0px 10px;
+    padding: 0px;
+  }
+  
+  .reviewComment{
+    height: 130px;
+    background-color: rgba( 255, 255, 255, 0 );
+    color: black;
+    border:none;
+    font-size: 15px;
+    margin:  10px 0px 10px 0px;
+    text-align: left;
+  }
+  
+  .imageDiv {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    height: 2.5rem;
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .profileImage {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+  }
+  
+  .nickname{
+    display:  flex;
+    height: 2.5rem;
+    background-color: rgba( 255, 255, 255, 0 );
+    color: black;
+    border:none;
+    font-size: 20px;
+    text-align: left;
+    padding: 0px 0px 0px 10px;
+    align-items: center;
+  }
+  
+  .time{
+    background-color: rgba( 255, 255, 255, 0 );
+    color: black;
+    border:none;
+    font-size: 10px;
+    margin:  5px 0px 5px 0px;
+    text-align: left;
+  }

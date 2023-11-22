@@ -141,4 +141,8 @@ router.post(
     }
   }
 );
+
+// 마커 합친 후 삭제 23.11.22
+router.get("/mapMarker", controller.mapMarker);
+
 module.exports = router;

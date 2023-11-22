@@ -4,7 +4,7 @@
     <!-- CDN들 불러오기 -->
     <%- include('../components/cdn.ejs') %>
     <!-- CSS 연결 -->
-    <link href="../static/css/map.css" rel="stylesheet" />
+    <link href="../static/css/mapmarker.css" rel="stylesheet" />
     <title>맛집 지도</title>
     <!-- SB: 로컬 서버용 -->
     <script
@@ -13,7 +13,7 @@
     ></script>
     <!-- SB: 클라우드 서버용 -->
     <!-- <script
-      type="text/javascript"
+       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b57e8eb48f3c5019d2677ba17488c4ed&libraries=services"
     ></script> -->
   </head>
@@ -45,71 +45,6 @@
               &nbsp&nbsp지도 좌측 상단의 카테고리를 클릭한 뒤, 지도에 표시되는
               마커를 클릭하여 리뷰를 작성해주세요!
             </div>
-            <!-- NA: 테스트 입력칸 이렇게 만들고 싶은데 안됨...ㅠㅠ -->
-            <!-- <div class="starBox d-flex align-items-center">
-                <span class="p-2 starBox">
-                  <button
-                    type="button"
-                    id="star1"
-                    class="buttonStar"
-                    value="1"
-                    onclick="starRating(1, 'postReviewDiv')"
-                  >
-                    ☆
-                  </button>
-                  <button
-                    type="button"
-                    id="star2"
-                    class="buttonStar"
-                    value="2"
-                    onclick="starRating(2, 'postReviewDiv')"
-                  >
-                    ☆
-                  </button>
-                  <button
-                    type="button"
-                    id="star3"
-                    class="buttonStar"
-                    value="3"
-                    onclick="starRating(3, 'postReviewDiv')"
-                  >
-                    ☆
-                  </button>
-                  <button
-                    type="button"
-                    id="star4"
-                    class="buttonStar"
-                    value="4"
-                    onclick="starRating(4, 'postReviewDiv')"
-                  >
-                    ☆
-                  </button>
-                  <button
-                    type="button"
-                    id="star5"
-                    class="buttonStar"
-                    value="5"
-                    onclick="starRating(5, 'postReviewDiv')"
-                  >
-                    ☆
-                  </button>
-                </span>
-                <input
-                  type="text"
-                  name="reviewComment"
-                  class="reviewBox flex-grow-1"
-                  placeholder="후기를 입력해주세요"
-                  required
-                />
-                <button
-                  type="button"
-                  class="submitButton p-2"
-                  onclick="uplodeReview('${placeName}', '${placeAddress}')"
-                >
-                  작성하기 @@@@@@@@@@@오른쪽이 옛날꺼@@@@@@@@@@@@
-                </button>
-              </div> -->
-            <!-- NA: 테스트 입력칸 이렇게 만들고 싶은데 안됨...ㅠㅠ  -->
           </div>
           <div class="map_wrap">
             <!-- 지도 나오는 부분 -->
@@ -118,7 +53,7 @@
             <ul id="category">
               <li id="FD6" data-order="0">
                 <!-- SB: 카테고리 아이콘을 결정하는 클래스입니다. ex) cafe, store -->
-                <span class="category_bg cafe"></span>
+                <span class="category_bg restaurant"></span>
                 음식점
               </li>
               <li id="CS2" data-order="1">
@@ -562,10 +497,10 @@
                             }" class="reviewBox board-color-${Number(
                       res.data[i].rating
                     )}">
-                              <div id="ratingDiv" class="starRating">${
-                                "★".repeat(Number(res.data[i].rating)) +
-                                "☆".repeat(5 - Number(res.data[i].rating))
-                              } </div>
+                             <div id="ratingDiv" class="starRating">${
+                               "★".repeat(Number(res.data[i].rating)) +
+                               "☆".repeat(5 - Number(res.data[i].rating))
+                             } </div>
                               <div id="reviewCommentDiv" class="reviewComment text-break">${
                                 res.data[i].reviewComment
                               }</div>
@@ -607,9 +542,9 @@
 
                     // SB: 별별별
                     let html = `
-                            <div id="${
-                              res.data[i].reviewNumber
-                            }" class="reviewBox board-color-${Number(
+                    <div id="${
+                      res.data[i].reviewNumber
+                    }" class="reviewBox board-color-${Number(
                       res.data[i].rating
                     )}">
                               <div id="ratingDiv" class="starRating d-flex">
@@ -794,7 +729,7 @@
       }
     }
 
-    // input에 100자 이상 작성하면 경고
+    // input에 128자 이상 작성하면 경고
     function checkLength(inputField) {
       const maxLength = 100;
       if (inputField.value.length > maxLength) {
