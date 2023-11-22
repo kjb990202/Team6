@@ -122,7 +122,7 @@ exports.boardDelete = (req,res) => {
       boardID:req.params.boardID,
     },
   }).then((result) => {
-      res.send("리뷰가 삭제 되었습니다");
+      res.send("게시글이 삭제 되었습니다");
     
   })
 }

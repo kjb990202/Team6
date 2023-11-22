@@ -256,7 +256,7 @@
 }
 .view-container{
   display: flex;
-  
+  align-items:center;
   
 }
 .botton-container{
@@ -312,7 +312,7 @@
 
 .view-container svg{
   position: relative;
-  top: 5px;
+  top: 1px;
   margin-right: 2px;
 }
 
@@ -327,6 +327,7 @@
 }
 .put-comment input{
   width: 100%;
+  outline: none;
 }
 .put-comment button{
   width: 50px;
@@ -349,7 +350,9 @@
   display: flex;
 }
 .data-createComment{
-  font-size: small;
+  top:6px;
+  position: relative;
+  font-size:x-small;
   font-weight: lighter;
 }
 
@@ -367,10 +370,38 @@
   width: 100%;
 }
 .comment-buttons{
-  display: flex; /* 부모에 대해 flex container로 설정합니다. */
+  display: flex; 
   gap: 8px; 
   
 }
 .comment-buttons button {
-  margin-left: auto; /* 첫 번째 버튼을 오른쪽으로 이동시킵니다. */
+  margin-left: auto; 
+}
+
+.C-createBoard{
+  font-size:x-small;
+  align-items:center;
+  position: relative;
+  top:3px;
+}
+
+.button{
+  border: none;
+  background-color:transparent;
+  margin-left: 10px;
+}
+
+.input-button{
+  background-color:transparent;
+  border-radius: 3px;
+  margin-left: 2px;
+  outline:none;
+  
+  border: 1px solid #6a6a6a
+}
+.hide-button{
+  display: flex;
+}
+svg{
+  color: #464646;
 }
