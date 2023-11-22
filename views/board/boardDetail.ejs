@@ -82,43 +82,91 @@
           <!--  여기 아래에 댓글기능을 붙이면 될 것 같습니다~! -->
           <div>
             <form name="form-comment">
-            <fieldset>
-              <legend>댓글 등록</legend>
-              <div>
-                <% if (isAuthenticated) { %>
-                  <h5><%= user.nickname %> 님 </h5>
-                <% } %>
-              </div>
-              <input type="text" name="Field" placeholder="내용" />
-              <br />
-              <div class="btn-group">
-                <button type="button" onclick="addComment()">등록</button>
-              </div>
-            </fieldset>
+              <fieldset>
+              
+                <div class="put-comment">
+                  
+                  <input type="text" name="Field" placeholder="댓글을 입력해 주세요" />
+                  <button type="button" onclick="addComment()">등록</button>
+                </div>
+                
+                <br />
+                <div class="btn-group">
+                  
+                </div>
+              </fieldset>
             <input type="hidden" name="boardID" value="<%= boardID %>">
           </form>
-          <div>
-            <table border="0" cellspacing="0">
-              <tbody>
+          <div style="width: 100%;">
+            <table border="0" cellspacing="0" style="width: 100%;">
+              <tbody style="width: 100%;">
                 <% if(user) { %>
                   <% for(let i = 0; i< data.length; i++) { %> 
-                      <td><%= data[i].User.nickname %></td>
-                      <td><%= data[i].Field %></td>
-                      <td><%= data[i].createComment %></td>
-                      <td>
-                        <% if (isAuthenticated && user.id === data[i].id) { %>
-                          <button type="button" onclick="updateComment('<%= data[i].commentID %>')">수정</button>
-                          <button type="button" onclick="deleteComment('<%= data[i].commentID %>')">삭제</button>
-                        <% } %>
-                      </td>
-                    </tr>
+                    <div class="view-content-top">
+                        <div class="data-image">
+
+                          <img class="profile-image" src="/<%= data[i].User.image || 'static/img/bagicimg.jpeg' %>" alt="" >
+                        </div> 
+
+                        <div class="view-content">
+                        
+
+                      
+
+                          <div class="comment-top">
+                              <div class="comment-user">
+                                <div class="data-nickname"><%= data[i].User.nickname %> </div>
+                                <div class="data-createComment"><%= data[i].createComment %></div>
+                              </div>
+
+                              <div class="comment-buttons">
+                                <% if (isAuthenticated && user.id === data[i].id) { %>
+                                    <button type="button" onclick="updateComment('<%= data[i].commentID %>')">수정</button>
+                                    <button type="button" onclick="deleteComment('<%= data[i].commentID %>')">삭제</button>
+                                <% } %>
+                              </div>  
+                          </div>
+
+                          <div class="data-field"><%= data[i].Field %></div> 
+                          
+                        </div>
+                      
+                      </div>
+                    </div>
+                      
+                      </tr> 
                   <% } %>
                 <% }else { %>
                   <% for(let i = 0; i< data.length; i++) { %> 
-                      <td><%= data[i].User.nickname %></td>
-                      <td><%= data[i].Field %></td>
-                      <td><%= data[i].createComment %></td>
-                    </tr>
+                    <div class="view-content-top">
+                      <div class="data-image">
+
+                        <img class="profile-image" src="/<%= data[i].User.image || 'static/img/bagicimg.jpeg' %>" alt="" >
+                      </div> 
+
+                      <div class="view-content">
+                      
+
+                    
+
+                        <div class="comment-top">
+                            <div class="comment-user">
+                              <div class="data-nickname"><%= data[i].User.nickname %> </div>
+                              <div class="data-createComment"><%= data[i].createComment %></div>
+                            </div>
+
+                            <div class="comment-buttons">
+                             
+                            </div>  
+                        </div>
+
+                        <div class="data-field"><%= data[i].Field %></div> 
+                        
+                      </div>
+                    
+                    </div>
+                  </div>
+                     
                   <% } %>
                 <% } %>
               </tbody>
@@ -192,22 +240,7 @@
           url: '/comment',
           data: data
         }).then((res) => {
-          // axios 응답을 받으면, table에 행 추가 (동적으로)
-          // const {
-          //   commentID,
-          //   boardID,
-          //   id,
-          //   Field,
-          //   createComment
-          // } = res.data.comment;
-          // console.log(res.data.comment)
-          $("tbody").append(`<tr id="tr_${res.data.comment.commentID}">
-            <td>${"<%= user ? user.nickname : '' %>"}</td>
-            <td>${res.data.comment.Field}</td>
-            <td id="td_${res.data.comment.commentID}">${res.data.comment.createComment}</td>
-            <td><button type="button" onclick="updateComment(${res.data.comment.commentID})">수정</button>
-            <button type="button" onclick="deleteComment(${res.data.comment.commentID})">삭제</button></td>
-          </tr>`);
+          location.reload();
         })
         .catch((error) => {
           console.error("Error adding comment:", error);
