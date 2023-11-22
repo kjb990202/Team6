@@ -87,6 +87,11 @@ document.getElementById('submitButton').addEventListener('click', function(event
     const content = editor.getMarkdown(); // 에디터 내용
     const boardID = '사용자닉네임'; // 로그인한 사용자의 닉네임 JW:이거 닉네임이아니라 보드 구분하는 키인것같아요
     const thisUserID ="<%= user ? user.id : '' %>"
+
+    if (!title || !category || !content.trim()) {
+    alert("모든 필드를 채워주세요.");
+    return;
+  }
     
   
     axios.post('/boardSubmit', {
