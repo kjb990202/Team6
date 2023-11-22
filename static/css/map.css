@@ -51,7 +51,7 @@ div .mapInfo {
 /* 리뷰 입력창 */
 div.starBox {
   border: none;
-  background-color: none;
+  background-color: transparent;
 }
 /* 
 span.starBox {
