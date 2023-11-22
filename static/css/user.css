@@ -109,8 +109,9 @@ a .signupLink {
   max-width: 448px;
   background: #ffeb81;
   border-radius: 4px;
-  box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px,
-    rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+  /* 로그인화면 뒤에 그림자 넣을지 말지 고민.. */
+  /* box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px,
+    rgba(0, 0, 0, 0.12) 0px 3px 6px 0px; */
 }
 span {
   display: block;
