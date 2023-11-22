@@ -316,7 +316,7 @@
         // SB: 별별별
 
         let html = `
-                <div id="${res.data.reviewNumber}" class="reviewBox">
+                <div id="${res.data.reviewNumber}" class="reviewBox board-color-${Number(res.data.rating)}">
                   <div id="ratingDiv" class="starRating d-flex">
                     ${
                       "★".repeat(Number(res.data.rating)) +
@@ -558,7 +558,7 @@
                     let html = `
                             <div id="${
                               res.data[i].reviewNumber
-                            }" class="reviewBox">
+                            }" class="reviewBox board-color-${Number(res.data[i].rating)}">
                               <div id="ratingDiv" class="starRating">${
                                 "★".repeat(Number(res.data[i].rating)) +
                                 "☆".repeat(5 - Number(res.data[i].rating))
@@ -606,7 +606,7 @@
                     let html = `
                             <div id="${
                               res.data[i].reviewNumber
-                            }" class="reviewBox">
+                            }" class="reviewBox board-color-${Number(res.data[i].rating)}">
                               <div id="ratingDiv" class="starRating d-flex">
                                 ${
                                   "★".repeat(Number(res.data[i].rating)) +
