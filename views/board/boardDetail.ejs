@@ -17,83 +17,116 @@
         <div><%- include('../components/header.ejs') %></div>
       </header>
       <main class="px-3">
-        <div class="inner-box" style="width: 1000px;height: 500px; background-color: gray;">
+
+        <% let BC; %>
+        <% if (category === '자유') { %>
+          <% BC = 'red'; %>
+        <% } else if (category === 'Q&A') { %>
+          <% BC = 'yellow'; %>
+        <% } else { %>
+          <% BC = 'blue'; %>
+        <% } %>
+        
+   
+      <div class="inner-box box-color-<%= BC %>">
+        
             <!-- css 구현할때 인라인style요소 삭제해야함-->
             <!-- 여기에 내용이 들어감 -->
             <!-- ejs 사용 -->
-            <h2>제목:<%= title %></h2>
-           <div>작성자: <%= nickname %></div>
-           <div>카테고리: <%= category %></div> 
-            <div><%= content %></div>
-            <hr />
-           <div>작성일: <%= createBoard %></div>
-           <div>수정일: <%= modifiedBoard %></div>
-           <div>조회수</div>
-           <div id="viewCount"><%= viewCount %></div>           
-           <!-- 작성자와 로그인된 유저가 일치할때 삭제, 수정 버튼이 생김 -->
-           <div class="DBoard-button">
-              <% if (user && user.id && user.id == id) { %>
-                <button type="button" onclick="delBoard()">삭제</button>
-                <button type="button" onclick="changeBoard('<%=boardID%>')">수정</button>
-              <% } %>
+            <div class="top-container">
+              <div class="top-se-inner">
+                    
+                   <div class="profile-container">
+                      <img class="profile-image" src="/<%= image || 'static/img/bagicimg.jpeg' %>" alt="" >
+                      <div class="C-nickname"><%= nickname %></div>
+                   </div>
+
+                   <div class="C-category"><%= category %></div> 
+
+                </div>
+
+                <div class="C-title"><%= title %></div>
+                <div class="C-content"><%= content %></div>
+              </div>
+              
+                      
+           
+        
+          <div class="botton-container">
+            <div class="view-container">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+              </svg>
+              <div id="viewCount">   <%= viewCount %></div>
+              <div class="C-createBoard">작성일: <%= createBoard %> </div>
+              <!-- <div>수정일: 쓸거면 ejs문법  modifiedBoard ejs문법 (수정됨)</div> -->
+            </div>
             
-            
-           </div>
-     
+        
+            <!-- 작성자와 로그인된 유저가 일치할때 삭제, 수정 버튼이 생김 -->
+            <div class="DBoard-button">
+                <% if (user && user.id && user.id == id) { %>
+                  <button type="button" onclick="delBoard()">삭제</button>
+                  <button type="button" onclick="changeBoard('<%=boardID%>')">수정</button>
+                <% } %>
+            </div>
+
+          </div>
+
+      
         </div>
 
-        <!--  여기 아래에 댓글기능을 붙이면 될 것 같습니다~! -->
-        <form name="form-comment">
-          <fieldset>
-            <legend>댓글 등록</legend>
-            <div>
-              <% if (isAuthenticated) { %>
-                <h5><%= user.nickname %> 님 </h5>
-              <% } %>
-            </div>
-            <input type="text" name="Field" placeholder="내용" />
-            <br />
-            <div class="btn-group">
-              <button type="button" onclick="addComment()">등록</button>
-            </div>
-          </fieldset>
-          <input type="hidden" name="boardID" value="<%= boardID %>">
-        </form>
-        <div>
-          <table border="1" cellspacing="0">
-            <thead>
-              <tr>
-                <th>닉네임</th>
-                <th>내용</th>
-                <th>작성시간</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% if(user) { %>
-                <% for(let i = 0; i< data.length; i++) { %> 
-                    <td><%= data[i].User.nickname %></td>
-                    <td><%= data[i].Field %></td>
-                    <td><%= data[i].createComment %></td>
-                    <td>
-                      <% if (isAuthenticated && user.id === data[i].id) { %>
-                        <button type="button" onclick="updateComment('<%= data[i].commentID %>')">수정</button>
-                        <button type="button" onclick="deleteComment('<%= data[i].commentID %>')">삭제</button>
-                      <% } %>
-                    </td>
-                  </tr>
-                <% } %>
-              <% }else { %>
-                <% for(let i = 0; i< data.length; i++) { %> 
-                    <td><%= data[i].User.nickname %></td>
-                    <td><%= data[i].Field %></td>
-                    <td><%= data[i].createComment %></td>
-                  </tr>
-                <% } %>
-              <% } %>
-            </tbody>
 
-          </table>
+          <!--  여기 아래에 댓글기능을 붙이면 될 것 같습니다~! -->
+          <div>
+            <form name="form-comment">
+            <fieldset>
+              <legend>댓글 등록</legend>
+              <div>
+                <% if (isAuthenticated) { %>
+                  <h5><%= user.nickname %> 님 </h5>
+                <% } %>
+              </div>
+              <input type="text" name="Field" placeholder="내용" />
+              <br />
+              <div class="btn-group">
+                <button type="button" onclick="addComment()">등록</button>
+              </div>
+            </fieldset>
+            <input type="hidden" name="boardID" value="<%= boardID %>">
+          </form>
+          <div>
+            <table border="0" cellspacing="0">
+              <tbody>
+                <% if(user) { %>
+                  <% for(let i = 0; i< data.length; i++) { %> 
+                      <td><%= data[i].User.nickname %></td>
+                      <td><%= data[i].Field %></td>
+                      <td><%= data[i].createComment %></td>
+                      <td>
+                        <% if (isAuthenticated && user.id === data[i].id) { %>
+                          <button type="button" onclick="updateComment('<%= data[i].commentID %>')">수정</button>
+                          <button type="button" onclick="deleteComment('<%= data[i].commentID %>')">삭제</button>
+                        <% } %>
+                      </td>
+                    </tr>
+                  <% } %>
+                <% }else { %>
+                  <% for(let i = 0; i< data.length; i++) { %> 
+                      <td><%= data[i].User.nickname %></td>
+                      <td><%= data[i].Field %></td>
+                      <td><%= data[i].createComment %></td>
+                    </tr>
+                  <% } %>
+                <% } %>
+              </tbody>
+
+            </table>
+          </div>
         </div>
+       
       </main>
     
       <script>

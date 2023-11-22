@@ -62,14 +62,14 @@ exports.boardDetail = async (req, res) => {
     const result = await Board.findOne({
       where: { boardID: boardID },
       include: [
-        { model: User, attributes: ["id", "nickname"] },
+        { model: User, attributes: ["id", "nickname","image"] },
         {
           model: Comment, // Comment 모델 추가
-          include: [{ model: User, attributes: ["id", "nickname"] }],
+          include: [{ model: User, attributes: ["id", "nickname","image"] }],
         },
       ],
     });
-
+    
     if (result) {
       // 데이터가 존재할 때 템플릿에 전달
 
@@ -85,7 +85,7 @@ exports.boardDetail = async (req, res) => {
         category,
         Comments,
       } = result;
-      const { nickname, id } = User;
+      const { nickname, id,image } = User;
 
 
       
@@ -98,6 +98,7 @@ exports.boardDetail = async (req, res) => {
         modifiedBoard,
         viewCount,
         category,
+        image:User.image,
         id: result.id,
         data: Comments, // 템플릿에 Comments 변수로 댓글 데이터 전달
       });
