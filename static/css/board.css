@@ -229,7 +229,7 @@
 }
 
 .inner-box{
- /* width:1070; */
+ 
  width: 100%;
  padding: 30px;
  border-radius: 4px;
@@ -316,3 +316,61 @@
   margin-right: 2px;
 }
 
+/* 댓글 CSS  */
+
+.put-comment{
+  display: flex;
+  text-align: left;
+  margin-top: 20px;
+  height: 30px;
+
+}
+.put-comment input{
+  width: 100%;
+}
+.put-comment button{
+  width: 50px;
+}
+.comment-top{
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+  width: 100%;
+  
+}
+
+.view-content{
+  display: flex;
+  flex-direction:column;
+  width: 100%;
+}
+
+.comment-user{
+  display: flex;
+}
+.data-createComment{
+  font-size: small;
+  font-weight: lighter;
+}
+
+.data-field{
+  text-align: left;
+  margin-bottom: 40px;
+}
+
+.data-nickname{
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.view-content-top{
+  display: flex;
+  width: 100%;
+}
+.comment-buttons{
+  display: flex; /* 부모에 대해 flex container로 설정합니다. */
+  gap: 8px; 
+  
+}
+.comment-buttons button {
+  margin-left: auto; /* 첫 번째 버튼을 오른쪽으로 이동시킵니다. */
+}
