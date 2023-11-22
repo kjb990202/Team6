@@ -3,6 +3,10 @@ const app = express();
 const session = require("express-session");
 const PORT = 8000;
 
+const { Map_Database } = require("./model");
+const { Comment } = require("./model");
+const { Board } = require("./model");
+
 app.set("view engine", "ejs");
 app.use("/static", express.static("static"));
 app.use(express.urlencoded({ extended: true }));
@@ -24,6 +28,20 @@ app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isAuthenticated;
   res.locals.user = req.session.user;
   console.log(res.locals.user);
+  next();
+});
+
+app.use(async (req, res, next) => {
+  if (req.session.isAuthenticated) {
+    const commentCount = await Comment.count({ where: { id: req.session.user.id } });
+    const Map_DatabaseCount = await Map_Database.count({ where: { id: req.session.user.id } });
+    const boardCount = await Board.count({ where: { id: req.session.user.id } });
+
+    res.locals.commentCount = commentCount;
+    res.locals.Map_DatabaseCount = Map_DatabaseCount;
+    res.locals.boardCount = boardCount;
+  }
+
   next();
 });
 
