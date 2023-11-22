@@ -223,6 +223,13 @@
         const form = document.forms["form-comment"];
         const userId = `<%= user ? user.id : null %>`
         console.log("userId:", userId); 
+        
+          // 유효성 검사 추가
+          if (!form.Field.value.trim()) {
+            alert("댓글을 입력해주세요.");
+            form.Field.focus();
+            return;
+          }
 
         const data = {
           id : userId,
@@ -292,6 +299,12 @@ function updateComment(commentID) {
 // 수정된 editDo 함수
 function editDo(commentID) {
   const form = document.forms['form-comment'];
+  // 유효성 검사 추가
+  if (!form.Field.value.trim()) {
+    alert("댓글을 입력해주세요.");
+    form.Field.focus();
+    return;
+  }
   const data = {
     commentID: commentID,
     Field: form.Field.value
