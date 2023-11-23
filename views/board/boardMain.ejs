@@ -146,11 +146,11 @@
       });
     }
 
-    function observeLastBoard(observer, boards) {
+    function observeLastBoard(io, boards) {
       if (boards.length > 0) {
         const lastBoard = boards[boards.length - 1];
-        observer.observe(lastBoard);
-        
+        io.disconnect();
+        io.observe(lastBoard);
       }
     }
 
