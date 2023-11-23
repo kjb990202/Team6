@@ -325,14 +325,14 @@
         <div class="starBox">
         <span class="starBox">
 
-<button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
-<button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'postReviewDiv')">☆</button>
-<button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'postReviewDiv')">☆</button>
-<button type="button" id="star4" class="buttonStar" value="4" onclick="starRating(4, 'postReviewDiv')">☆</button>
-<button type="button" id="star5" class="buttonStar" value="5" onclick="starRating(5, 'postReviewDiv')">☆</button>
+<button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'fixDiv')">☆</button>
+<button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'fixDiv')">☆</button>
+<button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'fixDiv')">☆</button>
+<button type="button" id="star4" class="buttonStar" value="4" onclick="starRating(4, 'fixDiv')">☆</button>
+<button type="button" id="star5" class="buttonStar" value="5" onclick="starRating(5, 'fixDiv')">☆</button>
 </span>
 <input type="text" name="reviewComment" class="reviewBox" placeholder="수정하고 싶은 내용을 입력해주세요" maxlength="100" oninput="checkLength(this)" required value="${reviewComment}">
-                  <button type="button" class="submitButton" onclick="updateReview('${reviewNumber}')">수정</button></div>`
+<button type="button" class="submitButton" onclick="updateReview('${reviewNumber}')">수정</button></div>`
       );
 
       $("input[name=reviewComment]").focus();
@@ -582,14 +582,10 @@
                     }
                     html += `<span class="nickname">${res.data[i].nickname}</span>
                               </span>
-                              <div class="time">${res.data[i].createdAt}</div>
+                              <div class="time">${res.data[i].createdAt}</div></div>
                             `;
 
                     // <div class="time">${res.data[i].updatedAt}</div>
-
-                    if (thisUserId == res.data[i].id) {
-                    }
-                    html += `</div>`;
 
                     $("#getReviewDiv").append(html);
                   }
