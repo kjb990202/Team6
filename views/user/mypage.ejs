@@ -22,23 +22,20 @@
               <div class="row">
                 <div class="formbg col col-lg-9 col-xl-7">
                   <div
-                    class="mypageHeader d-flex flex-row padding-horizontal--24"
-                  >
+                    class="mypageHeader d-flex flex-row padding-horizontal--24">
                     <div class="imageBox">
                       <% if (user.image) { %>
                       <img
                         src="<%= user.image %>"
                         alt="User Profile Image"
                         class="img-fluid img-thumbnail"
-                        style="width: 100%; height: 100%; z-index: 1"
-                      />
+                        style="width: 100%; height: 100%; z-index: 1"/>
                       <% } else { %>
                       <img
                         src="/static/img/bagicimg.jpeg"
                         alt="Default Image"
                         class="img-fluid img-thumbnail"
-                        style="width: 100%; height: 100%; z-index: 1"
-                      />
+                        style="width: 100%; height: 100%; z-index: 1"/>
                       <% } %>
                     </div>
                     <div class="d-flex flex-column text-start justify-content-center padding-left--32">
@@ -86,8 +83,7 @@
                         id="nicknameChangeButton"
                         value="닉네임 변경"
                         data-toggle="modal"
-                        data-target="#profileModal"
-                      />
+                        data-target="#profileModal"/>
                     </div>
                     <div class="p-2 field padding-bottom--10">
                       <input
@@ -95,15 +91,13 @@
                         type="file"
                         id="file"
                         name="image"
-                        style="display: none"
-                      />
+                        style="display: none"/>
                       <input
                         type="button"
                         name="image"
                         class="p-2 btn btn-primary"
                         value="사진 변경"
-                        onclick="document.getElementById('file').click()"
-                      />
+                        onclick="document.getElementById('file').click()"/>
                     </div>
                     <div class="ms-auto p-2 field padding-bottom--10">
                       <input
@@ -113,8 +107,7 @@
                         id="accountDeleteButton"
                         value="회원 탈퇴"
                         data-toggle="modal"
-                        data-target="#profileModal"
-                      />
+                        data-target="#profileModal"/>
                     </div>
                   </div>
                 </div>
@@ -129,8 +122,7 @@
           tabindex="-1"
           role="dialog"
           aria-labelledby="profileModalLabel"
-          aria-hidden="true"
-        >
+          aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content modal-dialog">
               <div class="modal-header">
@@ -139,8 +131,7 @@
                   class="close"
                   name="delete"
                   data-dismiss="modal"
-                  aria-label="Close"
-                >
+                  aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -156,31 +147,27 @@
               <!-- 모달 : 닉네임 변경 창 -->
               <fieldset class="show" id="tab011">
                 <div
-                  class="formbg-inner padding-right--32 padding-left--32 padding-top--24"
-                >
+                  class="formbg-inner padding-right--32 padding-left--32 padding-top--24">
                   <form name="nicknameForm">
                     <div class="field padding-bottom--24">
                       <div class="grid--50-50">
                         <label
                           class="d-flex justify-content-start"
                           for="userNickname"
-                          >닉네임</label
-                        >
+                          >닉네임</label>
                       </div>
                       <div class="d-flex padding-bottom--10">
                         <input
                           type="text"
                           class="flex-grow-1 login-input"
                           name="nickname"
-                          required
-                        />
+                          required/>
                         <input
                           type="button"
                           class="doubleCheck btn btn-primary"
                           name="submit"
                           value="중복확인"
-                          onclick="checkNickname();"
-                        />
+                          onclick="checkNickname();"/>
                       </div>
                     </div>
                     <div class="field padding-bottom--10">
@@ -190,15 +177,13 @@
                           type="button"
                           name="delete"
                           value="취소"
-                          data-dismiss="modal"
-                        />
+                          data-dismiss="modal"/>
                         <input
                         class="btn btn-primary"
                           type="button"
                           name="save"
                           value="저장"
-                          onclick="updateMypageNickname()"
-                        />
+                          onclick="updateMypageNickname()"/>
                       </div>
                     </div>
                   </form>
@@ -206,23 +191,19 @@
               </fieldset>
               <fieldset id="tab021">
                 <div
-                class="formbg-inner padding-right--32 padding-left--32 padding-top--24"
-              >
+                class="formbg-inner padding-right--32 padding-left--32 padding-top--24">
                   <form name="deleteAccountForm">
                     <div class="field padding-bottom--24">
                       <div class="grid--50-50">
                         <label
                           class="d-flex justify-content-start"
-                          for="userNickname"
-                          >탈퇴를 위해 비밀번호를 다시 입력해주세요.</label
-                        >
+                          for="userNickname">탈퇴를 위해 비밀번호를 다시 입력해주세요.</label>
                       </div>
                       <div class="padding-bottom--10">
                       <input
                         type="password"
                         id="accountDeletePassword"
-                        class="form-control"
-                      />
+                        class="form-control"/>
                     </div>
                   </div>
                     <div class="field padding-bottom--10">
@@ -253,118 +234,80 @@
     </body>     
   <script>
 
-document.getElementById('file').addEventListener('change', function() {
-  const formData = new FormData();
-  formData.append('image', this.files[0]);
+        document.getElementById('file').addEventListener('change', function() {
+          const formData = new FormData();
+          formData.append('image', this.files[0]);
 
-  fetch('/upload', {
-      method: 'POST',
-      body: formData
-  })
-  .then(response => response.json())
-  .then(data => {
-      if (data.success) {
-          location.reload();
-      } else {
-          alert('파일 업로드에 실패했습니다.');
-      }
-  })
-  .catch(error => {
-      console.error('Error:', error);
-  });
-});
-
-let nicknameChecked = false;
-
-function checkNickname() {
-  let nickname = document.forms["nicknameForm"].nickname.value;
-  if (!nickname) {
-      alert("닉네임을 입력해주세요.");
-      return;
-  }
-
-  axios({
-      method: "post",
-      url: "/checknickname",
-      data: { nickname: nickname }
-  }).then((res) => {
-      if (res.data.duplicate) {
-          alert("이미 사용 중인 닉네임입니다.");
-          nicknameChecked = false;
-      } else {
-          alert("사용 가능한 닉네임입니다.");
-          nicknameChecked = true;
-      }
-  });
-}
-    
-    function updateMypageNickname() {
-  if (!nicknameChecked) {
-      alert("중복확인을 먼저 해주세요.");
-      return;
-  }
-
-  const form = document.forms["nicknameForm"];
-  const nickname = form.nickname.value;
-
-  let user = {
-      id: '<%= user.id %>',
-      nickname: form.nickname.value
-  };
-
-  axios({
-      method: 'post',
-      url: '/updateMypageNickname',
-      data: user
-  }).then((res) => {
-      if (res.data.result) {
-          alert(res.data.message);
-          location.reload();
-      } else {
-          alert(res.data.message);
-      }
-  });
-  $('#profileModal').modal('hide');
-}
-
-      function updateMypagePassword() {
-        const form = document.forms["passwordForm"];
-        const password = form.password.value.trim();
-        const confirmPassword = document.getElementById('confirmPassword').value;
-
-        // 비밀번호가 비어있는지 확인
-        if (!password) {
-            alert('비밀번호를 입력해주세요.');
-            return false;
-        }
-        if (password !== confirmPassword) {
-            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-            return;
-        }
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return false;
-        }
-
-        let user = {
-            id: '<%= user.id %>', // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
-            password: form.password.value
-        };
-
-        axios({
-            method: 'post',
-            url: '/updateMypagePassword',
-            data: user
-        }).then((res) => {
-            if (res.data.result) {
-                alert(res.data.message);
-                location.reload();
-            } else {
-                alert(res.data.message);
-            }
+          fetch('/upload', {
+              method: 'POST',
+              body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  location.reload();
+              } else {
+                  alert('파일 업로드에 실패했습니다.');
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
         });
-        $('#profileModal').modal('hide');
-      }
+
+        let nicknameChecked = false;
+
+        function checkNickname() {
+              let nickname = document.forms["nicknameForm"].nickname.value;
+              if (!nickname) {
+                  alert("닉네임을 입력해주세요.");
+                  return;
+              }
+
+              axios({
+                  method: "post",
+                  url: "/checknickname",
+                  data: { nickname: nickname }
+              }).then((res) => {
+                  if (res.data.duplicate) {
+                      alert("이미 사용 중인 닉네임입니다.");
+                      nicknameChecked = false;
+                  } else {
+                      alert("사용 가능한 닉네임입니다.");
+                      nicknameChecked = true;
+                  }
+              });
+            }
+                
+                function updateMypageNickname() {
+              if (!nicknameChecked) {
+                  alert("중복확인을 먼저 해주세요.");
+                  return;
+              }
+
+              const form = document.forms["nicknameForm"];
+              const nickname = form.nickname.value;
+
+              let user = {
+                  id: '<%= user.id %>',
+                  nickname: form.nickname.value
+              };
+
+              axios({
+                  method: 'post',
+                  url: '/updateMypageNickname',
+                  data: user
+              }).then((res) => {
+                  if (res.data.result) {
+                      alert(res.data.message);
+                      location.reload();
+                  } else {
+                      alert(res.data.message);
+                  }
+              });
+              $('#profileModal').modal('hide');
+            }
+            
       function deleteAccount() {
         const userid = '<%= user.id %>'; // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
         const password = document.getElementById("accountDeletePassword").value; // 비밀번호 입력 필드에서 값 가져오기
