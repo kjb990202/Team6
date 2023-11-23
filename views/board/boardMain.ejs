@@ -140,17 +140,17 @@
           observer.unobserve(entry.target);
           // console.log("커서", cursor);
           getBoard();
-          // 새로 생성된 nowBox-list를 감시
+          
           observeLastBoard(observer, document.querySelectorAll(".scrollP"));
         }
       });
     }
 
-    function observeLastBoard(io, boards) {
+    function observeLastBoard(observer, boards) {
       if (boards.length > 0) {
         const lastBoard = boards[boards.length - 1];
-        io.disconnect();
-        io.observe(lastBoard);
+        observer.observe(lastBoard);
+        
       }
     }
 

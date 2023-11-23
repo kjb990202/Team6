@@ -214,3 +214,194 @@
   font-size: small;
  
 }
+
+
+/* 상세페이지 */
+
+.box-color-red{
+  background-color:#ff8c8c;
+}
+.box-color-yellow{
+  background-color:#ffeb81;
+}
+.box-color-blue{
+  background-color: #95c3de;
+}
+
+.inner-box{
+ 
+ width: 100%;
+ padding: 30px;
+ border-radius: 4px;
+ min-height: 500px;
+ display: flex;
+ flex-direction:column;
+ justify-content:space-between
+}
+
+.profile-image{
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+.C-content{
+  text-align: left;
+  color: #4a4a4a;
+}
+.top-container{
+  display: flex;
+  flex-direction:column;
+  position: relative;
+  bottom: 10px;
+}
+.view-container{
+  display: flex;
+  align-items:center;
+  
+}
+.botton-container{
+  display: flex;
+  justify-content: space-between;
+  font-size:medium;
+  color: #616161;
+}
+.top-se-inner{
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  
+}
+
+#viewCount{
+  text-align: left;
+  margin-right: 15px;
+}
+
+.profile-container{
+  align-items: center;
+}
+
+.profile-container img{
+  position: relative;
+  top: 5px;
+}
+.C-title{
+  text-align: left;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  font-size: large;
+  font-weight: bold;
+  color: #464646;
+  margin-top: 10px;
+}
+.C-category{
+  font-size: large;
+  font-weight: bold;
+  color: #464646;
+  position: relative;
+  right: 15px;
+
+}
+.C-nickname{
+  color: #464646;
+}
+
+.DBoard-button{
+  margin-left: 10px;
+}
+
+.view-container svg{
+  position: relative;
+  top: 1px;
+  margin-right: 2px;
+}
+
+/* 댓글 CSS  */
+
+.put-comment{
+  display: flex;
+  text-align: left;
+  margin-top: 20px;
+  height: 30px;
+
+}
+.put-comment input{
+  width: 100%;
+  outline: none;
+}
+.put-comment button{
+  width: 50px;
+}
+.comment-top{
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+  width: 100%;
+  
+}
+
+.view-content{
+  display: flex;
+  flex-direction:column;
+  width: 100%;
+}
+
+.comment-user{
+  display: flex;
+}
+.data-createComment{
+  top:6px;
+  position: relative;
+  font-size:x-small;
+  font-weight: lighter;
+}
+
+.data-field{
+  text-align: left;
+  margin-bottom: 40px;
+}
+
+.data-nickname{
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.view-content-top{
+  display: flex;
+  width: 100%;
+}
+.comment-buttons{
+  display: flex; 
+  gap: 8px; 
+  
+}
+.comment-buttons button {
+  margin-left: auto; 
+}
+
+.C-createBoard{
+  font-size:x-small;
+  align-items:center;
+  position: relative;
+  top:3px;
+}
+
+.button{
+  border: none;
+  background-color:transparent;
+  margin-left: 10px;
+}
+
+.input-button{
+  background-color:transparent;
+  border-radius: 3px;
+  margin-left: 2px;
+  outline:none;
+  
+  border: 1px solid #6a6a6a
+}
+.hide-button{
+  display: flex;
+}
+svg{
+  color: #464646;
+}
