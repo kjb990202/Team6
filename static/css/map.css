@@ -3,12 +3,19 @@
  * Globals
  */
 
+ @font-face {
+  font-family: 'UhBeeSe_hyun';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeeSe_hyun.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  }
+
  body {
   font-family: "Pretendard";
  }
 
 /* 메인 지도 */
-.map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+.map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Pretendard',sans-serif;font-size:12px;}
 .map_wrap {position:relative;width:100%;height:350px;}
 .map_wrap #map {position:relative;width: 100%;height: 100%;position: relative;overflow: hidden;}
 #category {position:absolute;top:10px;left:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;  z-index:2;}
@@ -54,31 +61,153 @@ div .mapInfo {
 /* 글자 스타일 */
 div.time {
   font-size: 13px;
+  color: #212529;
 }
 
 span.nickname {
-  font-weight: 600;
-  font-size: 17px;
+  font-weight: 400;
+  font-size: 13px;
   align-items: center;
+  color: #212529;
+}
+
+
+
+
+  /* 
+지도 스타일
+*/
+
+/* 카테고리 아이콘 세부 설정 */
+
+#category li .category_bg {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+/* 카테고리 아이콘 변경*/
+#category li .category_bg.restaurant{ 
+  background: url(../img/pin_red.svg);
+  background-repeat: no-repeat;
+  display: flex;
+  }
+  
+  #category li .category_bg.store{ 
+      background: url(../img/pin_yellow.svg);
+      background-repeat: no-repeat;
+      display: flex;
+      }
+  
+  #category li .category_bg.cafe{ 
+      background: url(../img/pin_blue.svg);
+      background-repeat: no-repeat;
+      display: flex;
+      }
+          
+  #category li .category_bg.pharmacy{ 
+      background: url(../img/pin_green.svg);
+      background-repeat: no-repeat;
+      display: flex;
+      }
+              
+  /* 카테고리 클릭시 */
+  #category li.on .category_bg.restaurant{ 
+      background: url(../img/pin_red.svg);
+      background-repeat: no-repeat;
+      display: flex;
+      }
+      
+  #category li.on .category_bg.store{ 
+          background: url(../img/pin_yellow.svg);
+          background-repeat: no-repeat;
+          display: flex;
+          }
+      
+  #category li.on .category_bg.cafe{ 
+          background: url(../img/pin_blue.svg);
+          background-repeat: no-repeat;
+          display: flex;
+          }
+              
+  #category li.on .category_bg.pharmacy{ 
+          background: url(../img/pin_green.svg);
+          background-repeat: no-repeat;
+          display: flex;
+          }
+
+/* 마커 상세 표시줄 */
+
+.placeinfo a.title {
+    background-color: #ffe566;
+}
+
+.map div div img {
+  background: url(../img/pin_red.svg);
 }
 
 /* 리뷰 입력창 */
+form.reviewForm {
+  width: 100%;
+}
+
+#postReviewDiv {
+  width: 100%;
+  display: flex;
+}
+
 div.starBox {
   border: none;
   background-color: transparent;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
-/* 
+
 span.starBox {
-  padding: 0.5rem;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18%;
+}
+
+span.starBox button {
+  padding-bottom: 2.5px;
+  font-family: "UhBeeSe_hyun";
+  font-size: 17px;
 }
 
 input.reviewBox {
   flex-grow: 1;
+  text-align: center;
+  width: 74%;
 }
 
+#fixDiv {
+  width: 100%;
+}
+
+.reviewFixForm {
+  width: 100%;
+}
+
+ /* 지원님과 통일한 버튼 작성하기 버튼 디자인 */
 button.submitButton {
-  padding: 0.5rem;
-} */
+  background-color:transparent;
+  border-radius: 3px;
+  outline:none;
+  border: 1px solid #6a6a6a;
+  margin: 0 5px 0 5px;
+  height: 30px;
+  width: 7%;
+  color: #7f7979;
+}
+
+#ratingDiv {
+  color: #726f6f;
+  font-family: "UhBeeSe_hyun";
+  font-size: 17px;
+}
 
 .messageDiv {
   width: 100%;
@@ -111,10 +240,9 @@ button.submitButton {
 
 .starBox{
   background-color: white;
-  border: 1px solid gray;
+  border: 1px solid #6a6a6a;
   border-radius: 5px;
-  padding: 6px 5px 6px 5px;
-  margin: 0px 5px 0px 5px;
+  margin: 0px 5px 0px 0px;
 }
 
 .buttonStar{
@@ -139,6 +267,7 @@ div.reviewBox {
 
 /* 리뷰 수정 / 삭제 버튼 */
 
+
 .reviewButton {
   border: none;
   outline: none;
@@ -149,10 +278,11 @@ div.reviewBox {
 .reviewButton svg {
   width: 20px;  
   height: 20px;
+  color: #565656;
 }
 
 .ml-71 {
-margin-left: 71px;
+margin-left: 85px;
 }
 
 .mb-10 {
@@ -161,7 +291,7 @@ margin-left: 71px;
 xw
 .submitButton{
   background-color: rgb(253, 255, 231);
-  border: 1px solid gray;
+  border: 1px solid #6a6a6a;
   border-radius: 5px;
   margin: 0px 5px 0px 5px;
   padding: 5px 10px 5px 10px;
@@ -228,7 +358,7 @@ xw
 .reviewComment{
   height: 130px;
   background-color: rgba( 255, 255, 255, 0 );
-  color: black;
+  color: #4a4a4a;
   border:none;
   font-size: 15px;
   margin:  10px 0px 10px 0px;

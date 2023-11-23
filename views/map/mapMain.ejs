@@ -27,7 +27,7 @@
       <!-- 메인 -->
       <main class="px-3">
         <div class="container">
-          <div class="footer-link padding-top--24">
+          <div class="header-link padding-top--24">
             <div class="mapInfo">
               <!-- 아이콘 svg -->
               <svg
@@ -53,7 +53,7 @@
             <ul id="category">
               <li id="FD6" data-order="0">
                 <!-- SB: 카테고리 아이콘을 결정하는 클래스입니다. ex) cafe, store -->
-                <span class="category_bg cafe"></span>
+                <span class="category_bg restaurant"></span>
                 음식점
               </li>
               <li id="CS2" data-order="1">
@@ -74,11 +74,11 @@
             <!-- SB: 로그인 필요 안내 문구를 보여주는 div입니다. -->
             <div id="messageDiv" class="messageDiv"></div>
             <!-- SB: 리뷰 작성칸을 보여주는 div입니다.-->
-            <form name="reviewForm">
+            <form name="reviewForm" class="reviewForm">
               <div id="postReviewDiv" class="postReviewDiv"></div>
             </form>
             <!-- SB: 리뷰수정 버튼을 누르면 수정칸을 보여주는 div입니다.-->
-            <form name="reviewFixForm">
+            <form name="reviewFixForm" class="reviewForm">
               <div id="fixDiv" class="fixDiv"></div>
             </form>
             <!-- SB: 작성된 리뷰가 없을 때 안내 문구를 보여주는 div입니다. -->
@@ -204,6 +204,7 @@
 
       // SB: 별별별
       document.getElementById("postReviewDiv").innerHTML = `
+
       <div class="starBox">
         <span class="starBox">
           <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
@@ -213,7 +214,7 @@
           <button type="button" id="star5" class="buttonStar" value="5" onclick="starRating(5, 'postReviewDiv')">☆</button>
         </span>
         <input type="text" name="reviewComment" class="reviewBox" placeholder="후기를 입력해주세요" maxlength="100" oninput="checkLength(this)" required />
-        <button type="button" class="submitButton" onclick="uplodeReview('${placeName}', '${placeAddress}')">작성하기</button>
+        <button type="button" class="submitButton" onclick="uplodeReview('${placeName}', '${placeAddress}')">등록</button>
       </div>`;
       }
 
@@ -251,25 +252,35 @@
         // SB: 별별별
 
         let html = `
-        <div id="${res.data.reviewNumber}" class="reviewBox board-color-${Number(res.data.rating)}">
-          <div id="ratingDiv" class="starRating d-flex">
-            ${"★".repeat(Number(res.data.rating)) + "☆".repeat(5 - Number(res.data.rating))} 
-            <div>
-            <button type="button" class="ml-71 reviewButton edit"  onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}', '${placeName}',  '${placeAddress}')">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-              </svg>
-            </button>
-            <button class="reviewButton delete" type="button" onclick="reviewDelete('${res.data.reviewNumber}')">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-              </svg>
-            </button>
-            </div>
-          </div>
-          <div id="reviewCommentDiv" class="reviewComment text-break">${res.data.reviewComment}</div>
-          <span class="imageDiv" type="button">`;
+
+        <div id="${
+          res.data.reviewNumber
+        }" class="reviewBox board-color-${Number(res.data.rating)}">
+                  <div id="ratingDiv" class="starRating d-flex">
+                    ${
+                      "★".repeat(Number(res.data.rating)) +
+                      "☆".repeat(5 - Number(res.data.rating))
+                    } 
+      
+                    <button type="button" class="ml-71 reviewButton edit"  onclick="reviewFix('${
+                      res.data.reviewNumber
+                    }', '${res.data.rating}', '${
+          res.data.reviewComment
+        }', '${placeName}',  '${placeAddress}')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+          </svg></button>
+                  <button class="reviewButton delete" type="button" onclick="reviewDelete('${
+                    res.data.reviewNumber
+                  }')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+</svg></button></div>
+                  <div id="reviewCommentDiv" class="reviewComment text-break">${
+                    res.data.reviewComment
+                  }</div>
+                  <span class="imageDiv" type="button">
+                `;
+        //
 
         // SB: 랜덤 이미지
         if (res.data.User.image) {
@@ -288,16 +299,18 @@
 
         // SB: 별별별
         document.getElementById("postReviewDiv").innerHTML = `
-        <div class="starBox">
+       
         <span class="starBox">
-          <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
-          <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'postReviewDiv')">☆</button>
-          <button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'postReviewDiv')">☆</button>
-          <button type="button" id="star4" class="buttonStar" value="4" onclick="starRating(4, 'postReviewDiv')">☆</button>
-          <button type="button" id="star5" class="buttonStar" value="5" onclick="starRating(5, 'postReviewDiv')">☆</button>
-        </span>
-        <input type="text" name="reviewComment" class="reviewBox" placeholder="후기를 입력해주세요" maxlength="100" oninput="checkLength(this)" required>
-        <button type="button" class="submitButton" onclick="uplodeReview('${placeName}', '${placeAddress}')">작성하기</button></div>`;
+
+                  <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
+                  <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'postReviewDiv')">☆</button>
+                  <button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'postReviewDiv')">☆</button>
+                  <button type="button" id="star4" class="buttonStar" value="4" onclick="starRating(4, 'postReviewDiv')">☆</button>
+                  <button type="button" id="star5" class="buttonStar" value="5" onclick="starRating(5, 'postReviewDiv')">☆</button>
+                </span>
+                <input type="text" name="reviewComment" class="reviewBox" placeholder="후기를 입력해주세요" maxlength="100" oninput="checkLength(this)" required>
+                <button type="button" class="submitButton" onclick="uplodeReview('${placeName}', '${placeAddress}')">등록</button></div>`;
+
       });
     }
 
@@ -316,14 +329,17 @@
       $("#fixDiv").append(`
         <div class="starBox">
         <span class="starBox">
-          <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'fixDiv')">☆</button>
-          <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'fixDiv')">☆</button>
-          <button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'fixDiv')">☆</button>
-          <button type="button" id="star4" class="buttonStar" value="4" onclick="starRating(4, 'fixDiv')">☆</button>
-          <button type="button" id="star5" class="buttonStar" value="5" onclick="starRating(5, 'fixDiv')">☆</button>
-        </span>
-        <input type="text" name="reviewComment" class="reviewBox" placeholder="수정하고 싶은 내용을 입력해주세요" maxlength="100" oninput="checkLength(this)" required value="${reviewComment}">
-        <button type="button" class="submitButton" onclick="updateReview('${reviewNumber}')">수정하기</button></div>`
+
+
+<button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'fixDiv')">☆</button>
+<button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'fixDiv')">☆</button>
+<button type="button" id="star3" class="buttonStar" value="3" onclick="starRating(3, 'fixDiv')">☆</button>
+<button type="button" id="star4" class="buttonStar" value="4" onclick="starRating(4, 'fixDiv')">☆</button>
+<button type="button" id="star5" class="buttonStar" value="5" onclick="starRating(5, 'fixDiv')">☆</button>
+</span>
+<input type="text" name="reviewComment" class="reviewBox" placeholder="수정하고 싶은 내용을 입력해주세요" maxlength="100" oninput="checkLength(this)" required value="${reviewComment}">
+<button type="button" class="submitButton" onclick="updateReview('${reviewNumber}')">수정</button></div>`
+
       );
 
       $("input[name=reviewComment]").focus();
@@ -334,6 +350,8 @@
     // SB: 수정하기 버튼에 걸려있는 함수입니다.
     function updateReview(reviewNumber) {
       const form = document.forms["reviewFixForm"];
+      console.log("폼 확인: ", form);
+      console.log("폼 요소 확인: ", form.rating);
 
       if (!form.checkValidity()) {
         form.reportValidity();
@@ -361,7 +379,6 @@
             "★".repeat(Number(res.data.rating)) +
             "☆".repeat(5 - Number(res.data.rating))
           } 
-                  <div class="">
                     <button type="button" class="ml-71 reviewButton edit"  onclick="reviewFix('${
                       res.data.reviewNumber
                     }', '${res.data.rating}', '${res.data.reviewComment}', '${
@@ -376,7 +393,7 @@
                                res.data.reviewNumber
                              }')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
              <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-           </svg></button></div></div>
+           </svg></button></div>
 
                   <div id="reviewCommentDiv" class="reviewComment text-break">${
                     res.data.reviewComment
@@ -525,29 +542,38 @@
 
                     // SB: 별별별
                     let html = `
-                    <div id="${res.data[i].reviewNumber}" class="reviewBox board-color-${Number(res.data[i].rating)}">
-                      <div id="ratingDiv" class="starRating d-flex">
-                        ${"★".repeat(Number(res.data[i].rating)) + "☆".repeat(5 - Number(res.data[i].rating))}
-                        <div class="">`
-                          
-                    if (thisUserId == res.data[i].id) {
-                      html += `<button type="button" class="ml-71 reviewButton edit" onclick="reviewFix('${res.data[i].reviewNumber}', '${res.data[i].rating}', '${res.data[i].reviewComment}', '${place.place_name}', '${place.address_name}')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                        </svg>
-                      </button>
-                      <button type="button" class="reviewButton delete" onclick="reviewDelete('${res.data[i].reviewNumber}')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                          <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                        </svg>
-                      </button>`
-                    }
 
-  
-                    html += `</div></div>
-                    <div id="reviewCommentDiv" class="reviewComment text-break">${res.data[i].reviewComment}</div>
-                    <span class="imageDiv" type="button">`;
+                    <div id="${
+                      res.data[i].reviewNumber
+                    }" class="reviewBox board-color-${Number(
+                      res.data[i].rating
+                    )}">
+                              <div id="ratingDiv" class="starRating d-flex">
+                                ${
+                                  "★".repeat(Number(res.data[i].rating)) +
+                                  "☆".repeat(5 - Number(res.data[i].rating))
+                                } 
+                              <button type="button" class="ml-71 reviewButton edit" onclick="reviewFix('${
+                                res.data[i].reviewNumber
+                              }', '${res.data[i].rating}', '${
+                      res.data[i].reviewComment
+                    }', '${place.place_name}',  '${
+                      place.address_name
+                    }')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+</svg></button>
+                              <button type="button" class="reviewButton delete" onclick="reviewDelete('${
+                                res.data[i].reviewNumber
+                              }')"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+</svg></button></div>
+                              <div id="reviewCommentDiv" class="reviewComment text-break">${
+                                res.data[i].reviewComment
+                              }</div>
+                              <span class="imageDiv" type="button">
+                            `;
+
 
                     // SB: 랜덤 이미지
                     if (res.data[i].image) {
@@ -557,9 +583,12 @@
                     }
 
                     html += `<span class="nickname">${res.data[i].nickname}</span>
-                            </span>
-                            <div class="time">${res.data[i].createdAt}</div>
-                          </div>`;
+                              </span>
+                              <div class="time">${res.data[i].createdAt}</div></div>
+                            `;
+
+                    // <div class="time">${res.data[i].updatedAt}</div>
+
 
                     $("#getReviewDiv").append(html);
                   }
@@ -581,13 +610,12 @@
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     function addMarker(position, order) {
       // SB: 마커 이미지는 여기서 바꿔야할 것 같습니다.
-      var imageSrc =
-          "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
-        imageSize = new kakao.maps.Size(27, 28), // 마커 이미지의 크기
+      var imageSrc = "../static/img/pin_Logo.png", // "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png" 마커 이미지 url, 스프라이트 이미지를 씁니다
+        imageSize = new kakao.maps.Size(19, 30), // 27, 28 마커 이미지의 크기(나-19,30)
         imgOptions = {
-          spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
-          spriteOrigin: new kakao.maps.Point(46, order * 36), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-          offset: new kakao.maps.Point(11, 28), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+          spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기(나-72,208)
+          spriteOrigin: new kakao.maps.Point(46, order * 35), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표(나-71,33)
+          offset: new kakao.maps.Point(11, 28), // 마커 좌표에 일치시킬 이미지 내에서의 좌표(나-47,31)
         },
         markerImage = new kakao.maps.MarkerImage(
           imageSrc,
@@ -700,7 +728,7 @@
       }
     }
 
-    // input에 128자 이상 작성하면 경고
+    // input에 100자 이상 작성하면 경고
     function checkLength(inputField) {
       const maxLength = 100;
       if (inputField.value.length > maxLength) {

@@ -36,13 +36,12 @@ exports.boardEdit = (req, res) => {
   res.render("board/boardEdit");
 };
 
-
 // 댓글 관련
 const Comment = require("../model/index");
 
 exports.comment = (req, res) => {
   res.render("comment/comment");
-}
+};
 
 exports.comment = (req, res) => {
   Comment.getComments((rows) => {
@@ -85,4 +84,9 @@ exports.patchComment = (req, res) => {
     console.log("ctrl getCommentById: patchComment", result);
     res.send({ result: true });
   });
+};
+
+// 마커 합친 후 삭제 23.11.22
+exports.mapMarker = (req, res) => {
+  res.render("map/mapMarker");
 };
