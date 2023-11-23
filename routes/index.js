@@ -74,12 +74,10 @@ router.get("/getBoard", board.getBoard);
 
 // 로그인 페이지
 router.get("/signin", controller.signin);
-// 회원가입 페이지
-router.get("/user/signup", user.signup);
 
 // 회원가입 페이지
 router.get("/signup", user.signup);
-router.post("/signup", user.post_signup);
+router.post("/signup", user.postSignup);
 
 // 아이디 중복확인
 router.post("/checkid", user.checkId);
@@ -124,7 +122,6 @@ router.post("/updateMypageNickname", user.updateMypageNickname);
 // 마이페이지 비밀번호 수정
 router.post("/updateMypagePassword", user.updateMypagePassword);
 
-// 회원탈퇴
 // 마이페이지 회원 탈퇴
 router.post("/deleteAccount", user.deleteAccount);
 

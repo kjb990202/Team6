@@ -37,44 +37,41 @@
         });
     }
 
-    function checkNickname() {
-           let nickname = document.forms["form-register"].nickname.value;
-           if (!nickname) {
-                alert("닉네임을 입력해주세요.");
-                return;
-            }
+        function checkNickname() {
+              let nickname = document.forms["form-register"].nickname.value;
+              if (!nickname) {
+                    alert("닉네임을 입력해주세요.");
+                    return;
+                }
 
-        axios({
-            method: "post",
-            url: "/checknickname",
-            data: { nickname: nickname }
-        }).then((res) => {
-            if (res.data.duplicate) {
-              alert("이미 사용 중인 닉네임입니다.");
-                nicknameChecked = false;
-            } else {
-                alert("사용 가능한 닉네임입니다.");
-                nicknameChecked = true;
-            }
-        });
-    }
-      
+            axios({
+                method: "post",
+                url: "/checknickname",
+                data: { nickname: nickname }
+            }).then((res) => {
+                if (res.data.duplicate) {
+                  alert("이미 사용 중인 닉네임입니다.");
+                    nicknameChecked = false;
+                } else {
+                    alert("사용 가능한 닉네임입니다.");
+                    nicknameChecked = true;
+                }
+            });
+        }
+          
         function register() {
           var form = document.forms["form-register"];
           if (!idChecked || !nicknameChecked) {
             alert("아이디와 닉네임의 중복 확인을 해주세요.");
-            return;
-        }
+            return;}
           if (!form.checkValidity()) {
             form.reportValidity();
-            return false;
-          }
+            return false;}
           let password = form.password.value;
           let confirmPassword = form.confirmPassword.value;
           if (password !== confirmPassword) {
             alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-            return;
-          }
+            return;}
   
           let user = {
             userid: form.userid.value,

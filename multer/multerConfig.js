@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
     const sanitizedFilename = sanitizeFilename(path.basename(file.originalname, ext));
-    cb(null, sanitizedFilename + '__' + Date.now() + ext); // 파일명 설정 (유니크한 이름)
+    cb(null, sanitizedFilename + '__' + Date.now() + ext); // 파일명 설정 
   },
 });
 

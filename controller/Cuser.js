@@ -10,7 +10,7 @@ exports.signup = (req, res) => {
   res.render("./user/signup");
 };
 // 회원가입 페이지 랜더링
-exports.post_signup = async (req, res) => {
+exports.postSignup = async (req, res) => {
 
   const salt = crypto.randomBytes(16).toString('base64');
   const iterations = 100;
@@ -156,8 +156,7 @@ exports.updatePassword = async (req, res) => {
   user.salt = salt;
   await user.save();
 
-  res.send({ result: true, message: "비밀번호가 성공적으로 변경되었습니다." });
-};
+  res.send({ result: true, message: "비밀번호가 성공적으로 변경되었습니다.", isAuthenticated: req.session.isAuthenticated });};
 
 // 마이페이지 랜더링
 exports.mypage = (req, res) => {
@@ -251,7 +250,6 @@ exports.updateMypagePassword = async (req, res) => {
 };
 
 exports.uploadImage = async (req, res) => {
-  console.log(req.file);
   try {
     // 세션에서 사용자 ID를 가져옵니다.
     const userId = req.session.user.id;
