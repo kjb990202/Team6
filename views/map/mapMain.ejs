@@ -23,7 +23,6 @@
       <header class="container">
         <div><%- include('../components/header.ejs') %></div>
       </header>
-
       <!-- 메인 -->
       <main class="px-3">
         <div class="container">
@@ -86,17 +85,6 @@
             <!-- SB: 작성된 리뷰를 보여주는 div입니다. -->
             <div id="getReviewDiv" class="getReviewDiv"></div>
           </div>
-          <!-- SB: 로컬 서버용 -->
-          <script
-            type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a54c1412f5e82ee9e5256c32dc403b24&libraries=services"
-          ></script>
-
-          <!-- SB: 클라우드 서버용 -->
-          <!-- <script
-            type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b57e8eb48f3c5019d2677ba17488c4ed&libraries=services"
-          ></script> -->
         </div>
       </main>
     </div>
@@ -170,41 +158,53 @@
         displayPlaces(data);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         // 검색결과가 없는경우 해야할 처리가 있다면 이곳에 작성해 주세요
+        alert("이 주변에 결과가 없습니다.")
       } else if (status === kakao.maps.services.Status.ERROR) {
         // 에러로 인해 검색결과가 나오지 않은 경우 해야할 처리가 있다면 이곳에 작성해 주세요
+        alert("알 수 없는 오류로 메인 페이지로 돌아갑니다.");
+        location.href='/';
       }
     }
 
+    // SB: 별점 버튼의 별을 빈 별로 채우는 함수입니다.
     function emptyStar() {
       for (let i = 1; i <= 5; i++) {
-        // SB: 별별별
         document.getElementById(`star${i}`).innerHTML = "☆";
       }
     }
 
-    // SB: 별점 별에 걸려있는 함수입니다.
+    // SB: 별점 별 버튼에 걸려있는 함수입니다.
     function starRating(starNumber, divName) {
+      // SB: 버튼을 빈별로 채우는 함수를 실행합니다.
       emptyStar();
 
+      // SB: 클릭한 별을 포함해 앞쪽 별들을 채워진 별로 바꾸는 반복문입니다.
+      // starNumber에는 각각의 별에 부여된 값을 받아옵니다.
       for (let i = 1; i <= starNumber; i++) {
-        // SB: 별별별
         document.getElementById(`star${i}`).innerHTML = "★";
       }
 
+      // SB: 버튼에서 넘겨받은 divName(리뷰 작성칸 div: postReviewDiv or 리뷰 수정칸 div: fixDiv)으로
+      // 그 안에 결과 값을 입력할 수 있게 div를 추가합니다.
+      // 그 이유는 원하는 form 태그 안에 input 태그를 넣어 별점값을 form data로 받기위해서 입니다.
       $(`#${divName}`).append(`<div id="starResultDiv"></div>`);
 
+      // SB: form data에 별점값을 넣기 위함이기에, 별점값을 넣은 input 태그를 사용자에게는 보이지 않게 설정한 후 div 안에 추가하는 함수입니다.
       document.getElementById(
         "starResultDiv"
       ).innerHTML = `<input type="text" name="rating" value="${starNumber}" style="display:none;" required>`;
     }
 
-    // SB: 리뷰 작성칸을 보여주는 함수입니다. input 태그들을 보여줍니다.
+    // SB: 리뷰 작성칸을 보여주는 함수입니다. 지도의 마커를 클릭하면 실행됩니다. input 태그들을 보여줍니다.
+    // 작성될 등록 버튼에 필요한 정보(placeName, placeAddress)를 받아와서 그대로 등록 버튼(uplodeReview함수)에 매개변수로 넘깁니다.
     function postReview(placeName, placeAddress) {
+      // SB: 리뷰 작성칸을 보여주기 전에, 리뷰 수정칸이 사라지게합니다.
+      // 작성칸과 수정칸이 같이 떠있으면 사용자가 보기에 좋지않고 함수가 엉킬 수 있기 때문입니다.
       document.getElementById("fixDiv").innerHTML = "";
 
-      // SB: 별별별
+      // SB: 별점 기능 함수와 리뷰 제출 함수가 걸린 코드를 HTML에 삽입하여 사용자에게 보여줍니다.
       document.getElementById("postReviewDiv").innerHTML = `
-    <div class="starBox">
+      <div class="starBox">
         <span class="starBox">
           <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
           <button type="button" id="star2" class="buttonStar" value="2" onclick="starRating(2, 'postReviewDiv')">☆</button>
@@ -217,26 +217,38 @@
       </div>`;
       }
 
-    // SB: 리뷰 제출 버튼(작성하기)에 걸려있는 함수입니다.
+    // SB: 리뷰 제출 버튼(등록)에 걸려있는 함수입니다.
+    // 동적 폼 전송으로 작성된 리뷰의 작성자ID, 사업장ID, 별점, 코멘트를 DB로 전송합니다.
+    // 그리고 작성자ID, 사업장ID, 별점, 코멘트와 리뷰 식별자인 reviewNumber와 생성시간인 createdAt를 받아오고,
+    // FK인 작성자ID를 이용해 가져온 사용자 프로필 이미지 정보, nickname도 받아옵니다.
     function uplodeReview(placeName, placeAddress) {
       const form = document.forms["reviewForm"];
       
+      // SB: 유효성 검사를 진행합니다. 조건은 required입니다.
       if (!form.checkValidity()) {
         form.reportValidity();
 
+        // SB: 만약 조건이 충족되지 않았다면 다음과 같은 안내 문구를 띄웁니다.
         document.getElementById(
           "messageDiv"
-        ).innerHTML = `<div class="notLogin">
+        ).innerHTML = `
+        <div class="notLogin">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-diamond" viewBox="0 0 16 16">
             <path d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z"/>
             <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
-          </svg>  별점과 리뷰를 모두 작성해주세요!</div>`;
+          </svg>
+          별점과 리뷰를 모두 작성해주세요!
+        </div>`;
 
         return false;
       }
 
+      // SB: 로그인이 되지 않으면 user.id 값이 없어 오류가 뜨기 때문에,
+      // user가 존재하면 user.id를 반환하고 , 없으면 빈 값을 반환하는 조건문(삼항연산자)입니다.
       let thisUserId = "<%= user ? user.id : '' %>";
 
+
+      // SB: 동적 폼 전송으로 전송할 data를 정의합니다.
       const data = {
         id: thisUserId,
         storeID: `${placeName}_${placeAddress}`,
@@ -244,19 +256,19 @@
         reviewComment: form.reviewComment.value
       };
 
-
+      // SB: 정의한 데이터를 POST 방식으로 /uplodeReview 로 보냅니다.
       axios({
         method: "POST",
         url: "/uplodeReview",
         data: data,
       }).then((res) => {
+        // SB : 컨트롤러에서 무사히 데이터를 받아오면 안내메세지를 띄우고, 수정 버튼과 삭제 버튼을 포함하는 리뷰칸을 삽입합니다.
+        // html을 정의해두고, 그 후에 조건에 따라 html 구조를 완성해가는 방식입니다. 정의된 html에 다음 구조들이 html += 로 추가됩니다.
         alert("리뷰 작성이 완료되었습니다.");
-        // SB: 별별별
-
         let html = `
         <div id="${res.data.reviewNumber}" class="reviewBox board-color-${Number(res.data.rating)}">
           <div id="ratingDiv" class="starRating d-flex">${"★".repeat(Number(res.data.rating)) + "☆".repeat(5 - Number(res.data.rating))} 
-            <button type="button" class="ml-71 reviewButton edit"  onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}', '${placeName}',  '${placeAddress}')">
+            <button type="button" class="ml-71 reviewButton edit"  onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}')">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -271,24 +283,31 @@
           <div id="reviewCommentDiv" class="reviewComment text-break">${res.data.reviewComment}</div>
           <span class="imageDiv" type="button">`;
 
-        // SB: 랜덤 이미지
+        // SB: 사용자의 프로필을 띄우는 부분입니다.
+        // 만일 DB에 사용자의 이미지 정보가 있다면(사용자가 프로필 이미지를 직접 설정했다면) 해당하는 이미지를 띄우고,
+        // 정보가 없다면(사용자의 프로필 이미지를 기본에서 바꾸지 않았다면) 기본 이미지를 띄웁니다.
         if (res.data.User.image) {
           html += `<img src="${res.data.User.image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
         } else {
           html += `<img src="/static/img/bagicimg.jpeg" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
         }
 
-        html += `<span class="nickname">${res.data.User.nickname}</span>
-                   </span>
-                   <div class="time mb-10">${res.data.createdAt}</div>
-                   </div>`;
+        html += `
+        <span class="nickname">${res.data.User.nickname}</span>
+        </span>
+        <div class="time mb-10">${res.data.createdAt}</div>
+        </div>`;
 
+      // SB: 조건의 결과로 나온 최종 형태의 html을 리뷰를 보여주는 getReviewDiv에 추가(append)합니다.
       $("#getReviewDiv").append(html);
 
+      // SB: 결과가 잘 나왔다면 안내메세지칸(별점과 리뷰를 모두 작성해주세요!)과 noReviewDiv(작성된 리뷰가 없습니다.)를 빈칸으로 만듭니다.
+      // 더 이상 필요한 문구가 아니기 때문입니다.
       document.getElementById("messageDiv").innerHTML = "";
       document.getElementById("noReviewDiv").innerHTML = "";
 
-      // SB: 별별별
+      // SB: 마커를 처음 클릭했을때와 같도록 리뷰 작성칸을 보여줍니다.
+      // 리뷰 작성칸이 기본으로 있는 것이 보기 좋다는 판단 때문입니다.
       document.getElementById("postReviewDiv").innerHTML = `
       <span class="starBox">
         <button type="button" id="star1" class="buttonStar" value="1" onclick="starRating(1, 'postReviewDiv')">☆</button>
@@ -303,18 +322,19 @@
       });
     }
 
-    // SB: 리뷰 수정 버튼에 걸려있는 함수입니다.
+    // SB: 리뷰 수정 버튼에 걸려있는 함수입니다. 수정 버튼(updateReview 함수)를 포함한 리뷰 수정칸을 보여줍니다.
     function reviewFix(
       reviewNumber,
       rating,
-      reviewComment,
-      placeName,
-      placeAddress
+      reviewComment
     ) {
+      // SB: 리뷰 수정칸을 보여주기 전에 작성칸을 지워줍니다. 같이 있으면 예쁘지 않기 때문입니다.
       document.getElementById("postReviewDiv").innerHTML = "";
+      // SB: 리뷰 수정칸도 지워줍니다. 수정버튼을 클릭할 때마다 수정칸이 생기는 것을 방지합니다.
       document.getElementById("fixDiv").innerHTML = "";
 
-      // SB: 별별별
+      // SB: 리뷰 작성칸과 동일한 구조의 수정칸을 추가(append)합니다.
+      // 다만 넘겨주는 매개변수(div 태그의 id)가 postReviewDiv가 아닌 fixDiv입니다. 넣어주는 div 태그에 따라 할당되는 form 태그가 달라져 정보를 가져가는 곳이 다르기 때문입니다.
       $("#fixDiv").append(`
         <div class="starBox">
           <span class="starBox">
@@ -329,19 +349,32 @@
         </div>`
       );
 
+      // SB: 수정 버튼을 누르면 수정칸이 생기는데, 너무 아래쪽에 작성된 리뷰일 경우에 수정칸이 생기는 것을 사용자기 인식하기 어려울 수 있기 때문에, focus로 사용자의 화면을 수정칸의 위치로 이동시킵니다.
       $("input[name=reviewComment]").focus();
 
+      // starRating 함수(별을 채워주고, 별점값을 form태그 내부로 넣어주는 함수)를 실행시킵니다.
       starRating(rating, "fixDiv");
     }
 
-    // SB: 수정하기 버튼에 걸려있는 함수입니다.
+    // SB: 수정 버튼에 걸려있는 함수입니다.
     function updateReview(reviewNumber) {
       const form = document.forms["reviewFixForm"];
-      console.log("폼 확인: ", form);
-      console.log("폼 요소 확인: ", form.rating);
 
+      // SB: 리뷰 작성칸과 마찬가지로 유효성 검사를 진행합니다.
+      // 사용자에겐 별점을 0으로 만드는 권한이 없기 때문에 안내문구에서 별점에 대한 내용은 삭제하였습니다
       if (!form.checkValidity()) {
         form.reportValidity();
+
+        document.getElementById(
+          "messageDiv"
+        ).innerHTML = `
+        <div class="notLogin">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-diamond" viewBox="0 0 16 16">
+            <path d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z"/>
+            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+          </svg>
+          리뷰를 작성해주세요!
+        </div>`;
 
         return false;
       }
@@ -351,20 +384,26 @@
         rating: form.rating.value,
         reviewComment: form.reviewComment.value,
       };
-      console.log(data)
+
+      // SB: patch 메소드를 이용하여 updateReview로 요청을 보냅니다. 보내는 data는 DB 업데이트에 필요한 리뷰식별자 reviewNumber, 별점, 코멘트입니다.
       axios({
         method: "patch",
         url: "/updateReview",
         data: data,
       }).then((res) => {
         if (res.data) {
+          // SB: 수정이 무사히 끝나 res를 받는다면 안내문구를 띄웁니다.
           alert("리뷰 수정이 완료되었습니다.");
+
+          // SB: 그리고 기존 작성되어있던 reviewNumber div에 내용을 지워서 새로 내용을 추가할 준비를 합니다.
+          // (조회된 모든 리뷰칸은 id가 reviewNumber인 div가 되도록 하였습니다.)
           $(`#${res.data.reviewNumber}`).empty();
 
-          // SB: 별별별
+          // SB: 기존에 조회된 리뷰들과 동일한 구조가 되도록 html를 동일하게 작성합니다.
+          // 하지만 기존에 정의된 id가 reviewNumber인 div를 삭제한 것이 아니기 때문에, 작성기능과는 다르게 reviewNumber div는 작성할 필요가 없습니다.
           let html = `
           <div id="ratingDiv" class="starRating d-flex">${"★".repeat(Number(res.data.rating)) + "☆".repeat(5 - Number(res.data.rating))} 
-            <button type="button" class="ml-71 reviewButton edit"  onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}', '${res.data.Map_Information.placeName}', '${res.data.Map_Information.address}')">
+            <button type="button" class="ml-71 reviewButton edit"  onclick="reviewFix('${res.data.reviewNumber}', '${res.data.rating}', '${res.data.reviewComment}')">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
               <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -378,8 +417,8 @@
           </div>
           <div id="reviewCommentDiv" class="reviewComment text-break">${res.data.reviewComment}</div>
           <span class="imageDiv" type="button">`;
-
-          // SB: 랜덤 이미지
+            
+          // SB: 작성 기능과 마찬가지로, 사용자 정보에 따라 다른 프로필을 넣는 조건문입니다.
           if (res.data.User.image) {
             html += `<img src="${res.data.User.image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
           } else {
@@ -390,14 +429,19 @@
                     </span>
                     <div class="time">${res.data.createdAt}</div></div>`;
 
+          // SB: 새로 작성한 내용은 추가(append) 할 수 있지만, rating(별점)값에 따라 달라지는 클래스도 다시 지정해주기 위해서 클래스를 모두 지우고, 다시 추가합니다.
           $(`#${res.data.reviewNumber}`).append(html);
           $(`#${res.data.reviewNumber}`).removeClass();
           $(`#${res.data.reviewNumber}`).addClass(`reviewBox`);
           $(`#${res.data.reviewNumber}`).addClass(`board-color-${Number(res.data.rating)}`);
 
         } else {
-          alert("수정할 리뷰가 없습니다.");
+          // SB: 만일 수정이 되지 않았다면, 다음 안내 문구를 띄웁니다.
+          alert("수정에 실패했습니다.");
         }
+
+        // SB: 수정에 성공 여부에 상관 없이 리뷰 수정칸을 지우고 postReview 함수를 실행시킵니다.
+        // postReview는 마커가 클릭되었을 때 실행되는, 리뷰 작성칸을 보여주는 함수입니다.
         document.getElementById("fixDiv").innerHTML = "";
         postReview(
           res.data.Map_Information.placeName,
@@ -408,10 +452,14 @@
 
     // SB: 리뷰 삭제 버튼에 걸려있는 함수입니다.
     function reviewDelete(reviewNumber) {
+      // SB: 리뷰 식별자만 넘김으로써 DB에 해당하는 리뷰를 삭제하도록 합니다.
+      // 데이터는 url과 함께 전송합니다.
       axios({
         method: "delete",
         url: `/reviewDelete/${reviewNumber}`,
       }).then((res) => {
+        // SB: 리뷰가 무사히 삭제되면 해당하는 reviewNumber div를 제거하고, 받은 데이터로 안내문구를 띄웁니다.
+        // 받은 데이터에 안내문구 혹은 오류메세지가 작성되어 있습니다.
         const thisReviewDiv = document.getElementById(`${reviewNumber}`);
         thisReviewDiv.remove();
         alert(res.data);
@@ -440,11 +488,13 @@
             displayPlaceInfo(place);
 
             // SB: 마커를 클릭하면 다른 리뷰 작성칸을 지우는 함수입니다.
+            // 마커를 누를 때마다 작성칸이 생성되지 않도록 합니다.
             if (postReviewDiv.innerHTML.indexOf(`${place.place_name}`) != -1) {
             } else {
               postReviewDiv.innerHTML = "";
             }
 
+            // SB: 리뷰가 없다는 안내메세지와 기타 다른 안내 메세지를 모두 지웁니다.
             document.getElementById("noReviewDiv").innerHTML = "";
             document.getElementById("messageDiv").innerHTML = "";
 
@@ -454,33 +504,45 @@
               placeName: place.place_name,
               address: place.address_name,
             };
+
             axios({
               method: "POST",
               url: "/uploadStore",
               data: storeData,
             }).then((res) => {
+              // SB: 가게 정보가 무사히 DB에 올라가면 console에 안내 문구를 띄웁니다
+              // 가게 정보가 이미 존재할 경우 already exists, 새로 올라간 경우 store upload complete가 뜹니다.
+              // 사용자는 알 필요 없지만 개발자가 필요할 경우가 있을 수 있기에 console에 찍었습니다.
               console.log(res.data);
             });
 
             // SB: 마커를 클릭하면 리뷰정보를 가져오는 함수입니다.
+            // 우선 이미 존재하던 리뷰들을 삭제하여 마커를 클릭할 때마다 계속 리뷰들이 추가되는 것을 방지합니다.
             document.getElementById("getReviewDiv").innerHTML = ``;
+
+            // SB: place는 기존에 카카오맵 API에서 이미 정의된 변수입니다.
             let getReviewData = {
               storeID: `${place.place_name}_${place.address_name}`,
             };
 
+            // SB: 사용자의 로그인 유무를 user 값의 유무로 판단합니다.
+            // user는 미들웨어로 접근할 수 있게 된 변수입니다. 현재 사용자의 정보를 알려줍니다.
             if ("<%= user%>" == "") {
+
+              // user값이 없다면(로그인이 되어있지 않다면) 다음 안내문구를 띄웁니다.
               document.getElementById(
                 "messageDiv"
               ).innerHTML = `<div class="notLogin">로그인 후에 리뷰를 작성하실 수 있습니다.</div>`;
+
+              // DB에 있는 기존 리뷰 조회 요청입니다. 보내는 값은 가게 식별자 storeID입니다.
               axios({
                 method: "get",
                 url: "/getReview",
                 params: getReviewData,
               }).then((res) => {
+                // 받아온 데이터가 있다면(작성된 리뷰가 있다면) 리뷰 내용을 html에 정해진 형식대로 삽입합니다.
                 if (res.data) {
-                  // SB: 별별별
                   for (let i = 0; i < res.data.length; i++) {
-                    // SB: 별별별
                     let html = `
                     <div id="${res.data[i].reviewNumber}" class="reviewBox board-color-${Number(res.data[i].rating)}">
                       <div id="ratingDiv" class="starRating d-flex">${"★".repeat(Number(res.data[i].rating)) + "☆".repeat(5 - Number(res.data[i].rating))}
@@ -491,7 +553,7 @@
                       <span class="imageDiv" type="button">
                     `;
 
-                    // SB: 랜덤 이미지
+                    // SB: 작성과 수정에도 사용되었던 프로필 이미지 데이터 조건문입니다.
                     if (res.data[i].image) {
                       html += `<img src="${res.data[i].image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
                     } else {
@@ -503,16 +565,22 @@
                       <div class="time">${res.data[i].createdAt}</div>
                     </div>`;
 
+                    // SB: 조건에 따라 완성된 html을 추가합니다.
                     $("#getReviewDiv").append(html);
                   }
                 } else {
+                  // SB: 조회된 리뷰가 없다면 다음과 같은 안내문구를 작성합니다.
                   document.getElementById(
                     "noReviewDiv"
                   ).innerHTML = `<div class="noReview">${place.place_name}에 작성된 리뷰가 없습니다.</div>`;
                 }
               });
             } else {
+              // SB: else는 user의 값이 빈칸이 아닐 때(로그인이 되어있을 때) 실행되는 함수입니다.
+              // 우선 리뷰 작성칸을 보여주는 함수를 기본으로 실행합니다. 그것이 더 예쁘기 때문입니다.
               postReview(place.place_name, place.address_name);
+
+              // SB: 로그인이 되어있지 않을 때와 마찬가지로 리뷰 조회 요청을 보냅니다.
               axios({
                 method: "get",
                 url: "/getReview",
@@ -520,18 +588,21 @@
               }).then((res) => {
                 if (res.data) {
                   for (let i = 0; i < res.data.length; i++) {
+
+                    // SB: user의 값이 없으면 오류가 나는 것을 방지하기 위한 함수입니다.
                     let thisUserId = "<%= user ? user.id : '' %>";
 
-                    // SB: 별별별
+                    // SB: 우선 별점 버튼만 html에 담습니다.
                     let html = `
                     <div id="${res.data[i].reviewNumber}" class="reviewBox board-color-${Number(res.data[i].rating)}">
                       <div id="ratingDiv" class="starRating d-flex">${"★".repeat(Number(res.data[i].rating)) + "☆".repeat(5 - Number(res.data[i].rating))}`
 
+                      // 만약 사용자의 유저아이디가 리뷰 작성자의 유저아이디와 같다면(내가 작성한 리뷰라면) 리뷰 수정과 삭제 버튼을 띄웁니다.
                       if (thisUserId == res.data[i].id) {
-                        html += `<button type="button" class="ml-71 reviewButton edit" onclick="reviewFix('${res.data[i].reviewNumber}', '${res.data[i].rating}', '${res.data[i].reviewComment}', '${place.place_name}',  '${place.address_name}')">
+                        html += `<button type="button" class="ml-71 reviewButton edit" onclick="reviewFix('${res.data[i].reviewNumber}', '${res.data[i].rating}', '${res.data[i].reviewComment}')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>ㄹ
                         </svg>
                       </button>
                       <button type="button" class="reviewButton delete" onclick="reviewDelete('${res.data[i].reviewNumber}')">
@@ -545,7 +616,7 @@
                     <span class="imageDiv" type="button">`;
 
 
-                    // SB: 랜덤 이미지
+                    // SB: 프로필 이미지 함수입니다.
                     if (res.data[i].image) {
                       html += `<img src="${res.data[i].image}" alt="사용자 지정 프로필 이미지" class="profileImage" />`;
                     } else {
@@ -559,6 +630,7 @@
                     $("#getReviewDiv").append(html);
                   }
                 } else {
+                  // 로그인이 되어있고, 작성된 리뷰가 없을 경우 안내문구를 띄웁니다.
                   document.getElementById(
                     "noReviewDiv"
                   ).innerHTML = `<div class="noReview"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-dizzy" viewBox="0 0 16 16">
@@ -575,8 +647,7 @@
 
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     function addMarker(position, order) {
-      // SB: 마커 이미지는 여기서 바꿔야할 것 같습니다.
-      var imageSrc = "../static/img/pin_Logo.png", // "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png" 마커 이미지 url, 스프라이트 이미지를 씁니다
+      var imageSrc = "../static/img/pin_Logo.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(19, 30), // 27, 28 마커 이미지의 크기(나-19,30)
         imgOptions = {
           spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기(나-72,208)

@@ -109,6 +109,7 @@
                 </div>
                 `;
 
+                console.log("aaaaa", newBoard)
             boardList.appendChild(newBoard);
           });
 
@@ -133,6 +134,7 @@
 
     function callback(entries, observer) {
       entries.forEach(function (entry) {
+         console.log("cursor:", cursor);
         if (cursor == 1) {
           return;
         }
@@ -146,11 +148,10 @@
       });
     }
 
-    function observeLastBoard(io, boards) {
+    function observeLastBoard(observer, boards) {
       if (boards.length > 0) {
         const lastBoard = boards[boards.length - 1];
-        io.disconnect();
-        io.observe(lastBoard);
+        observer.observe(lastBoard);
       }
     }
 
