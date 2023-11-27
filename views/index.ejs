@@ -18,7 +18,7 @@
         <div class="wrapper-squares">
           <div
             class="square square1 square-brand square-pulse square-center"
-            id="activeball"
+            id="activesquare"
           >
             SeSAC-it
           </div>
@@ -110,11 +110,11 @@
           transform: "rotate(" + this.y + "deg)",
         });
         /** 전체 창 경계에 닿을 때 반사 효과
-         * this.x < 0 : this.x가 0보다 작으면 포스트잇조각은 창 왼쪽 외부에 위치
-         * this.x > $(window).width() - this.radius : this.x의 값이 더 크면 포스트잇조각은 창 오른쪽 외부에 위치
-         * this.y < 0 : this.y가 0보다 작으면 포스트잇조각은 창 아래쪽 외부에 위치
-         * this.y > $(window).height() - this.radius : this.y의 값이 더 크면 포스트잇조각은 창 위쪽 외부에 위치
-         * 즉, 포스트잇조각이 전체 창 외부에 위치했을 때, this.vx, vy의 부호를 반대로 바꿔 포스트잇조각이 반대 방향으로 이동
+         * this.x < 0 : this.x가 0보다 작으면 포스트잇조각은 창 왼쪽 바깥에 위치
+         * this.x > $(window).width() - this.radius : this.x의 값이 더 크면 포스트잇조각은 창 오른쪽 바깥에 위치
+         * this.y < 0 : this.y가 0보다 작으면 포스트잇조각은 창 아래쪽 바깥에 위치
+         * this.y > $(window).height() - this.radius : this.y의 값이 더 크면 포스트잇조각은 창 위쪽 바깥에 위치
+         * 즉, 포스트잇조각이 전체 창 바깥에 위치했을 때, this.vx, vy의 부호를 반대로 바꿔 포스트잇조각이 반대 방향으로 이동
          */
         if (this.x < 0 || this.x > $(window).width() - this.radius)
           this.vx = -this.vx;
@@ -151,16 +151,25 @@
       update();
     }
 
-    //
-
+    // 애니메이션의 각 프레임을 관리
     function update() {
+      /**
+       * 배열을 업데이트, move 메소드 호출
+       * move 메소드 : 각 파티클의 위치를 업데이트하고 화면 바깥으로 나간 파티클을 필터링
+       */
       particles = particles.filter((p) => p.move());
+      // requestAnimationFrame(update) : 다음 애니메이션 프레임을 요청 -> update 함수를 반복 호출하여 연속적인 애니메이션 효과 생성
       animationFrameId = requestAnimationFrame(update);
     }
+    // id가 activesquared인 요소에 '클릭'이벤트 리스너 추가 -> 클릭 시 startAnimation 함수 호출
+    $("#activesquare").click(startAnimation);
 
-    $("#activeball").click(startAnimation);
-
-    // 스크롤 고정 함수
+    /** 스크롤 고정 함수
+     * 애니메이션에 의해 가로/세로 스크롤이 계속 움직이는 현상 발생 -> 함수로 스크롤을 고정시킴
+     * element 요소에 scroll, touchmove, mousewheel 이벤트 리스너 추가
+     * event.preventDefault() : 기본 이벤트 동작을 방지
+     * event.stopPropagation() : 이벤트가 DOM 트리를 통해 상위 요소로 전파되는 것을 방지('element' 자체에서 처리되고 다른 요소로 전파되지 않도록 방지)
+     */
     $("#element").on("scroll touchmove mousewheel", function (event) {
       event.preventDefault();
       event.stopPropagation();
