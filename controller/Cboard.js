@@ -27,12 +27,12 @@ exports.boardSubmit = async (req, res) => {
 
 //게시글 커서기반 페이지네이션
 exports.getBoard = async (req, res) => {
-  console.log("쿼리에 담긴 어쩌고",req.query);
+  
   try {
     // 현재 가장 큰 boardID 값 가져오기
     const maxBoardID = await Board.max('boardID');
 
-    let cursor = req.query.cursor || maxBoardID + 1;
+    let cursor = req.query.cursor || maxBoardID + 1; //프론트에서 가져온 cursor값 (마지막 게시글 BoardID값)
     
 
     const results = await Board.findAll({
