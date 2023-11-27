@@ -114,6 +114,7 @@
                 `;
                 
             boardList.appendChild(newBoard);//보드를 담을 리스트안에 보드를 담음
+
           });
 
           // 마지막 데이터의 boardID를 기준으로 cursor 설정
@@ -135,6 +136,7 @@
     //옵저버에 걸려있는 콜백함수
     function callback(entries, observer) {
       entries.forEach(function (entry) {
+         console.log("cursor:", cursor);
         if (cursor == 1) {
           return;//커서의 값이1이되면 함수를 멈춤
         }
@@ -148,11 +150,13 @@
       });
     }
 
-    function observeLastBoard(io, boards) {
+    function observeLastBoard(observer, boards) {
       if (boards.length > 0) {
+
         const lastBoard = boards[boards.length - 1];//가져온데이터에서 마지막요소를lastBoard라는 변수라 선언
         io.disconnect();//이미 관찰한 객체는 두번 관찰하지않도록 방지 하도록 (관찰을 멈추라고 지시하는 메서드)
         io.observe(lastBoard);//lastBoard를 넣어 관찰차객체에게 관찰해야하는 요소라고 알려줌
+
       }
     }
 
