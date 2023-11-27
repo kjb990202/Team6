@@ -28,9 +28,10 @@
     </div>
   </body>
   <script>
+
     function boardButton() {
       // 서버에서 넘어온 유저 정보 확인
-      var user = "<%= user %>";
+      var user = "<%= user %>";//세션값 
 
       if (user === "") {
         // 로그인되어 있지 않은 경우
@@ -38,7 +39,7 @@
 
         window.location.href = "/signin";
       } else {
-        // 로그인된 경우
+        // 로그인된 경우 게시물 작성페이지로 이동
         window.location.href = "/boardEdit";
       }
     }
@@ -46,38 +47,41 @@
     //요소 생성
     const boardList = document.querySelector(".board-list"); //보드를 담을 리스트
     const boards = document.querySelectorAll(".nowBox-list"); //현재 출력되고있는 보드를 담을 리스트
-    let cursor = null;
+    let cursor = null;//cursor 처음값을 null로 선언
 
     //-------------------------------------------------------------------------------------------------------
+
+    //게시판의 글을 가져옴 
     function getBoard() {
       axios({
-        method: "get",
+        method: "get",//get요청
         url: "/getBoard",
         params: {
-          cursor: cursor,
+          cursor: cursor, //위에서 선언한 커서값(전역변수)을 params에 담아 서버로 보냄 커서에는 마지막 요소의 
         },
       })
         .then(function (res) {
-          console.log("얻은데이터:", res.data);
-          console.log("새로받은 데이터 개수:", res.data.length);
-
+        
+          
           const boardList = document.querySelector(".board-list");
-
           res.data.forEach((boardData) => {
-            const newBoard = document.createElement("li");
-            newBoard.className = "nowBox-list";
+            const newBoard = document.createElement("li");//newBoard라는 변수명으로 <list>생성 
+            newBoard.className = "nowBox-list";//list 의 class 값 정해주는 코드
 
-            let profileImageHTML = "";
+            let profileImageHTML = "";// profileImageHTML 이라는 변수를정해 기본이미지를 쓰는 유저와 이미지를 따로지정한 유저 나눠서 내용 바꿈(나중에 ? 사용히면 코드 짧아질듯)
             if (boardData.User.image) {
               profileImageHTML = `<img src="/${boardData.User.image}" alt="프로필 이미지" class="headerProfile" />`;
             } else {
-              profileImageHTML = `<img src="/static/img/bagicimg.jpeg" alt="사용자 메뉴" class="headerProfile" id="randomImage" />`;
+              profileImageHTML = `<img src="/static/img/bagicimg.jpeg" alt="사용자 메뉴" class="headerProfile" id="randomImage" />`;//없을 경우 기본값
             }
 
+            // getCategoryColorClass라는 변수를 사용해서 카테고리에따라 css가 달라지게 설정
+            //서버에서 가져온 값들을 사용해 div요소 추가 
+            //내용 클릭시 moveBoardDetail(boardID) 함수 실행 
             newBoard.innerHTML = `
 
 
-                <div class="board-color-${getCategoryColorClass(
+                <div class="board-color-${getCategoryColorClass( 
                   boardData.category
                 )} scrollP">
                 <div onclick="moveBoardDetail(${
@@ -108,18 +112,15 @@
                   </div>
                 </div>
                 `;
+                
+            boardList.appendChild(newBoard);//보드를 담을 리스트안에 보드를 담음
 
-                console.log("aaaaa", newBoard)
-            boardList.appendChild(newBoard);
           });
 
           // 마지막 데이터의 boardID를 기준으로 cursor 설정
           if (res.data.length > 0) {
             cursor = res.data[res.data.length - 1].boardID;
-            // console.log("Updated cursor:", cursor);
-            // console.log("res.data.length", res.data.length);
-            // console.log("res.data", res.data);
-
+           
             // 새로 생성된 nowBox-list를 감시
             observeLastBoard(io, document.querySelectorAll(".scrollP"));
           }
@@ -130,18 +131,19 @@
     }
     //-------------------------------------------------------------------------------------------------------
 
-    getBoard();
+    getBoard();//초기에 한번 실행시켜주는 역할(이후 옵저버가 마지막 요소를 관찰할때마다 반복)
 
+    //옵저버에 걸려있는 콜백함수
     function callback(entries, observer) {
       entries.forEach(function (entry) {
          console.log("cursor:", cursor);
         if (cursor == 1) {
-          return;
+          return;//커서의 값이1이되면 함수를 멈춤
         }
         if (entry.isIntersecting) {
           observer.unobserve(entry.target);
-          // console.log("커서", cursor);
-          getBoard();
+          
+          getBoard();//데이터를 요청하고 등록하는 함수실행
           
           observeLastBoard(observer, document.querySelectorAll(".scrollP"));
         }
@@ -150,8 +152,11 @@
 
     function observeLastBoard(observer, boards) {
       if (boards.length > 0) {
-        const lastBoard = boards[boards.length - 1];
-        observer.observe(lastBoard);
+
+        const lastBoard = boards[boards.length - 1];//가져온데이터에서 마지막요소를lastBoard라는 변수라 선언
+        io.disconnect();//이미 관찰한 객체는 두번 관찰하지않도록 방지 하도록 (관찰을 멈추라고 지시하는 메서드)
+        io.observe(lastBoard);//lastBoard를 넣어 관찰차객체에게 관찰해야하는 요소라고 알려줌
+
       }
     }
 
@@ -167,14 +172,16 @@
       }
     }
 
-    //-----------관찰하는 시점을 바꿔야함.(맨아래 보다 위로 올리기)
+   
     //관찰자 객체 생성
-    const io = new IntersectionObserver(callback, { threshold: 0.9 });
+    const io = new IntersectionObserver(callback, { threshold: 0.9 });//옵저버 객체 생성, (요소가 관찰되면 실행시킬 콜백함수, 요소의 90%이상이 관찰되어야 작동)
 
     //보드 상세페이지로이동
     function moveBoardDetail(boardID) {
-      console.log(boardID);
-      window.location.href = `/boardDetail/${boardID}`; //  로 보내야함  boardDetail:boardID
+      
+      window.location.href = `/boardDetail/${boardID}`; // boardDetail:boardID 주소로 이동
     }
+
+   
   </script>
 </html>
