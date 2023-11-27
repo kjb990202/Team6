@@ -27,46 +27,43 @@ body {
 메인 디자인 
 */
 
+/* 메인 노란 포스트잇 */
 .square {
+  position: absolute;
+  /* 텍스트 줄 높이를 설정하는 속성(컨테이너 높이와 동일하게 설정하면 텍스트가 중앙에 위치함) */
+  line-height: 200px;
   height: 200px;
   width: 200px;
-  line-height: 200px;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.9);
-  color: #ffffff;
-  font-size: 30px;
-  font-weight: 100;
-  font-family: "Pretendard";
-  position: absolute;
-  transition: all 600ms ease-in-out;
-}
-
-/* 네모박스 첫화면 */
-.square-brand {
-  background-color: #ffe45c;
+  /* 색상 관련 */
   color: #6a6a6a;
-  z-index: 10;
-  cursor: pointer;
+  background-color: #ffe45c;
+  box-shadow: 0 0 3px #515151;
+  /* 폰트 관련 */
   font-family: "Pretendard";
   font-size: 30px;
   font-weight: 800;
-
-  /* 텍스트 커서표시 안되게 설정 */
+  text-align: center;
+  /* 커서 관련 : 텍스트 커서표시 안되게 설정, 노란 포스트잇 커서 포인터로 변경*/
   user-select: none;
-
-  /* 외곽선 */
-  /* border: 1.2px solid #7f7979; */
-}
-
-.square-pulse {
-  box-shadow: 0 0 3px #515151;
+  cursor: pointer;
+  /* 두근거리는 애니메이션 : pulse의 지속 시간 3초, 무한 반복 지정 */
   -webkit-animation: pulse 3s infinite; /* Safari 4+ */
   -moz-animation: pulse 3s infinite; /* Fx 5+ */
   -o-animation: pulse 3s infinite; /* Opera 12+ */
   animation: pulse 3s infinite; /* IE 10+ */
+  /* 위치 관련 */
+  left: 50%;
+  top: 50%;
+  margin-top: -100px;
+  margin-left: -100px;
+  /* 기타 */
+  z-index: 10;
 }
 
+/* 두근거리는 애니메이션 */
+
 @-webkit-keyframes pulse {
+  /* 그림자의 x, y축은 0, 그림자 반경이 3px ~ 60px, 색상 #515151 ~ #ccc 로 반복 */
   0% {
     box-shadow: 0 0 3px #515151;
   }
@@ -111,24 +108,10 @@ body {
   }
 }
 
-.square-pulse:hover {
-  box-shadow: 0 0 100px #ccc;
-}
-
-.square-center {
-  left: 50%;
-  top: 50%;
-  margin-top: -100px;
-  margin-left: -100px;
-  cursor: pointer;
-}
-
-/* 흩날리는 포스트잇 ---------------------*/
+/* 포스트잇조각 */
 .confetti {
   position: absolute;
   left: 50%;
   top: 50%;
   z-index: -1;
-  /* 외곽선 */
-  /* border: 1.2px solid #7f7979; */
 }
