@@ -16,27 +16,26 @@
       </header>
       <main>
         <div class="wrapper-squares">
-          <div
-            class="square square1 square-brand square-pulse square-center"
-            id="activeball"
-          >
-            SeSAC-it
-          </div>
+          <div class="square" id="activesquare">SeSAC-it</div>
         </div>
       </main>
     </div>
   </body>
   <style>
-    /* 
-스크롤바 설정 : 콘텐츠 안에 스크롤바가 들어가게 설정 , 메인만 스크롤바가 배경색과 동힐하게해 안보이게 설정
-*/
-    /* 스크롤바 스타일링 */
+    /*  스크롤바 설정 
+    - 콘텐츠 안에 스크롤바가 들어가게 설정
+    - 메인만 스크롤바가 배경색과 동힐하게해 안보이게 설정
+    */
+
+    /* 스크롤바 전체적인 크기와 모양 정의 */
     ::-webkit-scrollbar {
       width: 14px;
       height: 14px;
     }
 
-    /* 스크롤바 막대 스타일링 */
+    /* 
+    스크롤바 막대 스타일 정의
+    */
     ::-webkit-scrollbar-thumb {
       outline: none;
       border-radius: 10px;
@@ -44,39 +43,74 @@
       box-shadow: inset 6px 6px 0 rgba(254, 255, 247, 0.1);
     }
   </style>
+
   <script>
-    const confettiColors = ["#FFEB81", "#95c3de", "#ff8c8c", "#add"];
+    // 포스트잇조각 색상 설정 : 노랑, 파랑, 빨강, 초록
+    const confettiColors = ["#FFEB81", "#95c3de", "#ff8c8c", "#aadddd"];
+    // 포스트잇조각 갯수 설정
     const max = 60;
     let particles = [];
     let animationFrameId;
 
+    // 포스트잇조각 동작 정의
     class Spread {
       constructor(color) {
-        // 속도 3~6 랜덤 적용
+        /**
+         * Math.random() : 0 or 1 무작위 숫자 반환
+         * 포스트잇조각에 속도값 3 ~ 6을 랜덤으로 적용
+         */
         this.speed = 3 + Math.random() * 6;
+        /**
+         * vx(Velocity X) : 수평 방향 속도 (양수: 오른쪽 이동 / 음수 : 왼쪽 이동)
+         * vy(Velocity Y) : 수직방향 속도 (양수: 위로 이동 / 음수 : 아래로 이동)
+         * 즉, 아래 계산식에 따라 랜덤으로 양수/음수가 나오도록 하여 상하좌우 랜덤 이동 되도록 설정
+         */
         this.vx = Math.random() * this.speed - Math.random() * this.speed;
         this.vy = Math.random() * this.speed - Math.random() * this.speed;
-        //  크기 20~60 랜덤 적용
+        // 포스트잇조각에 크기값 20 ~ 60을 랜덤으로 적용
         this.radius = 20 + Math.round(Math.random() * 60);
+        /**
+         * $(window).width : 브라우저 전체 창의 넓이
+         * $(window).height : 브라우저 전체 창의 높이
+         * 즉, 전체 창 크기에서 포스트잇조각 크기를 뺀 결과에 나누기 2를 해 포스트잇조각이 화면의 중앙에 가깝게 배치
+         */
         this.x = ($(window).width() - this.radius) / 2;
         this.y = ($(window).height() - this.radius) / 2;
+
+        // 포스트잇조각의 모양 정의 : SVG태그의 <reck>요소는 사각형 모양을 생성
         this.shape = $(
           '<svg class="confetti"><rect width="100" height="100" fill="' +
             color +
             '"/></svg>'
         );
+        // 생성된 포스트잇조각의 CSS 스타일 설정 : 너비/높이를 this.radius 값으로 설정
         this.shape.css({ width: this.radius, height: this.radius });
+        //  생성된 포스트잇조각을 <body>태그에 추가
         $("body").append(this.shape);
       }
 
+      /** 포스트잇조각 위치를 업데이트 하는 메서드
+       *  x, y 좌표를 this.vx와 this.vy만큼 이동
+       */
       move() {
         this.x += this.vx;
         this.y += this.vy;
+        /** 포스트잇조각의 CSS 스타일 업데이트
+         * left, top : 위치를 this.x, this.y 로 설정
+         * transform : rotate 함수를 사용해 this.y도만큼 회전, this.y에 랜덤값이 적용되므로 다양한 각도로 회전됨
+         */
         this.shape.css({
           left: this.x,
           top: this.y,
           transform: "rotate(" + this.y + "deg)",
         });
+        /** 전체 창 경계에 닿을 때 반사 효과
+         * this.x < 0 : this.x가 0보다 작으면 포스트잇조각은 창 왼쪽 바깥에 위치
+         * this.x > $(window).width() - this.radius : this.x의 값이 더 크면 포스트잇조각은 창 오른쪽 바깥에 위치
+         * this.y < 0 : this.y가 0보다 작으면 포스트잇조각은 창 아래쪽 바깥에 위치
+         * this.y > $(window).height() - this.radius : this.y의 값이 더 크면 포스트잇조각은 창 위쪽 바깥에 위치
+         * 즉, 포스트잇조각이 전체 창 바깥에 위치했을 때, this.vx, vy의 부호를 반대로 바꿔 포스트잇조각이 반대 방향으로 이동
+         */
         if (this.x < 0 || this.x > $(window).width() - this.radius)
           this.vx = -this.vx;
         if (this.y < 0 || this.y > $(window).height() - this.radius)
@@ -85,16 +119,26 @@
       }
     }
 
-    // 색상 랜덤
+    /** 색상 랜덤 함수 : confettiColors 배열에서 색상을 랜덤 선택하여 반환
+     * Math.random() : 0 or 1 무작위 숫자 반환
+     * Math.floor() : 주어진 수를 내림해 가장 가까운 정수로 만듦
+     * 즉, confettiColors[0 ~ 3 랜덤]으로, 0 ~ 3에 해당하는 색상이 랜덤으로 반환
+     */
     function randomColor() {
       return confettiColors[Math.floor(Math.random() * confettiColors.length)];
     }
 
+    /** 포스트잇조각 애니메이션 시작 함수
+     * animationFrameId가 이미 존재한다면, 동작 중인 애니메이션을 취소하고, 페이지에서 모든 포스트잇조각(.confetti)을 제거
+     */
     function startAnimation() {
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
         $(".confetti").remove();
       }
+      // 새로운 particles 배열 초기화
+      // for 루프는 max 횟수(60번)만큼 반복, 각 반복에서 new Spread(randomColor())를 호출하여 새로운 Spread 객체를 생성하고 particles 배열에 추가
+      // 마지막으로 update() 함수를 호출하여 애니메이션 루프 시작
       particles = [];
       for (let i = 0; i < max; i++) {
         particles.push(new Spread(randomColor()));
@@ -102,14 +146,25 @@
       update();
     }
 
+    // 애니메이션의 각 프레임을 관리
     function update() {
+      /**
+       * 배열을 업데이트, move 메소드 호출
+       * move 메소드 : 각 파티클의 위치를 업데이트하고 화면 바깥으로 나간 파티클을 필터링
+       */
       particles = particles.filter((p) => p.move());
+      // requestAnimationFrame(update) : 다음 애니메이션 프레임을 요청 -> update 함수를 반복 호출하여 연속적인 애니메이션 효과 생성
       animationFrameId = requestAnimationFrame(update);
     }
+    // id가 activesquared인 요소에 '클릭'이벤트 리스너 추가 -> 클릭 시 startAnimation 함수 호출
+    $("#activesquare").click(startAnimation);
 
-    $("#activeball").click(startAnimation);
-
-    // 스크롤 고정 함수
+    /** 스크롤 고정 함수
+     * 애니메이션에 의해 가로/세로 스크롤이 계속 움직이는 현상 발생 -> 함수로 스크롤을 고정시킴
+     * element 요소에 scroll, touchmove, mousewheel 이벤트 리스너 추가
+     * event.preventDefault() : 기본 이벤트 동작을 방지
+     * event.stopPropagation() : 이벤트가 DOM 트리를 통해 상위 요소로 전파되는 것을 방지('element' 자체에서 처리되고 다른 요소로 전파되지 않도록 방지)
+     */
     $("#element").on("scroll touchmove mousewheel", function (event) {
       event.preventDefault();
       event.stopPropagation();
