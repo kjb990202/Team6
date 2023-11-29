@@ -1,3 +1,4 @@
+// User 모델과 crypto 모듈을 가져옵니다.
 const { User } = require("../model");
 const crypto = require("crypto");
 
@@ -9,17 +10,17 @@ exports.index = (req, res) => {
 exports.signup = (req, res) => {
   res.render("./user/signup");
 };
-// 회원가입 페이지 랜더링
+// 회원가입 요청을 처리하는 함수
 exports.postSignup = async (req, res) => {
-
-  const salt = crypto.randomBytes(16).toString('base64');
+  // 비밀번호 암호화
+  const salt = crypto.randomBytes(16).toString("base64");
   const iterations = 100;
   const keylen = 64;
   const digest = "sha512";
   const hashedPassword = crypto
     .pbkdf2Sync(req.body.password, salt, iterations, keylen, digest)
     .toString("base64");
-
+  // 사용자 정보를 저장하고, 이를 DB에 추가합니다.
   const data = {
     userid: req.body.userid,
     password: hashedPassword, // 암호화된 비밀번호 저장
@@ -67,9 +68,8 @@ exports.checkNickname = (req, res) => {
 exports.signin = (req, res) => {
   res.render("./user/signin");
 };
-// 로그인 화면 랜더링
+// 로그인 요청을 처리하는 함수
 exports.postSignin = async (req, res) => {
-
   const user = await User.findOne({ where: { userid: req.body.userid } });
 
   if (!user) {
@@ -82,7 +82,7 @@ exports.postSignin = async (req, res) => {
   const hashedPassword = crypto
     .pbkdf2Sync(req.body.password, user.salt, iterations, keylen, digest)
     .toString("base64");
-
+  // 비밀번호가 일치하면 세션을 생성
   if (user.password === hashedPassword) {
     req.session.user = user; // 세션에 사용자 정보 저장
     req.session.isAuthenticated = true; // 로그인 상태를 true로 설정
@@ -93,11 +93,11 @@ exports.postSignin = async (req, res) => {
   }
 };
 
-// 아이디 찾기 페이지 랜더링
+// 아이디 찾기 페이지
 exports.findId = (req, res) => {
   res.render("./user/findId");
 };
-//
+// 아이디 찾기 요청을 처리하는 함수
 exports.postFindId = (req, res) => {
   User.findOne({
     where: {
@@ -105,10 +105,10 @@ exports.postFindId = (req, res) => {
     },
   }).then((result) => {
     if (result) {
-      // 해당 이메일로 등록된 아이디가 있음
+      // 해당 이메일로 등록된 아이디가 있으면 userid를 반환
       res.send({ userid: result.userid });
     } else {
-      // 해당 이메일로 등록된 아이디가 없음
+      // 해당 이메일로 등록된 아이디가 없으면 userid: null
       res.send({ userid: null });
     }
   });
@@ -118,7 +118,7 @@ exports.postFindId = (req, res) => {
 exports.findPassword = (req, res) => {
   res.render("./user/findPassword");
 };
-// 비밀번호 찾기 검증
+// 비밀번호 찾기 요청을 처리하는 함수
 exports.postFindPassword = async (req, res) => {
   const { userid, email } = req.body;
   const user = await User.findOne({
@@ -135,7 +135,7 @@ exports.postFindPassword = async (req, res) => {
 exports.changePassword = (req, res) => {
   res.render("./user/changePassword");
 };
-// 비밀번호 변경 암호화
+// 비밀번호 변경 요청을 처리하는 함수
 exports.updatePassword = async (req, res) => {
   const { userid, changePassword } = req.body;
   const user = await User.findOne({ where: { userid: userid } });
@@ -151,16 +151,24 @@ exports.updatePassword = async (req, res) => {
   const hashedPassword = crypto
     .pbkdf2Sync(changePassword, salt, iterations, keylen, digest)
     .toString("base64");
-
+  // 변경된 정보 저장
   user.password = hashedPassword;
   user.salt = salt;
   await user.save();
 
-  res.send({ result: true, message: "비밀번호가 성공적으로 변경되었습니다.", isAuthenticated: req.session.isAuthenticated });};
+  res.send({
+    result: true,
+    message: "비밀번호가 성공적으로 변경되었습니다.",
+    isAuthenticated: req.session.isAuthenticated,
+  });
+};
 
 // 마이페이지 랜더링
 exports.mypage = (req, res) => {
-  res.render('./user/mypage', { user: req.session.user, isAuthenticated: req.session.isAuthenticated });
+  res.render("./user/mypage", {
+    user: req.session.user,
+    isAuthenticated: req.session.isAuthenticated,
+  });
 };
 
 // 닉네임 변경 컨트롤러
@@ -175,28 +183,33 @@ exports.updateMypageNickname = async (req, res) => {
 
     // 세션에 있는 사용자 정보도 업데이트
     req.session.user = user.dataValues;
-    req.session.save(err => {
+    req.session.save((err) => {
       if (err) {
         // 에러 처리
-        res.send({ result: false, message: '세션 업데이트에 실패하였습니다.' });
+        res.send({ result: false, message: "세션 업데이트에 실패하였습니다." });
       } else {
-        res.send({ result: true, message: '닉네임이 성공적으로 수정되었습니다.' });
+        res.send({
+          result: true,
+          message: "닉네임이 성공적으로 수정되었습니다.",
+        });
       }
     });
   } else {
-    res.send({ result: false, message: '유저를 찾을 수 없습니다.' });
+    res.send({ result: false, message: "유저를 찾을 수 없습니다." });
   }
 };
 
 // 비밀번호 변경 컨트롤러
 exports.updateMypagePassword = async (req, res) => {
   const { id, password } = req.body;
-  
-  const salt = crypto.randomBytes(16).toString('base64');
+
+  const salt = crypto.randomBytes(16).toString("base64");
   const iterations = 100;
   const keylen = 64;
-  const digest = 'sha512';
-  const hashedPassword = crypto.pbkdf2Sync(password, salt, iterations, keylen, digest).toString('base64');
+  const digest = "sha512";
+  const hashedPassword = crypto
+    .pbkdf2Sync(password, salt, iterations, keylen, digest)
+    .toString("base64");
 
   const user = await User.findOne({ where: { id: id } });
 
@@ -207,45 +220,55 @@ exports.updateMypagePassword = async (req, res) => {
 
     // 세션에 있는 사용자 정보도 업데이트
     req.session.user = user.dataValues;
-    req.session.save(err => {
+    req.session.save((err) => {
       if (err) {
         // 에러 처리
-        res.send({ result: false, message: '세션 업데이트에 실패하였습니다.' });
+        res.send({ result: false, message: "세션 업데이트에 실패하였습니다." });
       } else {
-        res.send({ result: true, message: '비밀번호가 성공적으로 수정되었습니다.' });
+        res.send({
+          result: true,
+          message: "비밀번호가 성공적으로 수정되었습니다.",
+        });
       }
     });
   } else {
-    res.send({ result: false, message: '유저를 찾을 수 없습니다.' });
+    res.send({ result: false, message: "유저를 찾을 수 없습니다." });
   }
 };
+// 회원탈퇴
+exports.deleteAccount = async function (req, res) {
+  const { id, password } = req.body;
 
-  exports.deleteAccount = async function(req, res) {
-    const { id, password } = req.body;
+  const user = await User.findOne({ where: { id: id } });
 
-    const user = await User.findOne({ where: { id: id } });
+  const iterations = 100;
+  const keylen = 64;
+  const digest = "sha512";
+  const hashedPassword = crypto
+    .pbkdf2Sync(password, user.salt, iterations, keylen, digest)
+    .toString("base64");
 
-    const iterations = 100;
-    const keylen = 64;
-    const digest = 'sha512';
-    const hashedPassword = crypto.pbkdf2Sync(password, user.salt, iterations, keylen, digest).toString('base64');
-
-    if (user.password === hashedPassword) {
-      await User.destroy({ where: { id: id } });
-      // 세션 삭제
-    req.session.destroy(err => {
-      if(err) {
+  if (user.password === hashedPassword) {
+    await User.destroy({ where: { id: id } });
+    // 세션 삭제
+    req.session.destroy((err) => {
+      if (err) {
         // 에러 처리
         console.log(err);
-        res.send({ result: false, message: '세션 삭제 중 오류가 발생했습니다.' });
+        res.send({
+          result: false,
+          message: "세션 삭제 중 오류가 발생했습니다.",
+        });
       } else {
         // 세션 삭제 후 리다이렉트
-        res.send({ result: true, message: '계정이 성공적으로 삭제되었습니다.' });
+        res.send({
+          result: true,
+          message: "계정이 성공적으로 삭제되었습니다.",
+        });
       }
     });
-
   } else {
-    res.send({ result: false, message: '비밀번호가 일치하지 않습니다.' });
+    res.send({ result: false, message: "비밀번호가 일치하지 않습니다." });
   }
 };
 
@@ -256,27 +279,33 @@ exports.uploadImage = async (req, res) => {
 
     // 사용자를 찾습니다.
     const user = await User.findOne({ where: { id: userId } });
-    if (!user) throw new Error('User not found');
+    if (!user) throw new Error("User not found");
 
     // 이미지 경로를 설정합니다.
-    user.image = req.file.path; 
+    user.image = req.file.path;
 
     // 변경 사항을 저장합니다.
-    await user.save(); 
+    await user.save();
 
     // 세션에 있는 사용자 정보도 업데이트
     req.session.user = user.dataValues;
-    req.session.save(err => {
+    req.session.save((err) => {
       if (err) {
         // 에러 처리
-        res.send({ success: false, message: '세션 업데이트에 실패하였습니다.' });
+        res.send({
+          success: false,
+          message: "세션 업데이트에 실패하였습니다.",
+        });
       } else {
-        res.send({ success: true, message: '이미지가 성공적으로 업로드되었습니다.', image: req.file.path });
+        res.send({
+          success: true,
+          message: "이미지가 성공적으로 업로드되었습니다.",
+          image: req.file.path,
+        });
       }
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({success: false, message: error.message });
-  
+    res.status(500).json({ success: false, message: error.message });
   }
 };

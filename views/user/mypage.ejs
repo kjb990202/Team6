@@ -24,6 +24,7 @@
                   <div
                     class="mypageHeader d-flex flex-row padding-horizontal--24">
                     <div class="imageBox">
+                      <!-- 프로필 이미지 (db에 사진이 있을경우 유저가 업로드한 사진 표시 , 사진이 없다면 기본사진) -->
                       <% if (user.image) { %>
                       <img
                         src="<%= user.image %>"
@@ -45,7 +46,7 @@
                         <h5 class="name"><%= user.nickname %>님</h5>
                         <% } %>
                       </div>
-                      <!-- DB에서 아래 숫자 데이터 추출 필요 -->
+                      <!-- db에서 유저가 작성한 데이터 카운트하여 표시되는 곳-->
                       <div class = "d-flex flex-row">
                       <div>
                         <p class="mb-1 h5">
@@ -233,16 +234,18 @@
       </main>
     </body>     
   <script>
-
+        // 'file' 아이디를 가진 HTML 요소(여기서는 파일 업로드를 위한 <input type="file"> 태그)에 'change' 이벤트 리스너를 추가합니다.
         document.getElementById('file').addEventListener('change', function() {
+          // FormData 객체를 생성합니다.
           const formData = new FormData();
+          // 'image'라는 키와 함께 사용자가 선택한 파일(this.files[0])을 formData에 추가합니다.
           formData.append('image', this.files[0]);
 
           fetch('/upload', {
               method: 'POST',
               body: formData
           })
-          .then(response => response.json())
+          .then(response => response.json()) // 서버로부터 받은 응답을 JSON 형태로 파싱합니다.
           .then(data => {
               if (data.success) {
                   location.reload();
@@ -254,21 +257,21 @@
               console.error('Error:', error);
           });
         });
-
+        // 닉네임 중복확인 체크 여부
         let nicknameChecked = false;
-
+        // 닉네임 중복확인
         function checkNickname() {
               let nickname = document.forms["nicknameForm"].nickname.value;
               if (!nickname) {
                   alert("닉네임을 입력해주세요.");
                   return;
               }
-
               axios({
                   method: "post",
                   url: "/checknickname",
                   data: { nickname: nickname }
               }).then((res) => {
+                  //서버로부터 응답을 받아옵니다. 응답 데이터 중 duplicate(중복)가 참이면 false 거짓이면 ture
                   if (res.data.duplicate) {
                       alert("이미 사용 중인 닉네임입니다.");
                       nicknameChecked = false;
@@ -278,8 +281,9 @@
                   }
               });
             }
-                
+                // 닉네임 변경
                 function updateMypageNickname() {
+              // 중복확인 여부 유효성 검사
               if (!nicknameChecked) {
                   alert("중복확인을 먼저 해주세요.");
                   return;
@@ -307,7 +311,7 @@
               });
               $('#profileModal').modal('hide');
             }
-            
+      // 회원 탈퇴
       function deleteAccount() {
         const userid = '<%= user.id %>'; // EJS를 이용하여 서버에서 받은 사용자 ID를 가져옴
         const password = document.getElementById("accountDeletePassword").value; // 비밀번호 입력 필드에서 값 가져오기
