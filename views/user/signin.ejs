@@ -67,9 +67,10 @@
         $('.loginButton').click();
       }
     })
-
+    // 로그인 onclick 변수 설정
     function login() {
       const form = document.forms["form-login"];
+      // 폼 유효성 검사
       if (!form.checkValidity()) {
         form.reportValidity();
         console.log("reportValidity");
@@ -80,16 +81,18 @@
         userid: form.userid.value,
         password: form.password.value,
       };
-
+      // 로그인 요청
       axios({
         method: 'post',
         url: '/signin',
         data: user
       }).then((res) => {
         if (res.data.result == true) {
+          // 요청한 값이 true면 메인페이지로 이동
           window.location.href = "/";
         } else {
           alert("로그인 실패");
+          // 요청값이 true가 아닐시 로그인화면
           window.location.href = "/signin";
         }
       });

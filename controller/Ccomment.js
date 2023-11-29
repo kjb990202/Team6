@@ -12,19 +12,18 @@ exports.comment = (req, res) => {
     // where: {
     //   id: req.session.user.id
     // },
-    include: [{model: User, attributes: ["nickname"]}]
+    include: [{ model: User, attributes: ["nickname"] }],
   }).then((result) => {
     // console.log("findAll result: ", result);
     // console.log("0 index의 id", result.id);
     // console.log("0 index의 user", result.User);
 
-    console.log("여기입니다!!!!:", result)
+    console.log("여기입니다!!!!:", result);
     // res.render("./comment/comment", { data: result  });
-    res.render("./comment/comment", {user: req.session.user, data: result});
-
+    res.render("./comment/comment", { user: req.session.user, data: result });
   });
 };
- 
+
 // POST /comment => 댓글 insert
 exports.postComment = async (req, res) => {
   // Check if user is authenticated
@@ -39,14 +38,14 @@ exports.postComment = async (req, res) => {
     boardID: req.body.boardID,
     Field: req.body.Field,
     createComment: req.body.createComment,
-    nickname: req.body.nickname
+    nickname: req.body.nickname,
   };
 
   try {
     const createComment = await Comment.create(data);
-   
+
     // 서버에서 새로운 댓글을 생성하고 클라이언트에게 해당 댓글을 전송
-    console.log("여기다!!!!:", createComment)
+    console.log("여기다!!!!:", createComment);
     res.send({ result: true, comment: createComment });
   } catch (error) {
     console.error("Error adding comment:", error);
@@ -73,7 +72,7 @@ exports.getCommentById = (req, res) => {
     where: {
       commentID: req.params.commentID,
     },
-    include: [{model: User, attributes: ["nickname"]}]
+    include: [{ model: User, attributes: ["nickname"] }],
   }).then((result) => {
     console.log("findOne result: ", result);
     res.send(result);
@@ -88,7 +87,7 @@ exports.patchComment = (req, res) => {
 
   Comment.update(data, {
     where: {
-      commentID: req.body.commentID
+      commentID: req.body.commentID,
     },
     // returning: true, // 업데이트된 레코드를 반환하도록 설정
   })
@@ -97,7 +96,6 @@ exports.patchComment = (req, res) => {
         // 업데이트가 성공한 경우
         // const updatedComment = updatedComments[0].get(); // 업데이트된 댓글 정보
         res.send({ result: true });
-        
       } else {
         // 업데이트가 실패한 경우
         res.status(400).send({ error: "댓글 업데이트에 실패했습니다." });
@@ -108,4 +106,3 @@ exports.patchComment = (req, res) => {
       res.status(500).send({ error: "서버 에러" });
     });
 };
-

@@ -31,11 +31,18 @@ app.use((req, res, next) => {
   next();
 });
 
+// 댓글, 게시글, 맛집리뷰 작성수 Count
 app.use(async (req, res, next) => {
   if (req.session.isAuthenticated) {
-    const commentCount = await Comment.count({ where: { id: req.session.user.id } });
-    const Map_DatabaseCount = await Map_Database.count({ where: { id: req.session.user.id } });
-    const boardCount = await Board.count({ where: { id: req.session.user.id } });
+    const commentCount = await Comment.count({
+      where: { id: req.session.user.id },
+    });
+    const Map_DatabaseCount = await Map_Database.count({
+      where: { id: req.session.user.id },
+    });
+    const boardCount = await Board.count({
+      where: { id: req.session.user.id },
+    });
 
     res.locals.commentCount = commentCount;
     res.locals.Map_DatabaseCount = Map_DatabaseCount;

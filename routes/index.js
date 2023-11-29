@@ -125,6 +125,7 @@ router.post("/updateMypagePassword", user.updateMypagePassword);
 // 마이페이지 회원 탈퇴
 router.post("/deleteAccount", user.deleteAccount);
 
+// 이미지 업로드
 router.post(
   "/upload",
   upload.single("image"),

@@ -14,8 +14,10 @@
           <div><%- include('../components/header.ejs') %></div>
         </header>
     <script>
+        // 중복확인을 위한 두변수를 flase로 설정하여 true가 되지않으면 회원가입을 하지못하게 변수설정
         let idChecked = false;
         let nicknameChecked = false;
+        // 아이디 중복확인을 하기위한 onclick 변수 설정
         function checkId() {
            let userid = document.forms["form-register"].userid.value;
            if (!userid) {
@@ -27,6 +29,7 @@
             url: "/checkid",
             data: { userid: userid }
         }).then((res) => {
+              // duplicate는 중복이란 영어 서버로 부터 받는 응답 데이터
               if (res.data.duplicate) {
                 alert("이미 사용 중인 아이디입니다.");
                 idChecked = false;
@@ -36,7 +39,7 @@
             }
         });
     }
-
+        // 닉네임 중복확인을 하기위한 onclick 변수 설정
         function checkNickname() {
               let nickname = document.forms["form-register"].nickname.value;
               if (!nickname) {
@@ -49,6 +52,7 @@
                 url: "/checknickname",
                 data: { nickname: nickname }
             }).then((res) => {
+                // duplicate는 중복이란 영어 서버로 부터 받는 응답 데이터
                 if (res.data.duplicate) {
                   alert("이미 사용 중인 닉네임입니다.");
                     nicknameChecked = false;
@@ -58,19 +62,21 @@
                 }
             });
         }
-          
+        // 회원가입 버튼 onclick 변수 설정
         function register() {
           var form = document.forms["form-register"];
+          // 둘중 하나라도 false값이면 중복확인요청 alert
           if (!idChecked || !nicknameChecked) {
             alert("아이디와 닉네임의 중복 확인을 해주세요.");
             return;}
+          // 폼 유효성 검사
           if (!form.checkValidity()) {
             form.reportValidity();
             return false;}
+          // 비밀번호와 비밀번호 확인값이 유효한지 확인 
           let password = form.password.value;
           let confirmPassword = form.confirmPassword.value;
           if (password !== confirmPassword) {
-            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
             return;}
   
           let user = {
@@ -100,16 +106,11 @@
           }
         });
         }
-
+        // 비밀번호 비밀번호 확인 일치값 InnerHtml로 표현하기 위한 변수
         function checkPasswordMatch() {
           let password = document.getElementById('password').value;
           let confirmPassword = document.getElementById('confirmPassword').value;
           let checkPasswordMatch = document.getElementById('checkPasswordMatch');
-
-          if (!password || !confirmPassword) {
-            checkPasswordMatch.style.display = 'none';
-            return;
-      }
 
           if (password === confirmPassword) {
             checkPasswordMatch.style.display = 'none';
@@ -121,7 +122,7 @@
             checkPasswordMatch.innerHTML = '비밀번호가 일치하지 않습니다.';
           }
         }
-
+        // 비밀번호 패턴 일치값 InnerHtml로 표현하기 위한 변수
         function validatePassword() {
           var password = document.getElementById("password");
           var passwordError = document.getElementById("passwordError");
@@ -136,7 +137,7 @@
               passwordError.style.display = 'none';
           }
       }
-
+        // 이메일 패턴 일치 InnerHtml로 표현하기 위한 변수
         function validateEmail() {
           var email = document.getElementById("email");
           var emailError = document.getElementById("emailError");

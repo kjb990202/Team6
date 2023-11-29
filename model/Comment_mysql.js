@@ -55,14 +55,17 @@ exports.delComment = (commentID, cb) => {
 };
 
 exports.getCommentById = (commentID, cb) => {
-  conn.query(`SELECT * FROM comment WHERE commentID=${commentID}`, (err, rows) => {
-    if (err) {
-      throw err;
-    }
+  conn.query(
+    `SELECT * FROM comment WHERE commentID=${commentID}`,
+    (err, rows) => {
+      if (err) {
+        throw err;
+      }
 
-    console.log("Comment.js: ", rows);
-    cb(rows[0]);
-  });
+      console.log("Comment.js: ", rows);
+      cb(rows[0]);
+    }
+  );
 };
 
 exports.patchComment = (data, cb) => {
