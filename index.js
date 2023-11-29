@@ -30,12 +30,18 @@ app.use((req, res, next) => {
   console.log(res.locals.user);
   next();
 });
-
+// 마이페이지 게시글, 댓글, 리뷰 수 카운트하여 불러오는 함수
 app.use(async (req, res, next) => {
   if (req.session.isAuthenticated) {
-    const commentCount = await Comment.count({ where: { id: req.session.user.id } });
-    const Map_DatabaseCount = await Map_Database.count({ where: { id: req.session.user.id } });
-    const boardCount = await Board.count({ where: { id: req.session.user.id } });
+    const commentCount = await Comment.count({
+      where: { id: req.session.user.id },
+    });
+    const Map_DatabaseCount = await Map_Database.count({
+      where: { id: req.session.user.id },
+    });
+    const boardCount = await Board.count({
+      where: { id: req.session.user.id },
+    });
 
     res.locals.commentCount = commentCount;
     res.locals.Map_DatabaseCount = Map_DatabaseCount;

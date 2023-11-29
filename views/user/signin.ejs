@@ -67,13 +67,12 @@
         $('.loginButton').click();
       }
     })
-
+    // 로그인
     function login() {
       const form = document.forms["form-login"];
+      // 폼 유효성 검사
       if (!form.checkValidity()) {
         form.reportValidity();
-        console.log("reportValidity");
-
         return false;
       }
       let user = {

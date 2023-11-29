@@ -14,11 +14,15 @@
           <div><%- include('../components/header.ejs') %></div>
         </header>
     <script>
+        // 아이디와 닉네임 중복 체크를 위한 변수들을 false로 초기화합니다.
+        // 이 변수들이 true가 되지 않는다면 회원가입이 되지 않게 됩니다.
         let idChecked = false;
         let nicknameChecked = false;
+        // 아이디 중복 검사 함수입니다.
         function checkId() {
            let userid = document.forms["form-register"].userid.value;
            if (!userid) {
+            // 아이디 값이 비어있는지 확인합니다. 비어있다면 경고창을 띄우고 함수를 종료합니다.
                 alert("아이디를 입력해주세요.");
                 return;
             }
@@ -27,6 +31,7 @@
             url: "/checkid",
             data: { userid: userid }
         }).then((res) => {
+              //서버로부터 응답을 받아옵니다. 응답 데이터 중 duplicate(중복)가 참이면 false 거짓이면 ture
               if (res.data.duplicate) {
                 alert("이미 사용 중인 아이디입니다.");
                 idChecked = false;
@@ -36,19 +41,20 @@
             }
         });
     }
-
+        //닉네임 중복확인 검사
         function checkNickname() {
               let nickname = document.forms["form-register"].nickname.value;
+              // 유효성 검사
               if (!nickname) {
                     alert("닉네임을 입력해주세요.");
                     return;
                 }
-
             axios({
                 method: "post",
                 url: "/checknickname",
                 data: { nickname: nickname }
             }).then((res) => {
+                //서버로부터 응답을 받아옵니다. 응답 데이터 중 duplicate(중복)가 참이면 false 거짓이면 ture
                 if (res.data.duplicate) {
                   alert("이미 사용 중인 닉네임입니다.");
                     nicknameChecked = false;
@@ -58,12 +64,14 @@
                 }
             });
         }
-          
+        // 회원가입
         function register() {
           var form = document.forms["form-register"];
+          // 중복확인이 ture 값이 되지않았으면 중복확인 요청
           if (!idChecked || !nicknameChecked) {
             alert("아이디와 닉네임의 중복 확인을 해주세요.");
             return;}
+            // 폼 유효성 검사
           if (!form.checkValidity()) {
             form.reportValidity();
             return false;}
@@ -100,7 +108,7 @@
           }
         });
         }
-
+        // 비밀번호, 비밀번호 확인 값 일치여부 확인
         function checkPasswordMatch() {
           let password = document.getElementById('password').value;
           let confirmPassword = document.getElementById('confirmPassword').value;
@@ -121,7 +129,7 @@
             checkPasswordMatch.innerHTML = '비밀번호가 일치하지 않습니다.';
           }
         }
-
+        // 비밀번호 patten값 일치 여부
         function validatePassword() {
           var password = document.getElementById("password");
           var passwordError = document.getElementById("passwordError");
@@ -136,7 +144,7 @@
               passwordError.style.display = 'none';
           }
       }
-
+        // 이메일 patten값 일치 여부
         function validateEmail() {
           var email = document.getElementById("email");
           var emailError = document.getElementById("emailError");

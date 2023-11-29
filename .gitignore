@@ -4,3 +4,4 @@ package-lock.json
 static/userImg/*
 !static/userImg/.gitkeep
 config/config.json
+.vscode/
