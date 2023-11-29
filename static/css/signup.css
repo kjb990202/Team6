@@ -1,11 +1,7 @@
-/* 버튼 호버시 색상 변경 -> 부트스트랩 차용 */
-.btn-danger:active,
-.btn-danger:hover,
-.btn-danger.focus,
-.btn-danger.active {
-  background-color: #e96b6b;
-}
-
+/* 
+버튼 호버시 색상 변경 -> 부트스트랩 사용
+  - #e96b6b, #78c0ea 으로 색상 변경
+*/
 .btn-primary:active,
 .btn-primary:hover,
 .btn-primary.focus,
@@ -18,23 +14,32 @@
   border-color: #95c3de !important;
 }
 
-.btn-danger {
-  background-color: #ff8c8c !important;
-  border-color: #ff8c8c !important;
+/* 
+공통 패딩 및 마진 스타일
+ */
+.padding-top--48 {
+  padding-top: 48px;
+}
+.padding-bottom--24 {
+  padding-bottom: 24px;
+}
+.padding-bottom--10 {
+  padding-bottom: 10px;
+}
+.padding-horizontal--48 {
+  padding: 48px;
 }
 
-.margin-top--80 {
-  margin-top: 80px;
+/* 공통 레이아웃 설정 */
+.flex-flex {
+  display: flex;
+}
+.flex-direction--column {
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 
-a {
-  color: #7f7979;
-  text-decoration: unset;
-}
-
-a .signupLink {
-  color: #95c3de;
-}
+/* 레이아웃 스타일 */
 .login-root {
   background: none;
   display: flex;
@@ -42,62 +47,9 @@ a .signupLink {
   min-height: 100vh;
   overflow: hidden;
 }
-.loginbackground {
-  min-height: 692px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 0;
-  overflow: hidden;
-}
-.flex-flex {
-  display: flex;
-}
-.align-center {
-  align-items: center;
-}
-.center-center {
-  align-items: center;
-  justify-content: center;
-}
 
 .box-root {
   box-sizing: border-box;
-}
-.flex-direction--column {
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.padding-top--64 {
-  padding-top: 64px;
-}
-.padding-top--24 {
-  padding-top: 24px;
-}
-.padding-top--48 {
-  padding-top: 48px;
-}
-.padding-bottom--24 {
-  padding-bottom: 24px;
-}
-
-.padding-bottom--10 {
-  padding-bottom: 10px;
-}
-
-.padding-horizontal--48 {
-  padding: 48px;
-}
-.padding-bottom--15 {
-  padding-bottom: 15px;
-}
-
-.flex-justifyContent--center {
-  -ms-flex-pack: center;
-  justify-content: center;
 }
 
 .formbg {
@@ -106,9 +58,8 @@ a .signupLink {
   max-width: 448px;
   background: #ffeb81;
   border-radius: 4px;
-  /* box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px,
-    rgba(0, 0, 0, 0.12) 0px 3px 6px 0px; */
 }
+
 span {
   display: block;
   font-size: 20px;
@@ -120,16 +71,7 @@ label {
   margin-bottom: 10px;
   color: #7f7979;
 }
-.reset-pass a,
-label {
-  font-size: 14px;
-  font-weight: 600;
-  display: block;
-}
-.reset-pass > a {
-  text-align: right;
-  margin-bottom: 10px;
-}
+
 .grid--50-50 {
   display: grid;
   grid-template-columns: 50% 50%;
@@ -146,37 +88,24 @@ label {
   border-radius: 4px;
   outline-color: rgb(149, 195, 222, 0.5);
   background-color: rgb(255, 255, 255);
-  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px;
-}
-
-li {
-  list-style: none;
-  color: #7f7979;
-}
-ol .breadcrumb {
-  background-color: none;
+  box-shadow: 0 0 0 1px rgba(60, 66, 87, 0.16);
 }
 
 input[type="button"] {
   background-color: #9dd5f5;
-  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, #95c3de 0px 0px 0px 1px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 0 0 1px #95c3de,
+    0 2px 5px rgba(60, 66, 87, 0.08);
 }
 
-.footer-link span {
-  font-size: 14px;
-  text-align: center;
+input[value="중복확인"] {
+  border-radius: 0px 4px 4px 0px;
+  width: 30%;
 }
-.listing a {
-  color: #697386;
-  font-weight: 600;
-  margin: 0 10px;
+
+input[placeholder="아이디"],
+input[placeholder="닉네임"] {
+  border-radius: 4px 0px 0px 4px;
 }
