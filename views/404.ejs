@@ -99,7 +99,7 @@
         <div class="wrapper-squares">
           <div
             class="square square1 square-brand square-pulse square-center"
-            id="activeball"
+            id="goHome"
           >
             페이지를 찾을 수 없습니다!
           </div>
@@ -126,8 +126,14 @@
     }
   </style>
   <script>
-    const particleColor = ["#f2d74e", "#95c3de", "#ff9a91"]; // 세 가지 색상 지정
+    // 4, 0 숫자에 쓸 세 가지 색상 변수 설정
+    const particleColor = ["#f2d74e", "#95c3de", "#ff9a91"];
 
+    /** 색상 랜덤 함수 : confettiColors 배열에서 색상을 랜덤 선택하여 반환
+     * Math.random() : 0 or 1 무작위 숫자 반환
+     * Math.floor() : 주어진 수를 내림해 가장 가까운 정수로 만듦
+     * 즉, confettiColors[0 ~ 3 랜덤]으로, 0 ~ 3에 해당하는 색상이 랜덤으로 반환
+     */
     function randomColor() {
       return particleColor[Math.floor(Math.random() * particleColor.length)];
     }
@@ -137,11 +143,9 @@
       particle.style.color = randomColor();
     });
 
-    // 노란 포스트잇에 클릭 이벤트 리스너 추가
-    document
-      .getElementById("activeball")
-      .addEventListener("click", function () {
-        window.location.href = "/";
-      });
+    // 노란 포스트잇에 클릭 이벤트 리스너 추가 : 클릭시 메인화면으로 이동
+    document.getElementById("goHome").addEventListener("click", function () {
+      window.location.href = "/";
+    });
   </script>
 </html>

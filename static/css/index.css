@@ -64,47 +64,39 @@ body {
 
 @-webkit-keyframes pulse {
   /* 그림자의 x, y축은 0, 그림자 반경이 3px ~ 60px, 색상 #515151 ~ #ccc 로 반복 */
-  0% {
+  0%,
+  100% {
     box-shadow: 0 0 3px #515151;
   }
   50% {
     box-shadow: 0 0 60px #ccc;
-  }
-  100% {
-    box-shadow: 0 0 3px #515151;
   }
 }
 @-moz-keyframes pulse {
-  0% {
+  0%,
+  100% {
     box-shadow: 0 0 3px #515151;
   }
   50% {
     box-shadow: 0 0 60px #ccc;
-  }
-  100% {
-    box-shadow: 0 0 3px #515151;
   }
 }
 @-o-keyframes pulse {
-  0% {
+  0%,
+  100% {
     box-shadow: 0 0 3px #515151;
   }
   50% {
     box-shadow: 0 0 60px #ccc;
-  }
-  100% {
-    box-shadow: 0 0 3px #515151;
   }
 }
 @keyframes pulse {
-  0% {
+  0%,
+  100% {
     box-shadow: 0 0 3px #515151;
   }
   50% {
     box-shadow: 0 0 60px #ccc;
-  }
-  100% {
-    box-shadow: 0 0 3px #515151;
   }
 }
 

@@ -149,10 +149,7 @@ label {
   border-radius: 4px;
   outline-color: rgb(149, 195, 222, 0.5);
   background-color: rgb(255, 255, 255);
-  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+  box-shadow: 0 0 0 1px rgba(60, 66, 87, 0.16);
 }
 
 li {
@@ -165,13 +162,11 @@ ol .breadcrumb {
 
 input[type="button"] {
   background-color: #9dd5f5;
-  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, #95c3de 0px 0px 0px 1px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 0 0 1px #95c3de,
+    0 2px 5px rgba(60, 66, 87, 0.08);
 }
 
 .footer-link span {
