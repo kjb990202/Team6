@@ -99,7 +99,7 @@
         <div class="wrapper-squares">
           <div
             class="square square1 square-brand square-pulse square-center"
-            id="activeball"
+            id="goHome"
           >
             페이지를 찾을 수 없습니다!
           </div>
@@ -144,10 +144,8 @@
     });
 
     // 노란 포스트잇에 클릭 이벤트 리스너 추가 : 클릭시 메인화면으로 이동
-    document
-      .getElementById("activeball")
-      .addEventListener("click", function () {
-        window.location.href = "/";
-      });
+    document.getElementById("goHome").addEventListener("click", function () {
+      window.location.href = "/";
+    });
   </script>
 </html>
