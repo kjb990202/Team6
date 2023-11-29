@@ -126,8 +126,10 @@
     }
   </style>
   <script>
-    const particleColor = ["#f2d74e", "#95c3de", "#ff9a91"]; // 세 가지 색상 지정
+    // 4, 0 숫자에 쓸 세 가지 색상 변수 설정
+    const particleColor = ["#f2d74e", "#95c3de", "#ff9a91"];
 
+    // particleColor 배열에서 랜덤으로 색상 선택해서 반환하는 함수 설정
     function randomColor() {
       return particleColor[Math.floor(Math.random() * particleColor.length)];
     }
@@ -137,7 +139,7 @@
       particle.style.color = randomColor();
     });
 
-    // 노란 포스트잇에 클릭 이벤트 리스너 추가
+    // 노란 포스트잇에 클릭 이벤트 리스너 추가 : 클릭시 메인화면으로 이동
     document
       .getElementById("activeball")
       .addEventListener("click", function () {
