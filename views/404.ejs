@@ -129,7 +129,11 @@
     // 4, 0 숫자에 쓸 세 가지 색상 변수 설정
     const particleColor = ["#f2d74e", "#95c3de", "#ff9a91"];
 
-    // particleColor 배열에서 랜덤으로 색상 선택해서 반환하는 함수 설정
+    /** 색상 랜덤 함수 : confettiColors 배열에서 색상을 랜덤 선택하여 반환
+     * Math.random() : 0 or 1 무작위 숫자 반환
+     * Math.floor() : 주어진 수를 내림해 가장 가까운 정수로 만듦
+     * 즉, confettiColors[0 ~ 3 랜덤]으로, 0 ~ 3에 해당하는 색상이 랜덤으로 반환
+     */
     function randomColor() {
       return particleColor[Math.floor(Math.random() * particleColor.length)];
     }
