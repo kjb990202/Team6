@@ -200,92 +200,87 @@
 
 .profile-container {
   display: flex;
-  align-items:center;
-  justify-content:space-between
+  align-items: center;
+  justify-content: space-between;
 }
 
-.UserID-container{
+.UserID-container {
   position: relative;
   right: 25px;
 }
 
-.view{
-  color:#565656 ;
+.view {
+  color: #565656;
   font-size: small;
- 
 }
-
 
 /* 상세페이지 */
 
-.box-color-red{
-  background-color:#ff8c8c;
+.box-color-red {
+  background-color: #ff8c8c;
 }
-.box-color-yellow{
-  background-color:#ffeb81;
+.box-color-yellow {
+  background-color: #ffeb81;
 }
-.box-color-blue{
+.box-color-blue {
   background-color: #95c3de;
 }
 
-.inner-box{
- 
- width: 100%;
- padding: 30px;
- border-radius: 4px;
- min-height: 500px;
- display: flex;
- flex-direction:column;
- justify-content:space-between
+.inner-box {
+  width: 100%;
+  padding: 30px;
+  border-radius: 4px;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.profile-image{
+.profile-image {
   width: 40px;
   height: 40px;
   border-radius: 20px;
 }
-.C-content{
+.C-content {
   text-align: left;
   color: #4a4a4a;
 }
-.top-container{
+.top-container {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   position: relative;
   bottom: 10px;
 }
-.view-container{
+.view-container {
   display: flex;
-  align-items:center;
-  
+  align-items: center;
 }
-.botton-container{
+.botton-container {
   display: flex;
   justify-content: space-between;
-  font-size:medium;
+  font-size: medium;
   color: #616161;
 }
-.top-se-inner{
+.top-se-inner {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: center;
-  
 }
 
-#viewCount{
+#viewCount {
   text-align: left;
   margin-right: 15px;
 }
 
-.profile-container{
+.profile-container {
   align-items: center;
 }
 
-.profile-container img{
+.profile-container img {
   position: relative;
   top: 5px;
 }
-.C-title{
+.C-title {
   text-align: left;
   padding-top: 10px;
   padding-bottom: 15px;
@@ -294,23 +289,22 @@
   color: #464646;
   margin-top: 10px;
 }
-.C-category{
+.C-category {
   font-size: large;
   font-weight: bold;
   color: #464646;
   position: relative;
   right: 15px;
-
 }
-.C-nickname{
+.C-nickname {
   color: #464646;
 }
 
-.DBoard-button{
+.DBoard-button {
   margin-left: 10px;
 }
 
-.view-container svg{
+.view-container svg {
   position: relative;
   top: 1px;
   margin-right: 2px;
@@ -318,90 +312,87 @@
 
 /* 댓글 CSS  */
 
-.put-comment{
+.put-comment {
   display: flex;
   text-align: left;
   margin-top: 20px;
   height: 30px;
-
 }
-.put-comment input{
+.put-comment input {
   width: 100%;
   outline: none;
 }
-.put-comment button{
+.put-comment button {
   width: 50px;
 }
-.comment-top{
+.comment-top {
   display: flex;
   justify-content: space-between;
-  align-items:center;
-  width: 100%;
-  
-}
-
-.view-content{
-  display: flex;
-  flex-direction:column;
+  align-items: center;
   width: 100%;
 }
 
-.comment-user{
+.view-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.comment-user {
   display: flex;
 }
-.data-createComment{
-  top:6px;
+.data-createComment {
+  top: 6px;
   position: relative;
-  font-size:x-small;
+  font-size: x-small;
   font-weight: lighter;
 }
 
-.data-field{
+.data-field {
   text-align: left;
   margin-bottom: 40px;
 }
 
-.data-nickname{
+.data-nickname {
   font-weight: bold;
   margin-bottom: 10px;
 }
-.view-content-top{
+.view-content-top {
   display: flex;
   width: 100%;
 }
-.comment-buttons{
-  display: flex; 
-  gap: 8px; 
-  
+.comment-buttons {
+  display: flex;
+  gap: 8px;
 }
 .comment-buttons button {
-  margin-left: auto; 
+  margin-left: auto;
 }
 
-.C-createBoard{
-  font-size:x-small;
-  align-items:center;
+.C-createBoard {
+  font-size: x-small;
+  align-items: center;
   position: relative;
-  top:3px;
+  top: 3px;
 }
 
-.button{
+.button {
   border: none;
-  background-color:transparent;
+  background-color: transparent;
   margin-left: 10px;
 }
 
-.input-button{
-  background-color:transparent;
+.input-button {
+  background-color: transparent;
   border-radius: 3px;
   margin-left: 2px;
-  outline:none;
-  
-  border: 1px solid #6a6a6a
+  outline: none;
+
+  border: 1px solid #6a6a6a;
 }
-.hide-button{
+.hide-button {
   display: flex;
 }
-svg{
+svg {
   color: #464646;
 }

@@ -22,8 +22,14 @@ exports.signin = (req, res) => {
   res.render("user/signin");
 };
 
-exports.board = (req, res) => {
-  res.render("board/board");
+// 게시판 메인 화면
+exports.boardMain = (req, res) => {
+  res.render("board/boardMain");
+};
+
+// 게시판 작성 화면
+exports.boardEdit = (req, res) => {
+  res.render("board/boardEdit");
 };
 
 // 게시판 메인 화면
